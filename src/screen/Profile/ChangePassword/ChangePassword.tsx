@@ -11,11 +11,14 @@ import { color } from '../../../constant';
 import CustomButton from '../../../compoent/CustomButton';
 import font from '../../../theme/font';
 import LoadingModal from '../../../utils/Loader';
+import BookingSuccessModal from '../../../compoent/BookingModal';
+import PasswordSuccessfullyModal from '../../../compoent/ PasswordSuccessfullyModal';
  
 const ChangePasswordScreen = () => {
     const navigation = useNavigation()
     const [isLoading, setLoading] = useState(false)
     const isLogin = useSelector((state: any) => state?.auth);
+  const [modalVisible, setModalVisible] = useState(false);
 
     const [oldpass, setOldPass] = useState("");
     const [password, setPassword] = useState("");
@@ -136,6 +139,20 @@ label="Change Password"
                     />
                 </View>
             </View>
+
+
+
+<PasswordSuccessfullyModal
+  visible={modalVisible}
+  userName="Jocelyn Levin"
+  userImage="https://example.com/user.jpg" // replace with real image URL
+  onClose={() => setModalVisible(false)}
+  onOpenChat={() => {
+    // navigate to chat screen
+    console.log('Open Chat Pressed');
+    setModalVisible(false);
+  }}
+/>
         </SafeAreaView>
     );
 };

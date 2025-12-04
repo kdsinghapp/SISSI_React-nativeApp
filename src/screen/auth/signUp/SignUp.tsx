@@ -305,10 +305,26 @@ const navgation = useNavigation()
           </View>
 
           {/* Submit Button */}
-          <CustomButton title="Submit" onPress={() =>navgation.navigate(ScreenNameEnum.Login)} />
+          <CustomButton title= {
+            savedRole == "Substitute" ? "Submit" : "Submit for Approval"
+          } onPress={() =>navgation.navigate(ScreenNameEnum.Login)} />
             </View>
+
+
+             <View style={styles.signUpContainer}>
+            <Text style={styles.signUpText}>Already have an account? </Text>
+            <TouchableOpacity 
+            
+            onPress={() => navgation.navigate(ScreenNameEnum.Login)}
+            
+            >
+              <Text style={styles.signUpLink}>Login</Text>
+            </TouchableOpacity>
+          </View>
         </ScrollView>
+        
       </KeyboardAvoidingView>
+      
     </SafeAreaView>
   );
 }
@@ -393,4 +409,8 @@ const styles = StyleSheet.create({
     color: '#333',
     flex: 1,
   },
+    signUpContainer: { flexDirection: 'row', justifyContent: 'center', marginBottom:30, },
+  signUpText: { fontSize: 17, color: '#909090', fontWeight: '500' },
+  signUpLink: { fontSize: 17, fontWeight: '700', color: '#F3178B' },
+
 });

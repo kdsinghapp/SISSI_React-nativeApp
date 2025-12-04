@@ -16,14 +16,22 @@ export default function TextInputField({ ...props }) {
   };
 
   return (
-    <View style={{ height: hp(7), justifyContent: 'center', marginVertical: 12 }}>
+<View
+  style={[
+    {
+      height: hp(7),
+      justifyContent: 'center',
+      marginVertical: 12,
+    },
+   ]}
+>
       <View
         style={[
           {
             flexDirection: 'row',
             backgroundColor: '#F7F8F8',
             borderColor: '#F7F8F8',
-            height: 55,
+            height: 58,
             borderRadius: 15,
             paddingHorizontal: 5,
             alignItems: 'center',

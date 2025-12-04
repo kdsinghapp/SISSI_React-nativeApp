@@ -6,7 +6,7 @@ import {
   ScrollView,
   
 } from 'react-native';
-import React  from 'react';
+import React, { useState }  from 'react';
 import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import StatusBarComponent from '../../../../compoent/StatusBarCompoent';
 import CustomHeader from '../../../../compoent/CustomHeader';
@@ -18,6 +18,7 @@ import ResponsiveSize from '../../../../utils/ResponsiveSize';
 import CustomButton from '../../../../compoent/CustomButton';
 import { wp } from '../../../../utils/Constant';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import PasswordSuccessfullyModal from '../../../../compoent/ PasswordSuccessfullyModal';
  
 export default function CreateNewPassword() {
   const { credentials,
@@ -26,6 +27,7 @@ export default function CreateNewPassword() {
     handleChange,
     handleResetPass,
     navigation, } = useCreateNewPassword();
+  const [modalVisible, setModalVisible] = useState(false);
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#fff' }}>
@@ -103,13 +105,24 @@ export default function CreateNewPassword() {
       }}>
         <CustomButton
           title={'Save'}
-          onPress={handleResetPass}
+          onPress={()=>{
+            setModalVisible(true)
+          }}
  
          />
 
       </View>
         </View>
 
+<PasswordSuccessfullyModal
+  visible={modalVisible}
+  onClose={() => setModalVisible(false)}
+  onOpenChat={() => {
+        setModalVisible(false);
+
+ handleResetPass()
+  }}
+/>
       </ScrollView>
     
 

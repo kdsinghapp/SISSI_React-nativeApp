@@ -17,7 +17,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ searchBar1,placeholder = "Search"
        allowFontScaling={false} 
         style={styles.input}
         placeholder={placeholder}
-        placeholderTextColor="white"
+        placeholderTextColor="black"
         onChangeText={onSearchChange}
         value={value}
       />
@@ -28,28 +28,42 @@ const SearchBar: React.FC<SearchBarProps> = ({ searchBar1,placeholder = "Search"
 
 const styles = StyleSheet.create({
   searchBar: {
-     borderRadius: 10,
-    flexDirection: "row",
-    alignItems: "center",
-    paddingHorizontal: 10,
-    paddingVertical: 5,
-    marginVertical: 10,
-    marginBottom: 20,
-    marginTop: 30,
-    borderWidth: 1,
-    height: 55,
-    borderColor:"white"
+borderRadius: 20,
+  flexDirection: "row",
+  alignItems: "center",
+  paddingHorizontal: 10,
+  paddingVertical: 5,
+  height: 55,
+
+  // Margins
+  marginVertical: 10,
+  marginTop: 30,
+  marginBottom: 20,
+
+  // Border
+  borderWidth: 1,
+  borderColor: "#FFFFFF",
+
+  // Shadow (Android + iOS)
+  elevation: 8,        // Android
+  shadowColor: "#000", // iOS
+  shadowOffset: { width: 0, height: 2 },
+  shadowOpacity: 0.25,
+  shadowRadius: 3.5,
+  backgroundColor: "#FFF", 
+  marginHorizontal:15
+
   
   
   },
   icon: {
-    height: 20,
-    width: 20,
-    tintColor:"white"
+    height: 26,
+    width: 26,
+    tintColor:"#F3178B"
   },
   input: {
     flex: 1,
-    fontSize: 16,
+    fontSize: 15,
     color: "black",
     marginLeft: 15,
   },

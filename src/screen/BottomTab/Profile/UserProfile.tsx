@@ -6,11 +6,10 @@ import {
   StyleSheet,
   Pressable,
   ScrollView,
-  TouchableOpacity,
+  FlatList,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import imageIndex from "../../../assets/imageIndex";
-import SvgIndex from "../../../assets/svgIndex";
 import font from "../../../theme/font";
 import LogoutModal from "../../../compoent/LogoutModal";
 import CustomButton from "../../../compoent/CustomButton";
@@ -21,31 +20,56 @@ const ProfileScreen = () => {
   const navigation = useNavigation();
   const [logoutModal, setLogoutModal] = useState(false);
 
+  /* -------- MENU DATA ARRAY -------- */
+  const menuData = [
+    {
+      id: "1",
+      title: "My Profile",
+      icon: imageIndex.P1,
+      screen: ScreenNameEnum.EditProfile,
+    },
+    {
+      id: "2",
+      title: "Favorite Institutions",
+      icon: imageIndex.P1,
+      screen: ScreenNameEnum.FavoriteScreen,
+    },
+    {
+      id: "3",
+      title: "Notifications",
+      icon: imageIndex.P1,
+      screen: ScreenNameEnum.NotificationsSetting,
+    },
+    {
+      id: "4",
+      title: "About Us",
+      icon: imageIndex.P1,
+      screen: ScreenNameEnum.PrivacyPolicy,
+    },
+    {
+      id: "5",
+      title: "Privacy Policy",
+      icon: imageIndex.P1,
+      screen: ScreenNameEnum.PrivacyPolicy,
+    },
+  ];
+
   return (
     <SafeAreaView style={styles.safe}>
-      <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.container}>
-        
-        {/* Title */}
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={styles.container}
+      >
+        {/* TITLE */}
         <Text style={styles.profileTitle}>Profile</Text>
 
         {/* USER CARD */}
         <View style={styles.userCard}>
           <View>
             <Image
-              source={imageIndex.userDemo} // your avatar
+              source={{ uri: "https://i.pravatar.cc/300" }}
               style={styles.avatar}
             />
-
-            {/* Edit Icon */}
-            <TouchableOpacity
-              style={styles.editIcon}
-              onPress={() => navigation.navigate(ScreenNameEnum.EditProfile)}
-            >
-              <Image
-                source={imageIndex.eoditphots}
-                style={{ width: 20, height: 20 }}
-              />
-            </TouchableOpacity>
           </View>
 
           <View style={{ marginLeft: 15 }}>
@@ -54,71 +78,44 @@ const ProfileScreen = () => {
           </View>
         </View>
 
-        {/* MENU CARD */}
+        {/* MENU FLATLIST */}
         <View style={styles.menuCard}>
-          <MenuItem
-            title="My Profile"
-            icon={imageIndex.userPink}
-            onPress={() => navigation.navigate(ScreenNameEnum.EditProfile)}
-          />
-
-          <Divider />
-
-          <MenuItem
-            title="Favorite Institutions"
-            icon={imageIndex.starPink}
-            onPress={() => navigation.navigate(ScreenNameEnum.FavoriteScreen)}
-          />
-
-          <Divider />
-
-          <MenuItem
-            title="Notifications"
-            icon={imageIndex.notificationPink}
-            onPress={() => navigation.navigate(ScreenNameEnum.NotificationScreen)}
-          />
-
-          <Divider />
-
-          <MenuItem
-            title="About Us"
-            icon={imageIndex.aboutPink}
-            onPress={() => navigation.navigate(ScreenNameEnum.AboutUs)}
-          />
-
-          <Divider />
-
-          <MenuItem
-            title="Privacy Policy"
-            icon={imageIndex.privacyPink}
-            onPress={() => navigation.navigate(ScreenNameEnum.PrivacyPolicy)}
+          <FlatList
+            data={menuData}
+            keyExtractor={(item) => item.id}
+            scrollEnabled={false}
+            // ItemSeparatorComponent={() => <Divider />}
+            renderItem={({ item }:any) => (
+              <MenuItem
+                title={item.title}
+                icon={item.icon}
+                onPress={() => navigation.navigate(item.screen)}
+              />
+            )}
           />
         </View>
 
         {/* LOGOUT BUTTON */}
         <View style={{ marginTop: 20 }}>
-          <CustomButton
-            title="Logout"
-            onPress={() => setLogoutModal(true)}
-          />
+          <CustomButton title="Logout"  
+          button1={{ backgroundColor: "#FF383C" }}
+          onPress={() => setLogoutModal(true)} />
         </View>
 
         <LogoutModal
-          visible={logoutModal}
+          visible={logoutModal} 
           onCancel={() => setLogoutModal(false)}
           onLogout={() => {
             setLogoutModal(false);
-            // your logout logic
           }}
         />
-
       </ScrollView>
     </SafeAreaView>
   );
 };
 
-/* MENU ITEM COMPONENT */
-const MenuItem = ({ title, icon, onPress }: any) => {
+/* -------- MENU ITEM COMPONENT -------- */
+const MenuItem = ({ title, icon, onPress }:any) => {
   return (
     <Pressable style={styles.menuRow} onPress={onPress}>
       <View style={styles.menuLeft}>
@@ -126,15 +123,20 @@ const MenuItem = ({ title, icon, onPress }: any) => {
         <Text style={styles.menuText}>{title}</Text>
       </View>
 
-      {/* right arrow */}
-      <Image source={imageIndex.arrowRightPink} style={{ width: 22, height: 22 }} />
+      <Image
+        source={imageIndex.Back1}
+        style={styles.arrowIcon}
+        resizeMode="contain"
+      />
     </Pressable>
   );
 };
 
+/* DIVIDER */
 const Divider = () => <View style={styles.divider} />;
 
-/* ---------- STYLES ---------- */
+/* -------- STYLES -------- */
+
 const styles = StyleSheet.create({
   safe: {
     flex: 1,
@@ -148,21 +150,16 @@ const styles = StyleSheet.create({
 
   profileTitle: {
     fontSize: 26,
-    fontFamily: font.MonolithBold,
     color: "#000",
     marginBottom: 20,
+    fontWeight: "600",
   },
 
   userCard: {
     flexDirection: "row",
     backgroundColor: "#FFF",
     borderRadius: 18,
-    padding: 18,
     marginBottom: 20,
-    shadowColor: "#000",
-    shadowOpacity: 0.05,
-    shadowRadius: 6,
-    elevation: 3,
     alignItems: "center",
   },
 
@@ -172,46 +169,37 @@ const styles = StyleSheet.create({
     borderRadius: 50,
   },
 
-  editIcon: {
-    position: "absolute",
-    right: -5,
-    bottom: -5,
-    backgroundColor: "#FF5B5B",
-    width: 25,
-    height: 25,
-    borderRadius: 20,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-
   userName: {
     fontSize: 18,
-    fontFamily: font.MonolithSemiBold,
     color: "#000",
+    fontWeight: "500",
   },
 
   username: {
     fontSize: 14,
-    fontFamily: font.MonolithRegular,
-    color: "#808080",
+    color: "#6B7280",
     marginTop: 4,
+    fontFamily: font.MonolithRegular,
   },
 
   menuCard: {
-    backgroundColor: "#FFF",
-    borderRadius: 16,
-    paddingVertical: 5,
-    shadowColor: "#000",
-    shadowOpacity: 0.05,
-    shadowRadius: 6,
-    elevation: 2,
-  },
+ marginTop:2
+ 
+   },
 
   menuRow: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    padding: 16,
-    alignItems: "center", 
+  flexDirection: "row",
+  justifyContent: "space-between",
+  alignItems: "center",
+   backgroundColor: "#FFF",
+  elevation: 5,
+   shadowColor: "#000",
+  shadowOpacity: 0.10,
+  shadowOffset: { width: 0, height: 2 },
+  shadowRadius: 3,
+   borderRadius: 10, // optional for smooth edges
+padding:18,
+margin:8
    },
 
   menuLeft: {
@@ -222,20 +210,26 @@ const styles = StyleSheet.create({
   menuIcon: {
     width: 28,
     height: 28,
-    marginRight: 12,
+    marginRight: 14,
+    resizeMode: "contain",
   },
 
   menuText: {
     fontSize: 15,
-    fontFamily: font.MonolithRegular,
     color: "#000",
+    fontWeight: "600",
+  },
+
+  arrowIcon: {
+    width: 25,
+    height: 25,
+    tintColor: "#F3178B",
   },
 
   divider: {
     height: 1,
     backgroundColor: "#EFEFEF",
-    marginHorizontal: 16,
-  },
+   },
 });
 
 export default ProfileScreen;

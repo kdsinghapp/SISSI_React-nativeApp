@@ -152,7 +152,7 @@ const styles = StyleSheet.create({
     width: 100,
     height: 100,
     resizeMode: "contain",
-    right: 11,
+    right: 1,
   },
   inactiveTitle: {
     color: "#000",

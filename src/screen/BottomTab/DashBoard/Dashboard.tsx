@@ -3,8 +3,11 @@ import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import StatusBarComponent from '../../../compoent/StatusBarCompoent';
 import imageIndex from '../../../assets/imageIndex';
+import { useNavigation } from '@react-navigation/native';
+import ScreenNameEnum from '../../../routes/screenName.enum';
 
 const Dashboard = () => {
+  const navigator = useNavigation<any>();
   return (
     <SafeAreaView style={styles.container}>
       <StatusBarComponent />
@@ -32,7 +35,11 @@ const Dashboard = () => {
         </View>
 
         {/* MENU CARD - 1 */}
-        <TouchableOpacity style={[styles.card, styles.cardPrimary]}>
+        <TouchableOpacity style={[styles.card, styles.cardPrimary]} 
+        onPress={(()=>{
+          navigator.navigate(ScreenNameEnum.BrowseShifts);
+        })}
+        >
           <Image source={imageIndex.calneder} style={styles.cardIconWhite} />
 
           <View style={styles.cardTextBox}>
@@ -44,7 +51,14 @@ const Dashboard = () => {
         </TouchableOpacity>
 
         {/* MENU CARD - 2 */}
-        <TouchableOpacity style={styles.card}>
+        <TouchableOpacity style={styles.card} 
+        
+         onPress={(()=>{
+          navigator.navigate(ScreenNameEnum.BrowseShifts);
+        })}
+        > 
+
+
           <Image source={imageIndex.time2} style={styles.cardIconPink} />
 
           <View style={styles.cardTextBox}>
@@ -57,7 +71,13 @@ const Dashboard = () => {
         </TouchableOpacity>
 
         {/* MENU CARD - 3 */}
-        <TouchableOpacity style={styles.card}>
+        <TouchableOpacity  
+        
+        
+         onPress={(()=>{
+          navigator.navigate(ScreenNameEnum.BrowseShifts);
+        })}
+        style={styles.card}>
           <Image source={imageIndex.Vector} style={styles.cardIconPink} />
 
           <View style={styles.cardTextBox}>
@@ -69,7 +89,12 @@ const Dashboard = () => {
         </TouchableOpacity>
 
         {/* MENU CARD - 4 */}
-        <TouchableOpacity style={styles.card}>
+        <TouchableOpacity style={styles.card} 
+        
+         onPress={(()=>{
+          navigator.navigate(ScreenNameEnum.BrowseShifts);
+        })}
+        >
           <Image source={imageIndex.Setting} style={styles.cardIconPink} />
 
           <View style={styles.cardTextBox}>
@@ -138,7 +163,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#FFFFFF",
     borderRadius: 18,
     marginVertical: 10,
-    height:70,
+    height:78,
 
     // iOS shadow
     shadowColor: "#000",
@@ -151,7 +176,7 @@ const styles = StyleSheet.create({
   },
 
   cardPrimary: {
-    backgroundColor: "#F3178B",
+    backgroundColor: "#31CFF0",
   },
 
   cardTextBox: {

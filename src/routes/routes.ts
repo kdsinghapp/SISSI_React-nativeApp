@@ -7,17 +7,14 @@ import HelpScreen from "../screen/Profile/Help/Helps";
 import Splash from "../screen/auth/Splash/Splash";
   import OtpScreen from "../screen/auth/OTPScreen/OtpScreen";
 import ProfileSetup from "../screen/auth/ProfileSetup/ProfileSetup";
- import OfferOR from "../screen/BottomTab/OfferOR/OfferOR";
-import ViewDetails from "../screen/BottomTab/Orders/ViewDetails";
+ import ViewDetails from "../screen/BottomTab/Orders/ViewDetails";
 import LegalPoliciesScreen from "../screen/Profile/LegalPoliciesScreen";
 import PrivacyPolicy from "../screen/Profile/PrivacyPolicy";
 import EditProfile from "../screen/Profile/EditProfile/EditProfile";
-import AddressScreen from "../screen/BottomTab/AddressScreen/AddressScreen";
-import ChatScreen from "../screen/BottomTab/ChatScreen/ChatScreen";
+ import ChatScreen from "../screen/BottomTab/ChatScreen/ChatScreen";
 import OrdersPrfile from "../screen/Profile/OrdersPrfile/OrdersPrfile";
  import DeliveryTabNavigator from "../navigators/DeliveryTabNavigator";
- import WalletScreen from "../screen/DeliveryBottomTab/WalletScreen/WalletScreen";
-import EarningsScreen from "../screen/DeliveryBottomTab/EarningsScreen/EarningsScreen";
+ import EarningsScreen from "../screen/DeliveryBottomTab/EarningsScreen/EarningsScreen";
 import HelpSupport from "../screen/DeliveryBottomTab/HelpSupport/HelpSupport";
 import NotificationsSetting from "../screen/DeliveryBottomTab/NotificationsSetting/NotificationsSetting";
 import ParcelDetails from "../screen/DeliveryBottomTab/ParcelDetails/ParcelDetails";
@@ -26,8 +23,9 @@ import ParcelDetails from "../screen/DeliveryBottomTab/ParcelDetails/ParcelDetai
 import SignUp from "../screen/auth/signUp/SignUp";
 import CreateNewPassword from "../screen/auth/login/createNewPassword/CreateNewPassword";
 import PasswordReset from "../screen/auth/passwordReset/PasswordReset";
-import OurServices from "../screen/BottomTab/OurServices/OurServices";
-import BookServies from "../screen/BottomTab/BookServies/BookServies";
+ import BookServies from "../screen/BottomTab/BookServies/BookServies";
+import FavoriteScreen from "../screen/BottomTab/Favorite/FavoriteScreen";
+import BrowseShifts from "../screen/BottomTab/BrowseShifts/BrowseShifts";
    const _routes: any = {
   REGISTRATION_ROUTE: [
        {
@@ -41,8 +39,13 @@ import BookServies from "../screen/BottomTab/BookServies/BookServies";
       Component: BookServies,
     },
         {
-      name: ScreenNameEnum.OurServices,
-      Component: OurServices,
+      name: ScreenNameEnum.BrowseShifts,
+      Component: BrowseShifts,
+    },
+      
+        {
+      name: ScreenNameEnum.FavoriteScreen,
+      Component: FavoriteScreen,
     },
  
      {
@@ -66,10 +69,7 @@ import BookServies from "../screen/BottomTab/BookServies/BookServies";
       Component: ChooseRole,
     },
    
-    {
-      name: ScreenNameEnum.WalletScreen,
-      Component: WalletScreen,
-    },
+ 
    
     {
       name: ScreenNameEnum.NotificationsSetting,
@@ -100,10 +100,7 @@ import BookServies from "../screen/BottomTab/BookServies/BookServies";
       Component: OnboardingScreen,
     },
  
-    {
-      name: ScreenNameEnum.AddressScreen,
-      Component: AddressScreen,
-    },
+ 
     {
       name: ScreenNameEnum.OrdersPrfile,
       Component: OrdersPrfile,
@@ -156,11 +153,7 @@ import BookServies from "../screen/BottomTab/BookServies/BookServies";
       name: ScreenNameEnum.NotificationsScreen,
       Component: NotificationsScreen,
     },
-  
-     {
-      name: ScreenNameEnum.OfferOR,
-      Component: OfferOR,
-    },
+ 
    
     
     

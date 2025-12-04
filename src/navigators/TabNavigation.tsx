@@ -53,11 +53,11 @@ export default function TabNavigator() {
             <Text
               allowFontScaling={false}
               style={{
-                fontSize: 12,
+                fontSize: 13,
                 color: focused ? '#F3178B' : '#2F4858',
                 marginTop: 4,
-                fontFamily: font.MonolithRegular,
-              }}
+                fontWeight:"500"
+               }}
             >
               {tab?.label ?? route.name}
             </Text>

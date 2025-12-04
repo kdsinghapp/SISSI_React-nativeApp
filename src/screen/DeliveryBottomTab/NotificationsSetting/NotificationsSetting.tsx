@@ -25,7 +25,24 @@ const NotificationsSetting = () => {
           label="Notifications" />
 
         {/* Body */}
-        <View style={{ marginTop: 40,marginHorizontal:15 }}>
+        <View style={{   marginTop: 40,
+    marginHorizontal: 15,
+     padding: 20,
+
+    backgroundColor: "#FFF",
+
+    // ANDROID shadow
+    elevation: 8,
+
+    // iOS shadow
+    shadowColor: "#000",
+    shadowOpacity: 0.15,
+    shadowOffset: { width: 0, height: 2 },
+    shadowRadius: 4,
+
+    borderRadius: 10,
+ 
+         }}>
 
           <View style={styles.notificationOption}>
             <Text style={styles.optionText}>General Notification</Text>
@@ -98,12 +115,12 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginVertical: 10,
-  },
+    marginVertical: 8,
+   },
   optionText: {
     fontSize: 16,
-    color: "#1D3A70",
-    fontFamily:font.MonolithRegular,
-    lineHeight:15
+    color: "#000000",
+     lineHeight:15 ,
+     fontWeight:"600",
   },
 });

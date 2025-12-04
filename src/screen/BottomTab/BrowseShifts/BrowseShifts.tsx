@@ -1,187 +1,251 @@
-import React from "react";
-import { View, Text, TextInput, StyleSheet, ScrollView, TouchableOpacity } from "react-native";
- 
-export default function App() {
-  return (
-    <View style={styles.container}>
+import React, { useState } from "react";
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  FlatList,
+  Image,
+} from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import CustomHeader from "../../../compoent/CustomHeader";
+import StatusBarComponent from "../../../compoent/StatusBarCompoent";
+import SearchBar from "../../../compoent/SearchBar";
+import imageIndex from "../../../assets/imageIndex";
+import BookingSuccessModal from "../../../compoent/BookingModal";
 
-      {/* Top Header */}
-      <View style={styles.header}>
-        {/* <Icon name="arrow-back" size={26} color="#000" /> */}
-        <Text style={styles.headerText}>Browse Shifts</Text>
-      </View>
+const DATA = [1, 2, 3];
 
-      {/* Search Box */}
-      <View style={styles.search}>
-        {/* <Icon name="search-outline" size={20} color="#999" /> */}
-        <TextInput placeholder="Search" style={styles.searchInput} />
-      </View>
-
-      {/* All Cards List */}
-      <ScrollView showsVerticalScrollIndicator={false}>
-        <ShiftCard />
-   
-      </ScrollView>
-
-    </View>
-  );
-}
-
-function ShiftCard() {
-  return (
+export default function BrowseShifts() {
+  const [modalVisible, setModalVisible] = useState(false);
+  const renderCard = () => (
     <View style={styles.card}>
-
-      {/* <Icon name="business" size={48} color="#F3178B" style={{ alignSelf: "center", marginBottom: 10 }} /> */}
-
       {/* Row 1 */}
-      <View style={styles.row}>
-        <Text style={styles.title}>Institution Name</Text>
-        <Text style={styles.title}>Unit Name</Text>
+      <View style={{
+        alignItems:"center",
+        justifyContent:"center", 
+        marginBottom:16
+      }}>
+
+          <Image source={imageIndex.home1}  
+          
+          style={{
+            height:44,
+            width:44 ,
+            resizeMode:"contain" ,
+          }}
+          />
       </View>
 
+    
       <View style={styles.row}>
-        <Text style={styles.value}>BrightCare Child Protection Unit</Text>
-        <Text style={[styles.value,{
-          left:20
-        }]}>Early Development Wing</Text>
+        <View style={styles.flex1}>
+          <Text style={styles.label}>Institution Name</Text>
+          <Text style={styles.value}>BrightCare Child Protection Unit</Text>
+        </View>
+
+        <View style={styles.rightView}>
+          <Text style={styles.label}>Unit Name</Text>
+          <Text style={styles.value}>Early Development Wing</Text>
+        </View>
       </View>
 
       {/* Row 2 */}
-      <View style={styles.row}>
-        <Text style={styles.title}>Date & Time</Text>
-        <Text style={styles.title}>Location</Text>
+      <View style={[styles.row, styles.mt12]}>
+        <View style={styles.flex1}>
+          <Text style={styles.label}>Date & Time</Text>
+          <Text style={styles.value}>
+            Wednesday, 12 February 2025 {"\n"}10:00 AM – 4:00 PM
+          </Text>
+        </View>
+
+        <View style={styles.rightView}>
+          <Text style={styles.label}>Location</Text>
+          <Text style={styles.value}>Sector 12, City Center</Text>
+        </View>
       </View>
 
-      <View style={styles.row}>
-        <Text style={styles.value}>Wednesday, 12 Feb 2025{"\n"}10:00 AM – 4:00 PM</Text>
-        <Text  style={[styles.value,{
-          left:20
-        }]}>Sector 12, City Center</Text>
+      {/* Row 3 */}
+      <View style={[styles.row, styles.mt12]}>
+        <View style={styles.flex1}>
+          <Text style={styles.label}>Short Description</Text>
+          <Text style={styles.value}>
+            Assist staff with daily care routines, supervision & meal support.
+          </Text>
+        </View>
+
+        <View style={styles.rightView}>
+          <Text style={styles.label}>Badge</Text>
+          <View style={[styles.badge, styles.mt12]}>
+            <Text style={styles.badgeTxt}>Approved</Text>
+          </View>
+        </View>
       </View>
-
-
-
-   <View style={styles.row}>
-        <Text style={styles.title}>Short Description</Text>
-        <Text style={styles.title}>Badge</Text>
-      </View>
-
-      <View style={styles.row}>
-        <Text style={styles.value}>Assist staff with daily care routines, supervision & meal support.</Text>
- <View style={{ marginTop: 10 }}>
-        <Text style={styles.badge}>Available</Text>
-      </View>
-            </View>
-      {/* Description */}
-      
-
-      {/* Badge */}
-     
 
       {/* Buttons */}
       <View style={styles.btnRow}>
-        <TouchableOpacity style={styles.btnFavorite}>
-          <Text style={styles.btnFavoriteText}>Favorite</Text>
+        <TouchableOpacity style={styles.removeBtn}>
+       <Text style={styles.removeTxt}>
+  Favorite{" "}
+  <Text style={{ fontSize: 22, color: "#FF007A" }}>
+    ✩
+  </Text>
+</Text>
+
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.btnBook}>
-          <Text style={styles.btnBookText}>Book Now</Text>
+        <TouchableOpacity 
+        
+        onPress={() => setModalVisible(true)}
+        style={styles.detailsBtn}>
+          <Text style={styles.detailsTxt}>Book Now</Text>
         </TouchableOpacity>
       </View>
-
     </View>
+  );
+
+  return (
+    <SafeAreaView style={styles.container}>
+      <StatusBarComponent />
+      <CustomHeader label="Browse Shifts" />
+      <SearchBar />
+
+      <View style={styles.listWrapper}>
+        <FlatList
+          data={DATA}
+          renderItem={renderCard}
+          keyExtractor={(item) => item.toString()}
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={{ paddingBottom: 40 }}
+        />
+      </View>
+      
+
+<BookingSuccessModal
+  visible={modalVisible}
+  userName="Jocelyn Levin"
+  userImage="https://example.com/user.jpg" // replace with real image URL
+  onClose={() => setModalVisible(false)}
+  onOpenChat={() => {
+    // navigate to chat screen
+    console.log('Open Chat Pressed');
+    setModalVisible(false);
+  }}
+/>
+
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
+  /* Screen Container */
   container: {
     flex: 1,
     backgroundColor: "#fff",
-    paddingHorizontal: 18,
-    paddingTop: 50
   },
 
-  header: { flexDirection: "row", alignItems: "center", marginBottom: 20 },
-  headerText: { fontSize: 20, marginLeft: 12, fontWeight: "600" },
-
-  search: {
-    flexDirection: "row",
-    backgroundColor: "#f1f1f1",
-    borderRadius: 30,
-    paddingHorizontal: 15,
-    paddingVertical: 12,
-    alignItems: "center",
-    marginBottom: 20
+  listWrapper: {
+    flex: 1,
+    marginTop: 18,
+    marginHorizontal: 16,
   },
-  searchInput: { marginLeft: 10, flex: 1, fontSize: 15 },
 
+  /* Card */
   card: {
     borderWidth: 1.5,
-    borderColor: "#F3178B",
-    borderRadius: 14,
-    padding: 18,
-    marginBottom: 25
+    borderColor: "#FF007A",
+    borderRadius: 18,
+    padding: 16,
+    marginBottom: 18,
+    backgroundColor: "#fff",
+
+    // Shadow for iOS + Android
+    elevation: 5,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.15,
+    shadowRadius: 4,
   },
 
   row: {
     flexDirection: "row",
     justifyContent: "space-between",
-    marginTop: 12
   },
 
-  title: { fontWeight: "700", color: "#0056B3", fontSize: 15 },
-  value: { width: "40%",   color: "#555", fontSize: 14 },
+  flex1: {
+    flex: 1,
+  },
 
-  desc: {
-    marginTop: 6,
-    color: "#555",
+  rightView: {
+    flex: 1,
+    alignItems: "flex-end",
+  },
+
+  label: {
+    fontSize: 15,
+    color: "#0056B3",
+    fontWeight: "500",
+  },
+
+  value: {
     fontSize: 14,
-    lineHeight: 18
+    fontWeight: "600",
+    color: "#000",
+    marginTop: 5,
+    lineHeight: 20,
   },
 
+  mt12: { marginTop: 12 },
+
+  /* Badge */
   badge: {
-    backgroundColor: "#16C172",
-    color: "#fff",
-    paddingVertical: 6,
-    paddingHorizontal: 20,
-    borderRadius: 20,
-    alignSelf: "flex-start",
-    fontWeight: "700",
-    fontSize: 13
+    backgroundColor: "#54C270",
+    paddingHorizontal: 12,
+    paddingVertical: 4,
+    borderRadius: 12,
   },
 
+  badgeTxt: {
+    color: "#fff",
+    fontSize: 12,
+    fontWeight: "600",
+  },
+
+  /* Buttons Bottom */
   btnRow: {
     flexDirection: "row",
     justifyContent: "space-between",
-    marginTop: 20
+    marginTop: 16,
   },
 
-  btnFavorite: {
-    flex: 1,
-    borderWidth: 1.5,
+  removeBtn: {
+    borderWidth: 2,
     borderColor: "#F3178B",
-    padding: 14,
+    paddingHorizontal: 35,
+    paddingVertical: 11,
     borderRadius: 30,
-    marginRight: 8
-  },
-  btnFavoriteText: {
-    color: "#F3178B",
-    textAlign: "center",
-    fontSize: 15,
-    fontWeight: "700"
+    justifyContent: "center",
   },
 
-  btnBook: {
-    flex: 1,
-    backgroundColor: "#F3178B",
-    padding: 14,
-    borderRadius: 30,
-    marginLeft: 8
-  },
-  btnBookText: {
-    color: "#fff",
-    textAlign: "center",
+  removeTxt: {
+    color: "#FF007A",
+    fontWeight: "600",
     fontSize: 15,
-    fontWeight: "700"
-  }
+    textAlign: "center",
+  },
+
+  detailsBtn: {
+    backgroundColor: "#F3178B",
+    paddingHorizontal: 35,
+    paddingVertical: 10,
+    borderRadius: 30,
+    justifyContent: "center",
+  },
+
+  detailsTxt: {
+    color: "#fff",
+    fontWeight: "600",
+    fontSize: 15,
+    textAlign: "center",
+  },
 });

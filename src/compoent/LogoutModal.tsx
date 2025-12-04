@@ -19,7 +19,7 @@ const LogoutModal = ({ visible, onLogout, onCancel }: any) => {
             Log Out
           </Text>
           <Text allowFontScaling={false} style={styles.message}>
-            Are you sure you want to log out of your account?
+           Are you sure want to log out?
           </Text>
 
           <View style={styles.buttonContainer}>
@@ -74,8 +74,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: '700',
     marginBottom: 10,
-    fontFamily: font.MonolithRegular,
-    textAlign: 'center',
+     textAlign: 'center',
     color: '#333',
   },
   message: {
@@ -84,8 +83,9 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     lineHeight: 22,
     marginBottom: 25,
-    fontFamily: font.MonolithRegular,
-  },
+        fontWeight: '500',
+
+   },
   buttonContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -93,7 +93,7 @@ const styles = StyleSheet.create({
   },
   logoutButton: {
     flex: 1,
-    backgroundColor: '#FFCC00',
+    backgroundColor: '#31CFF0',
     paddingVertical: 12,
     marginLeft: 10,
     borderRadius: 25,

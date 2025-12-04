@@ -8,10 +8,12 @@ import {
   ViewStyle,
   TextStyle,
   GestureResponderEvent,
+  Image,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import { color } from '../constant';
 import font from '../theme/font';
+import imageIndex from '../assets/imageIndex';
 
 type AlignType = 'left' | 'center' | 'right';
 
@@ -26,6 +28,7 @@ interface CustomButtonProps {
   height?: number;
   onPress?: (event: GestureResponderEvent) => void;
   disabled?: boolean;
+  button1:any
 }
 
 const CustomButton: React.FC<CustomButtonProps> = ({
@@ -35,8 +38,9 @@ const CustomButton: React.FC<CustomButtonProps> = ({
   leftIcon,
   alignItm = 'center',
   style,
+  button1,
   textStyle,
-  height = 50,
+  height = 54,
   onPress,
   disabled = false,
 }) => {
@@ -60,7 +64,11 @@ const CustomButton: React.FC<CustomButtonProps> = ({
       <TouchableOpacity
         onPress={onPress}
         disabled={disabled}
-        style={[styles.button, { height: height }]}
+style={[
+  styles.button,
+  { height: height },
+  button1
+]}
         activeOpacity={0.7}
       >
         <View style={[styles.content, { justifyContent: alignment[alignItm] }]}>
@@ -73,6 +81,8 @@ const CustomButton: React.FC<CustomButtonProps> = ({
             {title}
           </Text>
         </View>
+                
+
       </TouchableOpacity>
     // </LinearGradient>
   );

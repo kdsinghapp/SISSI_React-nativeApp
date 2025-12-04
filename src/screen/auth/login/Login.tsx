@@ -88,7 +88,7 @@ export default function Login() {
      }}>
       {/* onPress={handleLogin}  */}
           <CustomButton title="Login"  
-          // onPress={handleLogin}
+          onPress={handleLogin}
           style={styles.loginBtn} />
 </View>
  
