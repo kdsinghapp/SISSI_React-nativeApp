@@ -13,7 +13,7 @@ import imageIndex from "../../../assets/imageIndex";
 
 const TABS = ["Completed", "Upcoming", ];
 
-const BookingsScreen = () => {
+const ShiftsScreen = () => {
   const [activeTab, setActiveTab] = useState("Completed");
   const [search, setSearch] = useState("");
 
@@ -47,6 +47,52 @@ const BookingsScreen = () => {
       item.title.toLowerCase().includes(search.toLowerCase())
     );
   });
+const ShiftCard = ({ item }) => {
+  return (
+    <View style={styles.card}>
+      <View style={styles.cardInner}>
+        {/* Icon */}
+        <View style={styles.iconCircle}>
+          <Image
+            source={imageIndex.calneder}
+            style={{ height: 26, width: 26, tintColor: "white" }}
+          />
+        </View>
+
+        {/* Info */}
+        <View style={{ flex: 1, marginLeft: 12 }}>
+          <Text style={styles.cardDate}>{item.date}</Text>
+          <Text style={styles.cardTitle}>{item.title}</Text>
+
+          {item.time &&           <Text style={styles.cardTime}>{item.time}</Text>
+ }
+ {item.status == "Completed" ? 
+
+  <View style={styles.statusBadge}>
+            <Text style={styles.statusText}>{item.status}</Text>
+          </View> :  
+          
+          <View style={[styles.statusBadge,{
+            backgroundColor:"#F3178B" ,
+            flexDirection:"row" ,
+            alignItems:"center"
+          }]}>
+            <Text style={styles.statusText}>{item.status}</Text>
+            <Image style={{
+              height:18,
+              width:18 ,
+              resizeMode:"contain" ,
+              marginTop:5 ,
+              marginLeft:5
+            }} source={imageIndex.mess1}/>
+          </View>
+}
+        
+        </View>
+      </View>
+    </View>
+  );
+};
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "white", padding: 16 }}>
@@ -94,52 +140,6 @@ const BookingsScreen = () => {
 
 // ---------------- CARD COMPONENT ------------------
 
-const ShiftCard = ({ item }) => {
-  return (
-    <View style={styles.card}>
-      <View style={styles.cardInner}>
-        {/* Icon */}
-        <View style={styles.iconCircle}>
-          <Image
-            source={imageIndex.calneder}
-            style={{ height: 26, width: 26, tintColor: "white" }}
-          />
-        </View>
-
-        {/* Info */}
-        <View style={{ flex: 1, marginLeft: 12 }}>
-          <Text style={styles.cardDate}>{item.date}</Text>
-          <Text style={styles.cardTitle}>{item.title}</Text>
-
-          {item.time &&           <Text style={styles.cardTime}>{item.time}</Text>
- }
- {item.status == "Completed" ? 
-
-  <View style={styles.statusBadge}>
-            <Text style={styles.statusText}>{item.status}</Text>
-          </View> :  
-          
-          <View style={[styles.statusBadge,{
-            backgroundColor:"#F3178B" ,
-            flexDirection:"row" ,
-            alignItems:"center"
-          }]}>
-            <Text style={styles.statusText}>{item.status}</Text>
-            <Image style={{
-              height:18,
-              width:18 ,
-              resizeMode:"contain" ,
-              marginTop:5 ,
-              marginLeft:5
-            }} source={imageIndex.mess1}/>
-          </View>
-}
-        
-        </View>
-      </View>
-    </View>
-  );
-};
 
 // ---------------- STYLES --------------------
 
@@ -251,4 +251,4 @@ borderColor:"#000",
   },
 });
 
-export default BookingsScreen;
+export default ShiftsScreen;

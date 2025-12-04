@@ -1,264 +1,126 @@
-import React, {  useRef, useState, useEffect, useCallback } from "react";
-import {
-  View,
-  Text,
-   Image,
-  FlatList,
-  Pressable,
-  Animated,
-  Easing,
-  TouchableOpacity,
-} from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { useFocusEffect, useNavigation } from "@react-navigation/native";
-import StatusBarComponent from "../../../../compoent/StatusBarCompoent";
-import imageIndex from "../../../../assets/imageIndex";
-import font from "../../../../theme/font";
-import ScreenNameEnum from "../../../../routes/screenName.enum";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import axios from "axios";
-import { base_url } from "../../../../Api";
-import LoadingModal from "../../../../utils/Loader";
-import { styles } from "./style";
+import React from 'react';
+import { View, Text, TouchableOpacity, StyleSheet, SafeAreaView, ScrollView, Image } from 'react-native';
 
-type OrderStatus = "Pending" | "Completed" | "Canceled";
-type Order = {
-  id: string;
-  name: string;
-  phone: string;
-  code: string; // e.g. HSW 4736 XK
-  status: OrderStatus;
-  pickup: string;
-  drop: string;
-  avatar?: string; // remote/avatar uri if you have
-};
-
-const TABS = ["Pending", "Complete", "Canceled"] as const;
-
-const STATUS_STYLES: Record<
-  OrderStatus,
-  { bg: string; text: string; label: string }
-> = {
-  Pending: { bg: "#FFF4E5", text: "#C26B00", label: "Pending" },
-  Completed: { bg: "#EAF8EE", text: "#00CE9A", label: "Completed" },
-  Canceled: { bg: "#FDECEC", text: "#D32F2F", label: "Canceled" },
-};
-
-
-const DeliveryHome = () => {
-  const navigation = useNavigation();
-  const [ordersSeed, setordersSeed] = useState([])
-  const [isOnline, setIsOnline] = useState(false);
-  const [isLoading, setisLoading] = useState(false);
-  const pillX = useRef(new Animated.Value(0)).current;
-  useEffect(() => {
-    Animated.timing(pillX, {
-      toValue: isOnline ? 1 : 0,
-      duration: 260,
-      easing: Easing.out(Easing.quad),
-      useNativeDriver: true,
-    }).start();
-  }, [isOnline]);
- 
-
-  // tabs + filter
-  const [activeTab, setActiveTab] = useState<(typeof TABS)[number]>("Pending");
-
-  // list enter animation on tab change
-  const listSlide = useRef(new Animated.Value(0)).current;
-  useEffect(() => {
-    listSlide.setValue(0);
-    Animated.timing(listSlide, {
-      toValue: 1,
-      duration: 220,
-      easing: Easing.out(Easing.quad),
-      useNativeDriver: true,
-    }).start();
-  }, [activeTab]);
-  const translateX = listSlide.interpolate({ inputRange: [0, 1], outputRange: [30, 0] });
-  const fade = listSlide.interpolate({ inputRange: [0, 1], outputRange: [0.2, 1] });
-  useFocusEffect(
-    useCallback(() => {
-      fetchAvailableRequests();
-    }, [])
-  );
-  const fetchAvailableRequests = async () => {
-    setisLoading(true)
-    try {
-      const token = await AsyncStorage.getItem('token');
-      if (!token) {
-        return;
-      }
-      const response = await axios.get(
-        `${base_url}/delivery/my-offers`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            Accept: 'application/json',
-          },
-        },
-      );
-      if (response?.data?.status == 1) {
-        setisLoading(false)
-        setordersSeed(response?.data?.offers)
-      } else {
-        setisLoading(false)
-
-      }
-    } catch (error:any) {
-      setisLoading(false)
-
-      console.error('Error fetching available requests:', error?.response?.data || error?.message);
-    } finally {
-      setisLoading(false)
-
-    }
-  };
-
-  const renderItem = ({ item }: { item: Order }) => {
-    const st = STATUS_STYLES[item.status];
-    return (
-      <TouchableOpacity style={styles.card}
-
-
-        onPress={() => {
-          if (item.status == "Pending") {
-            navigation.navigate(ScreenNameEnum.ParcelDetails, {
-              item: item,
-            });
-          }
-        }}
-
-      >
-
-        <View style={styles.cardTop}>
-          <Image
-            source={
-              item?.user?.image
-                ? { uri: item?.user.image }
-                : imageIndex?.userLogo || { uri: "" }
-            }
-            style={styles.avatar}
-          />
-
-          <View style={{ flex: 1 }}>
-            <Text style={styles.name} numberOfLines={1}>
-              {item?.user?.firstName}
-            </Text>
-            <Text style={styles.phone} numberOfLines={1}>
-              {item?.user?.phone}
-            </Text>
-          </View>
-
-          <Text
-            style={[
-              styles.code,
-              {
-                textTransform: "capitalize",
-                fontSize: 15,
-                fontFamily: font.TrialMedium,
-                color:
-                  item.status === "pending"
-                    ? "orange"
-                    : item.status === "assigned"
-                      ? "green"
-                      : item.status === "complete"
-                        ? "blue"
-                        : "black",
-              },
-            ]}
-          >
-            {item.status}
-          </Text>
-
-
-        </View>
-
-        <Text style={styles.code} numberOfLines={1}>
-          {item.trackingId}
-        </Text>
-
-        {/* Pickup / Drop block */}
-        <View style={styles.splitter} />
-
-        <View style={styles.stopsRow}>
-          {/* timeline dots/line image (replace with your own if needed) */}
-          <Image
-            source={imageIndex?.Dots || { uri: "" }}
-            style={{ width: 12, height: 88, marginRight: 10 }}
-            resizeMode="contain"
-          />
-
-          <View style={{ flex: 1 }}>
-            <Text style={styles.stopLabel}>Pickup Location</Text>
-            <Text style={styles.stopValue} numberOfLines={2}>
-              {item?.parcel?.pickupLocation}
-            </Text>
-
-            <Text style={[styles.stopLabel, { marginTop: 10 }]}>
-              Drop Location
-            </Text>
-            <Text style={styles.stopValue} numberOfLines={2}>
-              {item?.parcel?.dropLocation}
-            </Text>
-          </View>
-        </View>
-      </TouchableOpacity>
-    );
-  };
-
+const DeliverOrders = () => {
   return (
     <SafeAreaView style={styles.container}>
-      <StatusBarComponent />
-      <LoadingModal visible={isLoading} />
-
-      <View style={styles.ordersHeader}>
-        <Text style={styles.sectionTitle}>Orders</Text>
+      {/* Header */}
+      <View style={styles.header}>
         <Image
-          source={imageIndex?.Filter || { uri: "" }}
-          style={{ height: 22, width: 22 }}
-          resizeMode="contain"
+          source={{ uri: 'https://i.pravatar.cc/150?img=12' }} // user image
+          style={styles.profileImage}
         />
+        <View style={{ flex: 1 }}>
+          <Text style={styles.welcomeText}>Hello, Welcome</Text>
+          <Text style={styles.userName}>Lincoln Bergson</Text>
+        </View>
+        <TouchableOpacity style={styles.notificationButton}>
+          <Text style={{ fontSize: 18 }}>🔔</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.menuButton}>
+          <Text style={{ fontSize: 18 }}>☰</Text>
+        </TouchableOpacity>
       </View>
 
-      {/* Tabs */}
-      <View style={styles.tabs}>
-        {TABS.map((tab) => {
-          const active = tab === activeTab;
-          return (
-            <Pressable
-              key={tab}
-              onPress={() => setActiveTab(tab)}
-              style={[styles.tab, active && styles.tabActive]}
-            >
-              <Text style={[styles.tabText, active && styles.tabTextActive]}>
-                {tab}
-              </Text>
-            </Pressable>
-          );
-        })}
-      </View>
+      <ScrollView contentContainerStyle={styles.scrollContent}>
 
-      {/* List */}
-      <Animated.View style={{ flex: 1, transform: [{ translateX }], opacity: fade }}>
-        <FlatList
-          data={ordersSeed}
-          style={{
-            marginTop: 10
-          }}
-          keyExtractor={(i) => i.id}
-          showsVerticalScrollIndicator={false}
-          contentContainerStyle={{ paddingBottom: 20 }}
-          renderItem={renderItem}
-          ListEmptyComponent={
-            <Text style={styles.emptyText}>No orders here yet.</Text>
-          }
-        />
-      </Animated.View>
+        {/* Create New Shift */}
+        <TouchableOpacity style={[styles.card, styles.createShiftCard]}>
+          <Text style={styles.createShiftText}>+ Create New Shift</Text>
+        </TouchableOpacity>
+
+        {/* Grid buttons */}
+        <View style={styles.grid}>
+          <TouchableOpacity style={[styles.card, { backgroundColor: '#A26BFF' }]}>
+            <Text style={styles.cardText}>Posted Shifts</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity style={[styles.card, { backgroundColor: '#00C48C' }]}>
+            <Text style={styles.cardText}>Shift Booking Request</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity style={[styles.card, { backgroundColor: '#00BFFF' }]}>
+            <Text style={styles.cardText}>Booked Shifts</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity style={[styles.card, { backgroundColor: '#3A85FF' }]}>
+            <Text style={styles.cardText}>Past Shifts</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity style={[styles.card, { backgroundColor: '#FFD966' }]}>
+            <Text style={styles.cardText}>Inbox</Text>
+          </TouchableOpacity>
+        </View>
+
+      </ScrollView>
     </SafeAreaView>
   );
 };
 
-export default DeliveryHome;
+export default DeliverOrders;
 
-
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#FF007A', // Header background
+  },
+  header: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: 15,
+    paddingBottom: 20,
+  },
+  profileImage: {
+    width: 50,
+    height: 50,
+    borderRadius: 25,
+    marginRight: 10,
+  },
+  welcomeText: {
+    color: '#fff',
+    fontSize: 14,
+  },
+  userName: {
+    color: '#fff',
+    fontSize: 18,
+    fontWeight: 'bold',
+  },
+  notificationButton: {
+    marginRight: 10,
+  },
+  menuButton: {},
+  scrollContent: {
+    backgroundColor: '#fff',
+    borderTopLeftRadius: 30,
+    borderTopRightRadius: 30,
+    padding: 20,
+    paddingBottom: 50,
+  },
+  card: {
+    height: 100,
+    borderRadius: 15,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginVertical: 10,
+  },
+  createShiftCard: {
+    backgroundColor: '#FF007A',
+    marginBottom: 20,
+  },
+  createShiftText: {
+    color: '#fff',
+    fontSize: 18,
+    fontWeight: 'bold',
+  },
+  grid: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'space-between',
+  },
+  cardText: {
+    color: '#fff',
+    fontSize: 16,
+    textAlign: 'center',
+    paddingHorizontal: 5,
+  },
+});

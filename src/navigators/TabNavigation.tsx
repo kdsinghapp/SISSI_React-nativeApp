@@ -3,15 +3,12 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Text, Platform,   Image } from 'react-native';
  import ScreenNameEnum from '../routes/screenName.enum';
 import HomeStack from './HomeStack';
-import font from '../theme/font';
-import SvgIndex from '../assets/svgIndex';
+ import SvgIndex from '../assets/svgIndex';
  import { useSafeAreaInsets } from 'react-native-safe-area-context';
- import Orders from '../screen/BottomTab/Orders/Orders';
-import Inbox from '../screen/BottomTab/Inbox/Inbox';
-import UserProfile from '../screen/BottomTab/Profile/UserProfile';
-import ChatScreen from '../screen/BottomTab/ChatScreen/ChatScreen';
-import ChatInboxScreen from '../screen/BottomTab/Inbox/Inbox';
- 
+ import UserProfile from '../screen/BottomTab/Profile/UserProfile';
+ import ChatInboxScreen from '../screen/BottomTab/Inbox/Inbox';
+import ShiftsScreen from '../screen/BottomTab/Shifts/ShiftsScreen';
+  
 const Tab = createBottomTabNavigator();
 
 const TAB_CONFIG:any = {
@@ -114,7 +111,7 @@ export default function TabNavigator() {
     >
       <Tab.Screen name={ScreenNameEnum.HomeStack} component={HomeStack} />
       {/* <Tab.Screen name="MyTrack" component={MyTrack} /> */}
-       <Tab.Screen name="Booking" component={Orders} />
+       <Tab.Screen name="Booking" component={ShiftsScreen} />
        <Tab.Screen name="Chat" component={ChatInboxScreen}/>
        <Tab.Screen name="Profile" component={UserProfile} />
      </Tab.Navigator>

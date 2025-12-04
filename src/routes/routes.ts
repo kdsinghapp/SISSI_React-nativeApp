@@ -7,7 +7,7 @@ import HelpScreen from "../screen/Profile/Help/Helps";
 import Splash from "../screen/auth/Splash/Splash";
   import OtpScreen from "../screen/auth/OTPScreen/OtpScreen";
 import ProfileSetup from "../screen/auth/ProfileSetup/ProfileSetup";
- import ViewDetails from "../screen/BottomTab/Orders/ViewDetails";
+ import ViewDetails from "../screen/BottomTab/Shifts/ViewDetails";
 import LegalPoliciesScreen from "../screen/Profile/LegalPoliciesScreen";
 import PrivacyPolicy from "../screen/Profile/PrivacyPolicy";
 import EditProfile from "../screen/Profile/EditProfile/EditProfile";
@@ -23,8 +23,7 @@ import ParcelDetails from "../screen/DeliveryBottomTab/ParcelDetails/ParcelDetai
 import SignUp from "../screen/auth/signUp/SignUp";
 import CreateNewPassword from "../screen/auth/login/createNewPassword/CreateNewPassword";
 import PasswordReset from "../screen/auth/passwordReset/PasswordReset";
- import BookServies from "../screen/BottomTab/BookServies/BookServies";
-import FavoriteScreen from "../screen/BottomTab/Favorite/FavoriteScreen";
+ import FavoriteScreen from "../screen/BottomTab/Favorite/FavoriteScreen";
 import BrowseShifts from "../screen/BottomTab/BrowseShifts/BrowseShifts";
    const _routes: any = {
   REGISTRATION_ROUTE: [
@@ -34,10 +33,7 @@ import BrowseShifts from "../screen/BottomTab/BrowseShifts/BrowseShifts";
     },
 
       
-        {
-      name: ScreenNameEnum.BookServies,
-      Component: BookServies,
-    },
+    
         {
       name: ScreenNameEnum.BrowseShifts,
       Component: BrowseShifts,
