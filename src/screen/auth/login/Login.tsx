@@ -11,8 +11,7 @@ import {
 import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import StatusBarComponent from '../../../compoent/StatusBarCompoent';
 import imageIndex from '../../../assets/imageIndex';
-import { wp } from '../../../utils/Constant';
-import CustomButton from '../../../compoent/CustomButton';
+ import CustomButton from '../../../compoent/CustomButton';
 import ScreenNameEnum from '../../../routes/screenName.enum';
 import LoadingModal from '../../../utils/Loader';
 import useLogin from './useLogin';

@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, SafeAreaView, ScrollView, Image } from 'react-native';
 
-const DeliverOrders = () => {
+const InstistionHome = () => {
   return (
     <SafeAreaView style={styles.container}>
       {/* Header */}
@@ -57,7 +57,7 @@ const DeliverOrders = () => {
   );
 };
 
-export default DeliverOrders;
+export default InstistionHome;
 
 const styles = StyleSheet.create({
   container: {

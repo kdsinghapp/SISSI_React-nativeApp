@@ -4,9 +4,9 @@ import { Text, Platform, View, Image } from 'react-native';
   import font from '../theme/font';
 import SvgIndex from '../assets/svgIndex';
  import { useSafeAreaInsets } from 'react-native-safe-area-context';
-  import DeliverOrders from '../screen/DeliveryBottomTab/Delivery/DeliverOrders/DeliverOrders';
- import Inbox from '../screen/BottomTab/Inbox/Inbox';
-import DeliveryProfile from '../screen/DeliveryBottomTab/DeliveryProfile/DeliveryProfile';
+  import Inbox from '../screen/BottomTab/Inbox/Inbox';
+ import InstistionHome from '../screen/InstitutionTab/HomeInstiustion/Home/InstistionHome';
+  import UserProfile from '../screen/BottomTab/Profile/UserProfile';
 
 const Tab = createBottomTabNavigator();
 
@@ -109,9 +109,9 @@ export default function DeliveryTabNavigator() {
       }}
     >
        {/* <Tab.Screen name="MyTrack" component={MyTrack} /> */}
-       <Tab.Screen name="Orders" component={DeliverOrders} />
+       <Tab.Screen name="Orders" component={InstistionHome} />
        <Tab.Screen name="Inbox" component={Inbox} />
-       <Tab.Screen name="Profile" component={DeliveryProfile} />
+       <Tab.Screen name="Profile" component={UserProfile} />
      </Tab.Navigator>
   );
 }

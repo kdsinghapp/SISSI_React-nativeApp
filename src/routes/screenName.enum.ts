@@ -16,7 +16,7 @@ enum ScreenNameEnum {
   DeliveryRequest="DeliveryRequest",
   ChooseRole="ChooseRole",
   AddressScreen="AddressScreen",
-  DeliveryTabNavigator="InstitutionBottomTab",
+  Tab2Navigator="Tab2Navigator",
   EditProfile="EditProfile",
   VehicleSetupScreen="VehicleSetupScreen",
   PickupLocation="PickupLocation",

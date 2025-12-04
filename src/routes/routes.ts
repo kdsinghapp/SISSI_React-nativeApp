@@ -13,11 +13,8 @@ import PrivacyPolicy from "../screen/Profile/PrivacyPolicy";
 import EditProfile from "../screen/Profile/EditProfile/EditProfile";
  import ChatScreen from "../screen/BottomTab/ChatScreen/ChatScreen";
 import OrdersPrfile from "../screen/Profile/OrdersPrfile/OrdersPrfile";
- import DeliveryTabNavigator from "../navigators/DeliveryTabNavigator";
- import EarningsScreen from "../screen/DeliveryBottomTab/EarningsScreen/EarningsScreen";
-import HelpSupport from "../screen/DeliveryBottomTab/HelpSupport/HelpSupport";
-import NotificationsSetting from "../screen/DeliveryBottomTab/NotificationsSetting/NotificationsSetting";
-import ParcelDetails from "../screen/DeliveryBottomTab/ParcelDetails/ParcelDetails";
+ import Tab2Navigator from "../navigators/Tab2Navigator";
+  
  import ChooseRole from "../screen/auth/ChooseRole/ChooseRole";
    import Login from "../screen/auth/login/Login";
 import SignUp from "../screen/auth/signUp/SignUp";
@@ -67,20 +64,13 @@ import BrowseShifts from "../screen/BottomTab/BrowseShifts/BrowseShifts";
    
  
    
-    {
-      name: ScreenNameEnum.NotificationsSetting,
-      Component: NotificationsSetting,
-    },
+    // {
+    //   name: ScreenNameEnum.NotificationsSetting,
+    //   Component: NotificationsSetting,
+    // },
        
  
-    {
-      name: ScreenNameEnum.HelpSupport,
-      Component: HelpSupport,
-    },
-    {
-      name: ScreenNameEnum.EarningsScreen,
-      Component: EarningsScreen,
-    },
+ 
 
     
  
@@ -154,15 +144,11 @@ import BrowseShifts from "../screen/BottomTab/BrowseShifts/BrowseShifts";
     
     
      {
-      name: ScreenNameEnum.DeliveryTabNavigator,
-      Component: DeliveryTabNavigator,
+      name: ScreenNameEnum.Tab2Navigator,
+      Component: Tab2Navigator,
     },
  
-    
-     {
-      name: ScreenNameEnum.ParcelDetails,
-      Component: ParcelDetails,
-    },
+ 
     
     
     //    {
