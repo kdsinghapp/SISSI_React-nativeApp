@@ -89,7 +89,7 @@ const ProfileScreen = () => {
               <MenuItem
                 title={item.title}
                 icon={item.icon}
-                onPress={() => navigation.navigate(item.screen)}
+                // onPress={() => navigation.navigate(item.screen)}
               />
             )}
           />

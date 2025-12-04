@@ -46,7 +46,9 @@ const handleChange = (field: keyof Credentials, value: string) => {
   };
 
   const handleLogin = async () => {
-    navigation.navigate(ScreenNameEnum.Tab2Navigator)
+    navigation.navigate(ScreenNameEnum.TabNavigator)
+        // navigation.navigate(ScreenNameEnum.Tab2Navigator)
+
     // if (!validateFields()) return; // Stop execution if validation fails
     // try {
     //   const params = {
