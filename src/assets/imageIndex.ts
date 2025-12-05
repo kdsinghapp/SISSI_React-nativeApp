@@ -6,7 +6,13 @@
 
     category1: require('./images/first.png'),
         first1: require('./images/first1.png'),
+        Posted: require('./images/Posted.png'),
         Setting: require('./images/Setting.png'),
+        Shiftbooking: require('./images/Shiftbooking.png'),
+        Past: require('./images/Past.png'),
+        ShiBookedftbooking: require('./images/Booked.png'),
+        Inbox: require('./images/Inbox.png'),
+        Notification2: require('./images/Notification2.png'),
 
     Beauty: require('./images/Beauty.png'),
     succesfuly: require('./images/succesfuly.png'),
@@ -115,6 +121,7 @@
     Back1: require('./images/Back1.png'),
     salone: require('./images/salone.png'),
         man1: require('./images/man1.png'),
+        no1: require('./images/no1.png'),
         arrowright1: require('./images/arrowright1.png'),
 
 

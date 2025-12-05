@@ -22,6 +22,8 @@ import CreateNewPassword from "../screen/auth/login/createNewPassword/CreateNewP
 import PasswordReset from "../screen/auth/passwordReset/PasswordReset";
  import FavoriteScreen from "../screen/BottomTab/Favorite/FavoriteScreen";
 import BrowseShifts from "../screen/BottomTab/BrowseShifts/BrowseShifts";
+import CreateNewShift from "../screen/InstitutionTab/CreateNewShift/CreateNewShift";
+import NotificationsSetting from "../screen/InstitutionTab/NotificationsSetting/NotificationsSetting";
    const _routes: any = {
   REGISTRATION_ROUTE: [
        {
@@ -64,10 +66,10 @@ import BrowseShifts from "../screen/BottomTab/BrowseShifts/BrowseShifts";
    
  
    
-    // {
-    //   name: ScreenNameEnum.NotificationsSetting,
-    //   Component: NotificationsSetting,
-    // },
+    {
+      name: ScreenNameEnum.NotificationsSetting,
+      Component: NotificationsSetting,
+    },
        
  
  
@@ -128,6 +130,10 @@ import BrowseShifts from "../screen/BottomTab/BrowseShifts/BrowseShifts";
       name: ScreenNameEnum.LegalPoliciesScreen,
       Component: LegalPoliciesScreen,
     },
+       {
+      name: ScreenNameEnum.CreateNewShift,
+      Component: CreateNewShift,
+    },
  
        {
       name: ScreenNameEnum.ViewDetails,
@@ -151,10 +157,6 @@ import BrowseShifts from "../screen/BottomTab/BrowseShifts/BrowseShifts";
  
     
     
-    //    {
-    //   name: ScreenNameEnum.DocumentShow,
-    //   Component: DocumentShow,
-    // },
     
   ],
 

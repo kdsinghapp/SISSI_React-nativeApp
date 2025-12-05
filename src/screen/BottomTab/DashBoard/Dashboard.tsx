@@ -5,7 +5,7 @@ import StatusBarComponent from '../../../compoent/StatusBarCompoent';
 import imageIndex from '../../../assets/imageIndex';
 import { useNavigation } from '@react-navigation/native';
 import ScreenNameEnum from '../../../routes/screenName.enum';
-
+ 
 const Dashboard = () => {
   const navigator = useNavigation<any>();
   return (
@@ -36,9 +36,9 @@ const Dashboard = () => {
 
         {/* MENU CARD - 1 */}
         <TouchableOpacity style={[styles.card, styles.cardPrimary]} 
-        // onPress={(()=>{
-        //   navigator.navigate(ScreenNameEnum.BrowseShifts);
-        // })}
+        onPress={(()=>{
+          navigator.navigate(ScreenNameEnum.BrowseShifts);
+        })}
         >
           <Image source={imageIndex.calneder} style={styles.cardIconWhite} />
 
@@ -53,9 +53,9 @@ const Dashboard = () => {
         {/* MENU CARD - 2 */}
         <TouchableOpacity style={styles.card} 
         
-        //  onPress={(()=>{
-        //   navigator.navigate(ScreenNameEnum.BrowseShifts);
-        // })}
+         onPress={(()=>{
+          navigator.navigate(ScreenNameEnum.BrowseShifts);
+        })}
         > 
 
 
@@ -74,9 +74,9 @@ const Dashboard = () => {
         <TouchableOpacity  
         
         
-        //  onPress={(()=>{
-        //   navigator.navigate(ScreenNameEnum.BrowseShifts);
-        // })}
+         onPress={(()=>{
+          navigator.navigate(ScreenNameEnum.BrowseShifts);
+        })}
         style={styles.card}>
           <Image source={imageIndex.Vector} style={styles.cardIconPink} />
 
@@ -91,9 +91,9 @@ const Dashboard = () => {
         {/* MENU CARD - 4 */}
         <TouchableOpacity style={styles.card} 
         
-        //  onPress={(()=>{
-        //   navigator.navigate(ScreenNameEnum.BrowseShifts);
-        // })}
+         onPress={(()=>{
+          navigator.navigate(ScreenNameEnum.BrowseShifts);
+        })}
         >
           <Image source={imageIndex.Setting} style={styles.cardIconPink} />
 

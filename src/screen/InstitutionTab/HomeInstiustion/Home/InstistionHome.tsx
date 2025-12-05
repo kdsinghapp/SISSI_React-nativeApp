@@ -1,126 +1,143 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, SafeAreaView, ScrollView, Image } from 'react-native';
+import { 
+  View, 
+  Text, 
+  TouchableOpacity, 
+    ScrollView, 
+  Image,
+ 
+} from 'react-native';
+import imageIndex from '../../../../assets/imageIndex';
+import { useNavigation } from '@react-navigation/native';
+import ScreenNameEnum from '../../../../routes/screenName.enum';
+import StatusBarComponent from '../../../../compoent/StatusBarCompoent';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { styles } from './style';
 
-const InstistionHome = () => {
+const InstitutionHome = () => {
+  const navigation = useNavigation();
+
+ 
+  // Grid items data
+  const gridItems = [
+    {
+      id: '1',
+      title: 'Posted Shifts',
+      icon: imageIndex.Posted,
+      backgroundColor: '#A26BFF',
+      screen: 'PostedShifts'
+    },
+    {
+      id: '2',
+      title: 'Shift Booking Request',
+      icon: imageIndex.Shiftbooking,
+      backgroundColor: '#00C48C',
+      screen: 'ShiftRequests'
+    },
+    {
+      id: '3',
+      title: 'Booked Shifts',
+      icon: imageIndex.ShiBookedftbooking,
+      backgroundColor: '#00BFFF',
+      screen: 'BookedShifts'
+    },
+    {
+      id: '4',
+      title: 'Past Shifts',
+      icon: imageIndex.Past,
+      backgroundColor: '#3A85FF',
+      screen: 'PastShifts'
+    },
+    {
+      id: '5',
+      title: 'Inbox',
+      icon: imageIndex.Inbox,
+      backgroundColor: '#FFD966',
+      screen: 'Inbox'
+    },
+  ];
+
+ 
+
+ 
+
   return (
     <SafeAreaView style={styles.container}>
-      {/* Header */}
-      <View style={styles.header}>
+   <StatusBarComponent barStyle="light-content" backgroundColor="#FF007A"/>
+       <View style={styles.header}>
         <Image
-          source={{ uri: 'https://i.pravatar.cc/150?img=12' }} // user image
+          source={{ uri: 'https://i.pravatar.cc/150?img=12' }}
           style={styles.profileImage}
         />
-        <View style={{ flex: 1 }}>
-          <Text style={styles.welcomeText}>Hello, Welcome</Text>
+        <View style={styles.userInfo}>
+          <Text style={styles.welcomeText}>Hello, Welcome  🎉</Text>
           <Text style={styles.userName}>Lincoln Bergson</Text>
         </View>
-        <TouchableOpacity style={styles.notificationButton}>
-          <Text style={{ fontSize: 18 }}>🔔</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.menuButton}>
-          <Text style={{ fontSize: 18 }}>☰</Text>
-        </TouchableOpacity>
-      </View>
-
-      <ScrollView contentContainerStyle={styles.scrollContent}>
-
-        {/* Create New Shift */}
-        <TouchableOpacity style={[styles.card, styles.createShiftCard]}>
-          <Text style={styles.createShiftText}>+ Create New Shift</Text>
-        </TouchableOpacity>
-
-        {/* Grid buttons */}
-        <View style={styles.grid}>
-          <TouchableOpacity style={[styles.card, { backgroundColor: '#A26BFF' }]}>
-            <Text style={styles.cardText}>Posted Shifts</Text>
+        <View style={styles.headerIcons}>
+          <TouchableOpacity 
+            style={styles.iconButton}
+            // onPress={() => navigation.navigate('Search')}
+          >
+            <Image 
+              source={imageIndex.no1} 
+              style={styles.headerIcon}
+            />
           </TouchableOpacity>
-
-          <TouchableOpacity style={[styles.card, { backgroundColor: '#00C48C' }]}>
-            <Text style={styles.cardText}>Shift Booking Request</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity style={[styles.card, { backgroundColor: '#00BFFF' }]}>
-            <Text style={styles.cardText}>Booked Shifts</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity style={[styles.card, { backgroundColor: '#3A85FF' }]}>
-            <Text style={styles.cardText}>Past Shifts</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity style={[styles.card, { backgroundColor: '#FFD966' }]}>
-            <Text style={styles.cardText}>Inbox</Text>
+          <TouchableOpacity 
+            style={styles.iconButton}
+            onPress={() => navigation.navigate(ScreenNameEnum.EditProfile)}
+          >
+            <Image 
+              source={imageIndex.Notification2} 
+              style={styles.headerIcon}
+            />
           </TouchableOpacity>
         </View>
+      </View>
 
+      <ScrollView 
+        contentContainerStyle={styles.scrollContent}
+        showsVerticalScrollIndicator={false}
+      >
+         <TouchableOpacity 
+          style={styles.createShiftCard}
+        onPress={() => navigation.navigate(ScreenNameEnum.CreateNewShift)}
+        >
+          <View style={styles.createShiftContent}>
+            <Text style={styles.plusIcon}>+</Text>
+            <Text style={styles.createShiftText}>Create New Shift</Text>
+          </View>
+        </TouchableOpacity>
+
+      
+
+         
+        <View style={styles.grid}>
+          {gridItems.map((item) => (
+            <TouchableOpacity 
+              key={item.id}
+              style={[styles.gridCard, { backgroundColor: item.backgroundColor }]}
+              // onPress={() => navigation.navigate(item.screen)}
+            >
+              <View style={styles.gridCardContent}>
+                <Image 
+                  source={item.icon} 
+                  style={styles.gridIcon}
+                />
+                <Text style={styles.gridCardText}>{item.title}</Text>
+              </View>
+            </TouchableOpacity>
+          ))}
+        </View>
+
+       
+        {/* FlatList for Shift Cards */}
+     
       </ScrollView>
     </SafeAreaView>
   );
 };
 
-export default InstistionHome;
+export default InstitutionHome;
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#FF007A', // Header background
-  },
-  header: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    padding: 15,
-    paddingBottom: 20,
-  },
-  profileImage: {
-    width: 50,
-    height: 50,
-    borderRadius: 25,
-    marginRight: 10,
-  },
-  welcomeText: {
-    color: '#fff',
-    fontSize: 14,
-  },
-  userName: {
-    color: '#fff',
-    fontSize: 18,
-    fontWeight: 'bold',
-  },
-  notificationButton: {
-    marginRight: 10,
-  },
-  menuButton: {},
-  scrollContent: {
-    backgroundColor: '#fff',
-    borderTopLeftRadius: 30,
-    borderTopRightRadius: 30,
-    padding: 20,
-    paddingBottom: 50,
-  },
-  card: {
-    height: 100,
-    borderRadius: 15,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginVertical: 10,
-  },
-  createShiftCard: {
-    backgroundColor: '#FF007A',
-    marginBottom: 20,
-  },
-  createShiftText: {
-    color: '#fff',
-    fontSize: 18,
-    fontWeight: 'bold',
-  },
-  grid: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    justifyContent: 'space-between',
-  },
-  cardText: {
-    color: '#fff',
-    fontSize: 16,
-    textAlign: 'center',
-    paddingHorizontal: 5,
-  },
-});
+ 

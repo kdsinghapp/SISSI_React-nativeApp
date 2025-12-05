@@ -9,7 +9,7 @@ enum ScreenNameEnum {
   AppointmentScreen="AppointmentScreen",
   ProfileScreen = "ProfileScreen",
   BrowseShifts="BrowseShifts",
-  DeliveryHome="DeliveryHome",
+  CreateNewShift="CreateNewShift",
   BookServies='BookServies',
   AllOrder="AllOrder",
   RequestLoading="RequestLoading",

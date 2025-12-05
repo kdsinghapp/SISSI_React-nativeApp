@@ -50,7 +50,7 @@ export default function DeliveryTabNavigator() {
               allowFontScaling={false}
               style={{
                 fontSize: 12,
-                color: focused ? '#FFCC00' : '#2F4858',
+                color: focused ? '#F3178B' : '#2F4858',
                 marginTop: 4,
                 fontFamily: font.MonolithRegular,
               }}
