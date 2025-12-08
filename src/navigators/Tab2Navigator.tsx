@@ -1,117 +1,121 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Text, Platform, View, Image } from 'react-native';
-  import font from '../theme/font';
+import font from '../theme/font';
 import SvgIndex from '../assets/svgIndex';
- import { useSafeAreaInsets } from 'react-native-safe-area-context';
-  import Inbox from '../screen/BottomTab/Inbox/Inbox';
- import InstistionHome from '../screen/InstitutionTab/HomeInstiustion/Home/InstistionHome';
-  import UserProfile from '../screen/BottomTab/Profile/UserProfile';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+
+import Inbox from '../screen/BottomTab/Inbox/Inbox';
+import InstistionHome from '../screen/InstitutionTab/HomeInstiustion/Home/InstistionHome';
+import UserProfile from '../screen/BottomTab/Profile/UserProfile';
+import ShiftBooking from '../screen/InstitutionTab/ShiftBooking/ShiftBooking';
 
 const Tab = createBottomTabNavigator();
 
+// ---------------- CONFIG ----------------
 const TAB_CONFIG = {
-  ["Home"]: {
-    label: 'Home',
-    iconActive: SvgIndex.HomeAtive, 
-    iconInactive: SvgIndex.Home, 
-  },
-   
   Orders: {
-    label: 'Orders',
-    iconActive: SvgIndex.Box, 
-    iconInactive: SvgIndex.Box1,  
+    label: 'Home',
+    iconActive: SvgIndex.HomeAtive,
+    iconInactive: SvgIndex.Home,
+  },
+  Booking: {
+    label: 'Booking',
+    iconActive: SvgIndex.Box,
+    iconInactive: SvgIndex.Box1,
   },
   Inbox: {
     label: 'Inbox',
-    iconActive: SvgIndex.MessageActive, 
+    iconActive: SvgIndex.MessageActive,
     iconInactive: SvgIndex.Message,
   },
   Profile: {
     label: 'Profile',
-    iconActive: SvgIndex.UserActive, 
+    iconActive: SvgIndex.UserActive,
     iconInactive: SvgIndex.User,
   },
 };
 
-const TAB_BAR_HEIGHT = Platform.OS === 'ios' ? 80 : 70;
+const TAB_BAR_HEIGHT = Platform.OS === 'ios' ? 70 : 65;
 const ICON_SIZE = 26;
+
+// ---------------- MAIN COMPONENT ----------------
 
 export default function DeliveryTabNavigator() {
   const insets = useSafeAreaInsets();
+
   return (
     <Tab.Navigator
       screenOptions={({ route }) => {
         const tab = TAB_CONFIG[route.name];
+
         return {
           headerShown: false,
+
           tabBarLabel: ({ focused }) => (
             <Text
               allowFontScaling={false}
               style={{
-                fontSize: 12,
-                color: focused ? '#F3178B' : '#2F4858',
+                fontSize: 11,
                 marginTop: 4,
                 fontFamily: font.MonolithRegular,
+                color: focused ? '#F3178B' : '#2F4858',
               }}
             >
               {tab?.label ?? route.name}
             </Text>
           ),
+
           tabBarIcon: ({ focused }) => {
-            const Icon = focused ? tab?.iconActive : tab?.iconInactive;
-            if (typeof Icon === 'function') {
-              return <Icon width={ICON_SIZE} height={ICON_SIZE} />;
-            } else {
-              return (
-                <Image
-                  source={Icon}
-                  style={{
-                    width: ICON_SIZE,
-                    height: ICON_SIZE,
-                    resizeMode: 'contain',
-                  }}
-                />
-              );
-            }
+            const Icon = focused ? tab.iconActive : tab.iconInactive;
+
+            return typeof Icon === 'function' ? (
+              <Icon width={ICON_SIZE} height={ICON_SIZE} />
+            ) : (
+              <Image
+                source={Icon}
+                style={{
+                  width: ICON_SIZE,
+                  height: ICON_SIZE,
+                  resizeMode: 'contain',
+                }}
+              />
+            );
           },
+
+          // ---- UI STYLING ----
           tabBarStyle: {
             position: 'absolute',
             left: 20,
             right: 20,
-             backgroundColor: 'white', // your desired background
-            height: TAB_BAR_HEIGHT + insets.bottom, // safe height including bottom inset
+            bottom: 10,
+
+            height: TAB_BAR_HEIGHT + insets.bottom,
             paddingBottom: insets.bottom,
             paddingTop: 8,
-          
-            // Rounded corners
-            borderTopLeftRadius: 10,
-            borderTopRightRadius: 10,
-          
-            // Borders
-        
-            borderTopColor: 'rgba(125, 154, 155, 0.15)',
-            borderLeftColor: 'rgba(125, 154, 155, 0.15)',
-            borderRightColor: 'rgba(125, 154, 155, 0.15)',
-          
-            // Optional shadow for iOS
+
+            backgroundColor: 'white',
+
+            borderRadius: 16,
+            borderWidth: 1,
+            borderColor: 'rgba(125, 154, 155, 0.12)',
+
+            // shadow for iOS
             shadowColor: '#000',
-            shadowOffset: { width: 0, height: 2 },
-            shadowOpacity: 0.05,
-            shadowRadius: 4,
-          
-            // Optional elevation for Android
-            elevation: 4,
-          
-       
+            shadowOffset: { width: 0, height: 3 },
+            shadowOpacity: 0.12,
+            shadowRadius: 6,
+
+            // elevation for Android
+            elevation: 6,
           },
         };
       }}
     >
-       {/* <Tab.Screen name="MyTrack" component={MyTrack} /> */}
-       <Tab.Screen name="Orders" component={InstistionHome} />
-       <Tab.Screen name="Inbox" component={Inbox} />
-       <Tab.Screen name="Profile" component={UserProfile} />
-     </Tab.Navigator>
+      <Tab.Screen name="Orders" component={InstistionHome} />
+      <Tab.Screen name="Booking" component={ShiftBooking} />
+      <Tab.Screen name="Inbox" component={Inbox} />
+      <Tab.Screen name="Profile" component={UserProfile} />
+    </Tab.Navigator>
   );
 }

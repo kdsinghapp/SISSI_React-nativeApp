@@ -28,7 +28,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ searchBar1,placeholder = "Search"
 
 const styles = StyleSheet.create({
   searchBar: {
-borderRadius: 20,
+borderRadius: 10,
   flexDirection: "row",
   alignItems: "center",
   paddingHorizontal: 10,

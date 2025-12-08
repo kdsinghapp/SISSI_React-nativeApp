@@ -13,11 +13,15 @@
         ShiBookedftbooking: require('./images/Booked.png'),
         Inbox: require('./images/Inbox.png'),
         Notification2: require('./images/Notification2.png'),
+        favort: require('./images/favort.png'),
 
     Beauty: require('./images/Beauty.png'),
+    editp: require('./images/editp.png'),
     succesfuly: require('./images/succesfuly.png'),
     Health: require('./image/Health.png'),
+    Decline: require('./images/Decline.png'),
     category4: require('./image/Consulting.png'),
+    REMOVE: require('./images/REMOVE.png'),
     P1: require('./images/P1.png'),
     category5: require('./image/Services.png'),
     girlImg: require('./image/girlImage.png'),
@@ -32,6 +36,8 @@
     call: require('./image/phone.png'),
     share: require('./image/share.png'),
     notification: require('./image/Notification.png'),
+    notifcaton: require('./images/notifcaton.png'),
+    privacy: require('./images/privacy.png'),
     banner1: require('./image/banner1.png'),
     mapbg: require('./image/mapbg.png'),
     rightBack: require('./image/rightBack.png'),
@@ -122,6 +128,7 @@
     salone: require('./images/salone.png'),
         man1: require('./images/man1.png'),
         no1: require('./images/no1.png'),
+        post1: require('./images/post1.png'),
         arrowright1: require('./images/arrowright1.png'),
 
 

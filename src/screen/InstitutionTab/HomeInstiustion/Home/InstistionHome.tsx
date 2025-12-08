@@ -25,28 +25,28 @@ const InstitutionHome = () => {
       title: 'Posted Shifts',
       icon: imageIndex.Posted,
       backgroundColor: '#A26BFF',
-      screen: 'PostedShifts'
+      screen: ScreenNameEnum.PostedShifts
     },
     {
       id: '2',
       title: 'Shift Booking Request',
       icon: imageIndex.Shiftbooking,
       backgroundColor: '#00C48C',
-      screen: 'ShiftRequests'
+      screen: ScreenNameEnum.ShiftBooking
     },
     {
       id: '3',
       title: 'Booked Shifts',
       icon: imageIndex.ShiBookedftbooking,
       backgroundColor: '#00BFFF',
-      screen: 'BookedShifts'
+         screen: ScreenNameEnum.BookedShifts
     },
     {
       id: '4',
       title: 'Past Shifts',
       icon: imageIndex.Past,
       backgroundColor: '#3A85FF',
-      screen: 'PastShifts'
+      screen: ScreenNameEnum.PastShifts
     },
     {
       id: '5',
@@ -117,7 +117,7 @@ const InstitutionHome = () => {
             <TouchableOpacity 
               key={item.id}
               style={[styles.gridCard, { backgroundColor: item.backgroundColor }]}
-              // onPress={() => navigation.navigate(item.screen)}
+               onPress={() => navigation.navigate(item.screen)}
             >
               <View style={styles.gridCardContent}>
                 <Image 

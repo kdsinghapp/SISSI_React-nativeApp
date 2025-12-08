@@ -1,8 +1,9 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
  import { RootStackParamList } from './LoginTypes';
 import { useDispatch } from 'react-redux';
 import ScreenNameEnum from '../../../routes/screenName.enum';
+import AsyncStorage from '@react-native-async-storage/async-storage';
  
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const useLogin = () => {
@@ -18,6 +19,28 @@ const [credentials, setCredentials] = useState<Credentials>({
   email: '',
   password: '',
 });
+
+
+const [savedRole, setSavedRole] = useState(null);
+const navgation = useNavigation()
+  // Function to load the saved role
+  const loadRole = async () => {
+    try {
+      const role = await AsyncStorage.getItem("userRole");
+      if (role !== null) {
+        setSavedRole(role); // role is a string
+        console.log("Saved role:", role);
+      } else {
+        console.log("No role saved yet.");
+      }
+    } catch (error) {
+      console.log("Error fetching role from AsyncStorage:", error);
+    }
+  };
+
+  useEffect(() => {
+    loadRole();
+  }, []);
 const dispatch = useDispatch()
 const handleChange = (field: keyof Credentials, value: string) => {
   setCredentials((prev) => ({ ...prev, [field]: value }));
@@ -46,8 +69,12 @@ const handleChange = (field: keyof Credentials, value: string) => {
   };
 
   const handleLogin = async () => {
-    navigation.navigate(ScreenNameEnum.TabNavigator)
-        // navigation.navigate(ScreenNameEnum.Tab2Navigator)
+if (savedRole != "Substitute") {
+  navigation.navigate(ScreenNameEnum.Tab2Navigator);
+} else {
+  navigation.navigate(ScreenNameEnum.TabNavigator);
+}
+
 
     // if (!validateFields()) return; // Stop execution if validation fails
     // try {

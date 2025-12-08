@@ -195,8 +195,7 @@ const EditProfile = () => {
                 img={imageIndex.location}
               />
 
-              {/* ====================== EDUCATION (ONLY SUBSTITUTE) ====================== */}
-              {savedRole === "Substitute" && (
+               {savedRole == "Substitute" && (
                 <>
                   <Text style={styles.sectionTitle}>Education Details</Text>
 
@@ -236,12 +235,20 @@ const EditProfile = () => {
                   />
                 </>
               )}
-              <Text style={styles.sectionTitle}>Worker Experience</Text>
+              {savedRole == "Substitute" && ( 
+                <>
+                              <Text style={styles.sectionTitle}>Worker Experience</Text>
 
-              <TextInputField
+                <TextInputField
 
                 placeholder="Write here "
               />
+                </>
+
+
+               ) }
+
+              
               <View style={{
                 marginTop: 15
               }}>

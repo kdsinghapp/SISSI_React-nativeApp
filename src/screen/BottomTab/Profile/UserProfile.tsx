@@ -31,25 +31,25 @@ const ProfileScreen = () => {
     {
       id: "2",
       title: "Favorite Institutions",
-      icon: imageIndex.P1,
+      icon: imageIndex.favort,
       screen: ScreenNameEnum.FavoriteScreen,
     },
     {
       id: "3",
       title: "Notifications",
-      icon: imageIndex.P1,
+      icon: imageIndex.notifcaton,
       screen: ScreenNameEnum.NotificationsSetting,
     },
     {
       id: "4",
       title: "About Us",
-      icon: imageIndex.P1,
+      icon: imageIndex.privacy,
       screen: ScreenNameEnum.PrivacyPolicy,
     },
     {
       id: "5",
       title: "Privacy Policy",
-      icon: imageIndex.P1,
+      icon: imageIndex.privacy,
       screen: ScreenNameEnum.PrivacyPolicy,
     },
   ];
@@ -99,7 +99,13 @@ const ProfileScreen = () => {
         <View style={{ marginTop: 20 }}>
           <CustomButton title="Logout"  
           button1={{ backgroundColor: "#FF383C" }}
-          onPress={() => setLogoutModal(true)} />
+        onPress={() => {
+    setLogoutModal(false);
+        navigation.navigate(ScreenNameEnum.ChooseRole);
+
+}}
+
+        />
         </View>
 
         <LogoutModal

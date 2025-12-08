@@ -15,7 +15,9 @@ import imageIndex from '../../../assets/imageIndex';
 import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import StatusBarComponent from '../../../compoent/StatusBarCompoent';
 import CustomHeader from '../../../compoent/CustomHeader';
- import { useNavigation } from '@react-navigation/native';
+ import { useNavigation, useRoute } from '@react-navigation/native';
+import PostSuccessfull from '../../../compoent/PostSuccessfull';
+import ScreenNameEnum from '../../../routes/screenName.enum';
  
 export default function CreateNewShift() {
    const [email, setEmail] = useState('');
@@ -26,13 +28,18 @@ export default function CreateNewShift() {
   const [radioSelected, setRadioSelected] = useState(false);
   const [radioSelected1, setRadioSelected1] = useState(false);
   const [dropdownVisible, setDropdownVisible] = useState(false);
- const navgation = useNavigation()
+  const [visible, setvisible] = useState(false);
+ const navgation = useNavigation() 
+ const  route =  useRoute()
+
+
+ const {type} = route?.params || ""
   // Function to load the saved role
  
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#fff' }}>
       <StatusBarComponent/> 
-      <CustomHeader label='Create New Shift'/>
+      <CustomHeader label={type ? "Edit Shift":'Create New Shift'}/>
       <KeyboardAvoidingView
         style={{ flex: 1 }}
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
@@ -126,7 +133,28 @@ export default function CreateNewShift() {
 
    <CustomButton title= {
                "Post Shift"
-          }  />
+          }  
+          
+          
+          onPress={()=>{
+    setvisible(true)
+  }}
+          /> 
+          <PostSuccessfull  
+userImage={imageIndex.post1}
+          visible={visible}
+          title={"Post Successful"}
+          subTitle={"Shift successfully posted. Workers notified automatically."}
+          
+onOpenChat={() => {
+    setvisible(false);
+    navgation.navigate(ScreenNameEnum.Tab2Navigator);
+}}
+        
+  onClose={()=>{
+    setvisible(false)
+  }}
+          />
         </ScrollView>
         
       </KeyboardAvoidingView>

@@ -24,6 +24,10 @@ import PasswordReset from "../screen/auth/passwordReset/PasswordReset";
 import BrowseShifts from "../screen/BottomTab/BrowseShifts/BrowseShifts";
 import CreateNewShift from "../screen/InstitutionTab/CreateNewShift/CreateNewShift";
 import NotificationsSetting from "../screen/InstitutionTab/NotificationsSetting/NotificationsSetting";
+import PostedShifts from "../screen/InstitutionTab/PostedShifts/PostedShifts";
+import BookedShifts from "../screen/InstitutionTab/BookedShifts/BookedShifts";
+import PastShifts from "../screen/InstitutionTab/PastShifts/PastShifts";
+import ShiftBooking from "../screen/InstitutionTab/ShiftBooking/ShiftBooking";
    const _routes: any = {
   REGISTRATION_ROUTE: [
        {
@@ -69,6 +73,31 @@ import NotificationsSetting from "../screen/InstitutionTab/NotificationsSetting/
     {
       name: ScreenNameEnum.NotificationsSetting,
       Component: NotificationsSetting,
+    },
+       
+    {
+      name: ScreenNameEnum.ShiftBooking,
+      Component: ShiftBooking,
+    },
+       
+   
+    {
+      name: ScreenNameEnum.PastShifts,
+      Component: PastShifts,
+    },
+       
+ 
+   
+    {
+      name: ScreenNameEnum.BookedShifts,
+      Component: BookedShifts,
+    },
+       
+ 
+   
+    {
+      name: ScreenNameEnum.PostedShifts,
+      Component: PostedShifts,
     },
        
  
