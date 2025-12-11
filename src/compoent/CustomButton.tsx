@@ -28,7 +28,7 @@ interface CustomButtonProps {
   height?: number;
   onPress?: (event: GestureResponderEvent) => void;
   disabled?: boolean;
-  button1:any
+  button1?:any
 }
 
 const CustomButton: React.FC<CustomButtonProps> = ({

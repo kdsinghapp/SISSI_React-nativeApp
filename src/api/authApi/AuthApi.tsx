@@ -10,14 +10,14 @@ export const loginApi = async (
 ) => {
   try {
     setLoading(true);
-console.log('___loginApi_param',param)
+    console.log('___loginApi_param', param)
     const myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
 
     if (param.token) {
       myHeaders.append("Authorization", `Bearer ${param.token}`);
     }
-console.log('__api__param__',param)
+    console.log('__api__param__', param)
     const requestOptions: RequestInit = {
       method: "POST",
       headers: myHeaders,
@@ -27,11 +27,11 @@ console.log('__api__param__',param)
 
     const response = await fetch(`${BaseUrl}${param.url}`, requestOptions);
     const text = await response.text();
-    console.log('___response___loginApi',response)
+    console.log('___response___loginApi', response)
     let resJson;
     try {
       resJson = JSON.parse(text);
-    console.log("---- POST___API___resJson ----", resJson);
+      console.log("---- POST___API___resJson ----", resJson);
 
     } catch {
       resJson = { success: false, message: text };

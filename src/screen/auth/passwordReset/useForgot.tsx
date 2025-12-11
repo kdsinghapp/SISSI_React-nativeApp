@@ -1,5 +1,6 @@
 import { useState } from 'react';
  import { useNavigation } from '@react-navigation/native';
+import { restEmailOtp } from '../../../api/apiRequest';
   
  const useForgot = () => {
   const [errors, setErrors] = useState <any>({});
@@ -35,7 +36,7 @@ import { useState } from 'react';
     }
      try {
       const params = { email:email,navigation:navigation };
-      //  const response = await ForgotPassUserApi(params, setisLoading);
+       const response = await restEmailOtp(params, setisLoading);
     } catch (error) {
      }
    };

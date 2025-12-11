@@ -3,12 +3,12 @@ import { useNavigation, useRoute } from '@react-navigation/native';
 import { useBlurOnFulfill, useClearByFocusCell } from 'react-native-confirmation-code-field';
  import { useDispatch } from 'react-redux';
 import ScreenNameEnum from '../../../routes/screenName.enum';
-import { Resend_otp, Verifyotp } from '../../../Api/apiRequest';
+import { otp_Verify } from '../../../api/apiRequest';
 
 export const useOtpVerification = (cellCount: number = 4) => {
   const navigation = useNavigation();
   const route :any= useRoute();
-  const { phone ,code } = route.params || {};
+  const { email ,code } = route.params || {};
    const [value, setValue] = useState('');
   const [isLoading, setIsLoading] = useState(false);
    const dispatch = useDispatch();
@@ -24,7 +24,7 @@ export const useOtpVerification = (cellCount: number = 4) => {
     return () => clearInterval(interval);
   }, [timer]);
   const  data ={
-    mob: phone ,
+    email: email ,
     code : code
   }
   const [errorMessage, setErrorMessage] = useState('');
@@ -39,8 +39,8 @@ export const useOtpVerification = (cellCount: number = 4) => {
     if (timer > 0) return; // prevent multiple clicks during countdown
     setIsLoading(true);
     try {
-      const params = { phone, code };
-      await Resend_otp(params, setIsLoading);
+      const params = { email, code };
+      // await Resend_otp(params, setIsLoading);
       setTimer(30); // start 30 seconds timer
     } catch (error) {
       console.error('OTP resend error:', error);
@@ -58,8 +58,8 @@ export const useOtpVerification = (cellCount: number = 4) => {
     setIsLoading(true);
     try {
             setIsLoading(false)
-      const params = { phone, otp: value, navigation, code  };
-       await Verifyotp(params, setIsLoading,dispatch);
+      const params = { email, otp: value, navigation, code  };
+       await otp_Verify(params, setIsLoading);
     } catch (error) {
       setIsLoading(false)
      }

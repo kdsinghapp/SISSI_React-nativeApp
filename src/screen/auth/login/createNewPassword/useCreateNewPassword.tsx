@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { useNavigation, useRoute } from '@react-navigation/native';
   import ScreenNameEnum from '../../../../routes/screenName.enum';
+import { Alert } from 'react-native';
+import { updatePassword } from '../../../../api/apiRequest';
  
 
 const useCreateNewPassword = () => {
@@ -27,29 +29,29 @@ const useCreateNewPassword = () => {
 
   const handleResetPass = async () => {
      navigation.navigate(ScreenNameEnum.Login)
-    // const { password, confirmPassword } = credentials;
-    // let validationErrors:any = {};
-    // if (!password.trim()) validationErrors.password = 'Password is required.';
-    // if (!confirmPassword.trim()) validationErrors.confirmPassword = 'Confirm Password is required.';
-    // if (Object.keys(validationErrors).length > 0) {
-    //   setErrors(validationErrors);
-    //   return;
-    // }
-    // if (password !== confirmPassword) {
-    //   Alert.alert('Error', 'Passwords do not match.');
-    //   return;
-    // }
-    // const params = {
-    //   password: password,
-    //   confirm_password: confirmPassword,
-    //   userId: userId,
-    //   navigation: navigation,
-    // };
+    const { password, confirmPassword } = credentials;
+    let validationErrors:any = {};
+    if (!password.trim()) validationErrors.password = 'Password is required.';
+    if (!confirmPassword.trim()) validationErrors.confirmPassword = 'Confirm Password is required.';
+    if (Object.keys(validationErrors).length > 0) {
+      setErrors(validationErrors);
+      return;
+    }
+    if (password !== confirmPassword) {
+      Alert.alert('Error', 'Passwords do not match.');
+      return;
+    }
+    const params = {
+      password: password,
+      confirm_password: confirmPassword,
+      userId: userId,
+      navigation: navigation,
+    };
 
-    // try {
-    //    const response = await UpdatePassUserApi(params, setisLoading);
-    // } catch (error) {
-    //  }
+    try {
+       const response = await updatePassword(params, setisLoading);
+    } catch (error) {
+     }
 
   };
 

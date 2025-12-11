@@ -4,6 +4,8 @@ import { useNavigation } from '@react-navigation/native';
 import { useDispatch } from 'react-redux';
 import ScreenNameEnum from '../../../routes/screenName.enum';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { LogiApi, LoginCustomer } from '../../../api/apiRequest';
+import { loginApi } from '../../../api/authApi/AuthApi';
  
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const useLogin = () => {
@@ -69,25 +71,26 @@ const handleChange = (field: keyof Credentials, value: string) => {
   };
 
   const handleLogin = async () => {
-if (savedRole != "Substitute") {
-  navigation.navigate(ScreenNameEnum.Tab2Navigator);
-} else {
-  navigation.navigate(ScreenNameEnum.TabNavigator);
-}
+// if (savedRole != "Substitute") {
+//   navigation.navigate(ScreenNameEnum.Tab2Navigator);
+// } else {
+//   navigation.navigate(ScreenNameEnum.TabNavigator);
+// }
 
 
-    // if (!validateFields()) return; // Stop execution if validation fails
-    // try {
-    //   const params = {
-    //     email: credentials?.email,
-    //     password: credentials?.password,
-    //      navigation: navigation,
-    //      dispatch:dispatch
-    //    };
-    //   //  const response = await LoginUserApi(params, setisLoading);
-    // } catch (error) {
-    //   console.error("Signup Error:", error);
-    // }
+    if (!validateFields()) return; // Stop execution if validation fails
+    try {
+      const params = {
+        email: credentials?.email,
+        password: credentials?.password,
+        roleType:savedRole == 'Substitute' ? 'User' :'Institution',
+         navigation: navigation,
+         dispatch:dispatch
+       };
+       const response = await LoginCustomer(params, setisLoading, dispatch);
+    } catch (error) {
+      console.error("Signup Error:", error);
+    }
   };
   return {
     credentials,

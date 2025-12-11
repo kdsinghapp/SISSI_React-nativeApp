@@ -36,16 +36,16 @@ export default function PasswordReset() {
         </View>
         <View
           style={{
-     backgroundColor: '#FFF',        // White background
-    marginTop: hp(4),               // Responsive top margin
-    marginHorizontal: 15,           // Horizontal margin
-     borderColor: '#ccc',            // Add border color for better visibility
-    borderRadius: 20,               // Rounded corners (optional but recommended)
-    shadowColor: '#000',            // iOS shadow
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.12,
-    shadowRadius: 3.84,
-    elevation: 8, 
+            backgroundColor: '#FFF',        // White background
+            marginTop: hp(4),               // Responsive top margin
+            marginHorizontal: 15,           // Horizontal margin
+            borderColor: '#ccc',            // Add border color for better visibility
+            borderRadius: 20,               // Rounded corners (optional but recommended)
+            shadowColor: '#000',            // iOS shadow
+            shadowOffset: { width: 0, height: 2 },
+            shadowOpacity: 0.12,
+            shadowRadius: 3.84,
+            elevation: 8,
           }}>
           <View style={{ marginTop: 6 }}>
             <Text style={{
@@ -64,7 +64,7 @@ export default function PasswordReset() {
               textAlign: 'center'
 
             }}>
-             Please put your email to reset your password
+              Please put your email to reset your password
             </Text>
           </View>
           <View
@@ -72,9 +72,9 @@ export default function PasswordReset() {
 
             style={{
               flexDirection: 'row', alignItems: "center", justifyContent: "center", marginTop: 15,
-marginHorizontal:8,
+              marginHorizontal: 8,
             }}>
-             <TextInputField
+            <TextInputField
               placeholder={'Email'}
               text={credentials.email}
               img={imageIndex.mess}
@@ -85,28 +85,28 @@ marginHorizontal:8,
           </View>
           <Text style={{
             color: "red",
-            marginTop: 11,
-            marginLeft: 5
+            marginBottom: 15,
+            marginLeft: 15
           }}>{errors.email}</Text>
-<View style={{
-        justifyContent: 'flex-start', marginBottom: 15
-        ,
-        marginHorizontal: 15
-      }}>
-        <CustomButton
-          title={'Send'}
-          // onPress={() => handleForgot()
+          <View style={{
+            justifyContent: 'flex-start', marginBottom: 15
+            ,
+            marginHorizontal: 15
+          }}>
+            <CustomButton
+              title={'Send'}
+              onPress={() => handleForgot()
 
-          // }
-          onPress={() => navigation.navigate(ScreenNameEnum.OtpScreen)}
-        />
-      </View>
+              }
+              // onPress={() => navigation.navigate(ScreenNameEnum.OtpScreen)}
+            />
+          </View>
         </View>
-          
-          <Image resizeMode='contain' source={imageIndex.resetPassword} style={{ width: '70%', height: hp(50), alignSelf: 'center', marginBottom: 30 }} />  
-        
+
+        <Image resizeMode='contain' source={imageIndex.resetPassword} style={{ width: '70%', height: hp(50), alignSelf: 'center', marginBottom: 30 }} />
+
       </ScrollView>
-    
+
     </SafeAreaView>
   );
 }

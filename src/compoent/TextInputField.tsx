@@ -86,7 +86,7 @@ export default function TextInputField({ ...props }) {
               placeholder={props.placeholder}
               secureTextEntry={showPassword}
               maxLength={props.maxLength}
-              keyboardType={props.type}
+              keyboardType={props.keyboardType}
               onFocus={() => setIsFocused(true) || props.onFocus}
               onBlur={() => setIsFocused(false)}
               editable={props.editable}
