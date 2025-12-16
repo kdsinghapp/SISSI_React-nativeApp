@@ -28,6 +28,7 @@ import PostedShifts from "../screen/InstitutionTab/PostedShifts/PostedShifts";
 import BookedShifts from "../screen/InstitutionTab/BookedShifts/BookedShifts";
 import PastShifts from "../screen/InstitutionTab/PastShifts/PastShifts";
 import ShiftBooking from "../screen/InstitutionTab/ShiftBooking/ShiftBooking";
+import AboutUS from "../screen/Profile/AboutUS";
    const _routes: any = {
   REGISTRATION_ROUTE: [
        {
@@ -154,6 +155,10 @@ import ShiftBooking from "../screen/InstitutionTab/ShiftBooking/ShiftBooking";
        {
       name: ScreenNameEnum.PrivacyPolicy,
       Component: PrivacyPolicy,
+    },
+       {
+      name: ScreenNameEnum.AboutUS,
+      Component: AboutUS,
     },
        {
       name: ScreenNameEnum.LegalPoliciesScreen,

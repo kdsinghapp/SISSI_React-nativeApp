@@ -5,9 +5,13 @@ import StatusBarComponent from '../../../compoent/StatusBarCompoent';
 import imageIndex from '../../../assets/imageIndex';
 import { useNavigation } from '@react-navigation/native';
 import ScreenNameEnum from '../../../routes/screenName.enum';
+import { useSelector } from 'react-redux';
  
 const Dashboard = () => {
   const navigator = useNavigation<any>();
+  
+  const isLogin = useSelector((state: any) => state.auth);
+  console.log(isLogin, 'userData')
   return (
     <SafeAreaView style={styles.container}>
       <StatusBarComponent />
@@ -23,7 +27,7 @@ const Dashboard = () => {
 
           <View style={{ marginLeft: 12 }}>
             <Text style={styles.welcomeText}>Hello, Welcome 👋</Text>
-            <Text style={styles.userName}>Savannah Nguyen</Text>
+            <Text style={styles.userName}>{isLogin?.userData?.user_name}</Text>
           </View>
 
           <TouchableOpacity style={styles.notification}>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -13,40 +13,96 @@ import StatusBarComponent from "../../../compoent/StatusBarCompoent";
 import SearchBar from "../../../compoent/SearchBar";
 import imageIndex from "../../../assets/imageIndex";
 import BookingSuccessModal from "../../../compoent/BookingModal";
+import { useSelector } from "react-redux";
+import { GetApi } from "../../../api/apiRequest";
+import moment from "moment";
+import LoadingModal from "../../../utils/Loader";
 
 const DATA = [1, 2, 3];
 
 export default function BrowseShifts() {
   const [modalVisible, setModalVisible] = useState(false);
-  const renderCard = () => (
+  const [data, setData] = useState([]);
+  const [filteredData, setFilteredData] = useState([]);
+  const [searchText, setSearchText] = useState('');
+  const isLogin = useSelector((state: any) => state.auth);
+  const [loading, setLoading] = useState(false);
+  useEffect(() => {
+    // Code to run on component mount
+    (async () => {
+      console.log("PostedShifts component mounted");
+      const param = {
+        url: "shift/all_shift_list_user",
+        token: isLogin?.token,
+        method: 'GET'
+      }
+
+
+      const dd = await GetApi(param, setLoading);
+      setData(dd?.data || []);
+      console.log(dd?.data, 'this is data')
+      setFilteredData(dd?.data || []);
+    })()
+  }, [])
+
+  const onSearch = (text) => {
+  setSearchText(text);
+
+  if (!text.trim()) {
+    setFilteredData(data);
+    return;
+  }
+
+  const search = text.toLowerCase();
+
+  const filtered = data.filter(item => {
+    return (
+      item?.user_name?.toLowerCase().includes(search) ||
+      item?.unit_name?.toLowerCase().includes(search) ||
+      item?.location?.toLowerCase().includes(search) ||
+      item?.description?.toLowerCase().includes(search) ||
+      moment(item?.shift_date, 'YYYY-MM-DD')
+        .format('dddd, DD MMMM YYYY')
+        .toLowerCase()
+        .includes(search) ||
+      `${item?.time_start} ${item?.time_end}`
+        .toLowerCase()
+        .includes(search)
+    );
+  });
+
+  setFilteredData(filtered);
+};
+
+  const renderCard = ({item}) => (
     <View style={styles.card}>
       {/* Row 1 */}
       <View style={{
-        alignItems:"center",
-        justifyContent:"center", 
-        marginBottom:16
+        alignItems: "center",
+        justifyContent: "center",
+        marginBottom: 16
       }}>
 
-          <Image source={imageIndex.home1}  
-          
+        <Image source={imageIndex.home1}
+
           style={{
-            height:44,
-            width:44 ,
-            resizeMode:"contain" ,
+            height: 44,
+            width: 44,
+            resizeMode: "contain",
           }}
-          />
+        />
       </View>
 
-    
+
       <View style={styles.row}>
         <View style={styles.flex1}>
           <Text style={styles.label}>Institution Name</Text>
-          <Text style={styles.value}>BrightCare Child Protection Unit</Text>
+          <Text style={styles.value}>{item?.user_name}</Text>
         </View>
 
         <View style={styles.rightView}>
           <Text style={styles.label}>Unit Name</Text>
-          <Text style={styles.value}>Early Development Wing</Text>
+          <Text style={styles.value}>{item?.unit_name}</Text>
         </View>
       </View>
 
@@ -55,13 +111,14 @@ export default function BrowseShifts() {
         <View style={styles.flex1}>
           <Text style={styles.label}>Date & Time</Text>
           <Text style={styles.value}>
-            Wednesday, 12 February 2025 {"\n"}10:00 AM – 4:00 PM
+            {moment(item?.shift_date, 'YYYY-MM-DD')
+                      .format('dddd, DD MMMM YYYY')}{"\n"}{item?.time_start} – {item?.time_end}
           </Text>
         </View>
 
         <View style={styles.rightView}>
           <Text style={styles.label}>Location</Text>
-          <Text style={styles.value}>Sector 12, City Center</Text>
+          <Text style={styles.value}>{item?.location}</Text>
         </View>
       </View>
 
@@ -70,18 +127,18 @@ export default function BrowseShifts() {
         <View style={styles.flex1}>
           <Text style={styles.label}>Short Description</Text>
           <Text style={styles.value}>
-            Assist staff with daily care routines, supervision & meal support.
+            {item?.description}
           </Text>
         </View>
 
         <View style={styles.rightView}>
           <Text style={styles.label}>Badge</Text>
           <View style={[styles.badge, styles.mt12]}>
-            <Text style={styles.badgeTxt}>Approved</Text>
+            <Text style={styles.badgeTxt}>{item?.status == "Pending"? 'Available':'Not Available'}</Text>
           </View>
         </View>
       </View>
-
+      
       {/* Buttons */}
       <View style={styles.btnRow}>
         <TouchableOpacity style={styles.removeBtn}>
@@ -101,38 +158,40 @@ export default function BrowseShifts() {
           <Text style={styles.detailsTxt}>Book Now</Text>
         </TouchableOpacity>
       </View>
-    </View>
-  );
 
+      </View>
+      );
   return (
     <SafeAreaView style={styles.container}>
+      {loading && <LoadingModal />}
       <StatusBarComponent />
       <CustomHeader label="Browse Shifts" />
-      <SearchBar />
+      <SearchBar value={searchText}   onSearchChange={onSearch}
+  placeholder="Search by name, date, time, location"/>
 
       <View style={styles.listWrapper}>
         <FlatList
-          data={DATA}
+          data={filteredData}
           renderItem={renderCard}
-          keyExtractor={(item) => item.toString()}
+        keyExtractor={(item) => item.toString()}
           showsVerticalScrollIndicator={false}
           contentContainerStyle={{ paddingBottom: 40 }}
         />
       </View>
       
 
-<BookingSuccessModal
-  visible={modalVisible}
-  userName="Jocelyn Levin"
-  userImage="https://example.com/user.jpg" // replace with real image URL
-  onClose={() => setModalVisible(false)}
-  onOpenChat={() => {
-    // navigate to chat screen
-    console.log('Open Chat Pressed');
-    setModalVisible(false);
-  }}
-/>
-
+      <BookingSuccessModal
+                visible={modalVisible}
+        userName="Jocelyn Levin"
+        userImage="https://example.com/user.jpg" // replace with real image URL
+        onClose={() => setModalVisible(false)}
+        onOpenChat={() => {
+          // navigate to chat screen
+          console.log('Open Chat Pressed');
+          setModalVisible(false);
+          setModalVisible(false); 
+        }}
+      />
     </SafeAreaView>
   );
 }

@@ -15,13 +15,15 @@ import LogoutModal from "../../../compoent/LogoutModal";
 import CustomButton from "../../../compoent/CustomButton";
 import ScreenNameEnum from "../../../routes/screenName.enum";
 import { useNavigation } from "@react-navigation/native";
+import { useSelector } from "react-redux";
 
 const ProfileScreen = () => {
   const navigation = useNavigation();
   const [logoutModal, setLogoutModal] = useState(false);
-
+const isLogin = useSelector((state: any) => state.auth);
+  console.log(isLogin, 'userData')
   /* -------- MENU DATA ARRAY -------- */
-  const menuData = [
+  const menuData = isLogin?.userData?.type == "User" ? [
     {
       id: "1",
       title: "My Profile",
@@ -44,7 +46,34 @@ const ProfileScreen = () => {
       id: "4",
       title: "About Us",
       icon: imageIndex.privacy,
+      screen: ScreenNameEnum.AboutUS,
+    },
+    {
+      id: "5",
+      title: "Privacy Policy",
+      icon: imageIndex.privacy,
       screen: ScreenNameEnum.PrivacyPolicy,
+    },
+  ]:
+  [
+    {
+      id: "1",
+      title: "My Profile",
+      icon: imageIndex.P1,
+      screen: ScreenNameEnum.EditProfile,
+    },
+    
+    {
+      id: "3",
+      title: "Notifications",
+      icon: imageIndex.notifcaton,
+      screen: ScreenNameEnum.NotificationsSetting,
+    },
+    {
+      id: "4",
+      title: "About Us",
+      icon: imageIndex.privacy,
+      screen: ScreenNameEnum.AboutUS,
     },
     {
       id: "5",
@@ -73,7 +102,7 @@ const ProfileScreen = () => {
           </View>
 
           <View style={{ marginLeft: 15 }}>
-            <Text style={styles.userName}>Ashlynn Bergson</Text>
+            <Text style={styles.userName}>{isLogin?.userData?.user_name}</Text>
             <Text style={styles.username}>@Ashlynn</Text>
           </View>
         </View>

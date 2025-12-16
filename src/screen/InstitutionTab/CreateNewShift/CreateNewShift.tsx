@@ -5,8 +5,11 @@ import {
   ScrollView,
   KeyboardAvoidingView,
   Platform,
-   StyleSheet,
- 
+  StyleSheet,
+  Alert,
+  TouchableOpacity,
+  Modal,
+  TextInput
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import TextInputField from '../../../compoent/TextInputField';
@@ -15,236 +18,390 @@ import imageIndex from '../../../assets/imageIndex';
 import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import StatusBarComponent from '../../../compoent/StatusBarCompoent';
 import CustomHeader from '../../../compoent/CustomHeader';
- import { useNavigation, useRoute } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import PostSuccessfull from '../../../compoent/PostSuccessfull';
 import ScreenNameEnum from '../../../routes/screenName.enum';
- 
+
+import { add_shift_API, update_shift_API } from '../../../api/apiRequest';
+import { useSelector } from 'react-redux';
+import DatePicker from 'react-native-date-picker'
+import LoadingModal from '../../../utils/Loader';
+
 export default function CreateNewShift() {
-   const [email, setEmail] = useState('');
-  const [phone, setPhone] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
-  const [education, setEducation] = useState('');
-  const [radioSelected, setRadioSelected] = useState(false);
-  const [radioSelected1, setRadioSelected1] = useState(false);
-  const [dropdownVisible, setDropdownVisible] = useState(false);
+  const route = useRoute();
+  const { type } = route?.params || "";
+  const shiftData = route?.params?.shiftData || {};
+  console.log(shiftData, 'this is shift data')
   const [visible, setvisible] = useState(false);
- const navgation = useNavigation() 
- const  route =  useRoute()
+  const navgation = useNavigation()
+
+  const isLogin = useSelector((state: any) => state.auth);
+
+  const [showPicker, setShowPicker] = useState(false);
+  const [location, setLocation] = useState(shiftData?.location || '');
+  const [unit, setUnit] = useState(shiftData?.unit || '');
+  const [description, setDescription] = useState(shiftData?.description || '');
+  const [date, setDate] = useState(new Date(shiftData?.shift_date || new Date()));
+  // const [startTime, setStartTime] = useState(new Date(shiftData?.time_start || new Date()));
+  // const [endTime, setEndTime] = useState(new Date(shiftData?.time_end || new Date()));
+  const [open, setOpen] = useState(false);
+  const [mode, setMode] = useState('date');
+  const [activeField, setActiveField] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const timeStringToDate = (timeStr, baseDate = new Date()) => {
+    if (!timeStr) return baseDate;
+
+    const [hours, minutes, seconds] = timeStr.split(':').map(Number);
+
+    const date = new Date(baseDate);
+    date.setHours(hours);
+    date.setMinutes(minutes);
+    date.setSeconds(seconds || 0);
+    date.setMilliseconds(0);
+
+    return date;
+  };
+  const [startTime, setStartTime] = useState(
+    timeStringToDate(shiftData?.time_start, new Date())
+  );
+
+  const [endTime, setEndTime] = useState(
+    timeStringToDate(shiftData?.time_end, new Date())
+  );
+  const onChange = (event, selectedDate) => {
+    setShowPicker(false);
+
+    if (event.type === 'dismissed') return;
+
+    if (activeField === 'date') {
+      setDate(selectedDate);
+    } else if (activeField === 'start') {
+      setStartTime(selectedDate);
+    } else if (activeField === 'end') {
+      setEndTime(selectedDate);
+    }
+  };
+  const openPicker = (field, pickerMode) => {
+    setActiveField(field);
+    setMode(pickerMode);
+    setOpen(true);
+  };
 
 
- const {type} = route?.params || ""
-  // Function to load the saved role
- 
+
+  const resetForm = () => {
+    setDate('');
+    setStartTime('');
+    setEndTime('');
+    setLocation('');
+    setUnit('');
+    setDescription('');
+  };
+  const validate = () => {
+    if (!date) {
+      Alert.alert('Validation', 'Please select date');
+      return false;
+    }
+    if (!startTime) {
+      Alert.alert('Validation', 'Please select start time');
+      return false;
+    }
+    if (!endTime) {
+      Alert.alert('Validation', 'Please select end time');
+      return false;
+    }
+
+    // Check if end time is after start time
+    // const start = new Date(startTime);
+    // const end = new Date(endTime);
+    // if (end <= start) {
+    //   Alert.alert('Validation', 'End time must be after start time');
+    //   return false;
+    // }
+
+    if (!location.trim()) {
+      Alert.alert('Validation', 'Enter location');
+      return false;
+    }
+    if (!unit.trim()) {
+      Alert.alert('Validation', 'Enter unit');
+      return false;
+    }
+    if (!description.trim()) {
+      Alert.alert('Validation', 'Enter description');
+      return false;
+    }
+    return true;
+  };
+
+  // const submitShift = async () => {
+  //   if (!validate()) return;
+
+  //   setLoading(true);
+
+  //   const payload = {
+  //     // date: date,
+  //     // startTime: startTime,
+  //     // endTime: endTime,
+  //     date: formatDate(date),
+  //     startTime: formatTime(startTime),
+  //     endTime: formatTime(endTime),
+  //     location,
+  //     unit,
+  //     description,
+  //     token: isLogin?.token
+  //   };
+  //   console.log('Submitting shift:', payload);
+  //   // add_shift_API(payload, setLoading)
+  //   const dd = await add_shift_API(payload, setLoading)
+  //   // if (success) {
+  //   //   resetForm();       // ✅ clear form
+  //   //   setvisible(true);  // ✅ show success modal
+  //   // }
+  //   if (dd?.success) {
+  //     resetForm();
+  //     setvisible(true);
+  //   };
+  // }
+
+  // For Android, we can use the DateTimePicker as a modal
+  const submitShift = async () => {
+    if (!validate()) return;
+
+    const payload = {
+      date: formatDate(date),
+      startTime: formatTime(startTime),
+      endTime: formatTime(endTime),
+      location,
+      unit,
+      description,
+      token: isLogin?.token,
+      shift_id: shiftData?.id || "",
+    };
+
+    setLoading(true);
+
+    let res;
+    if (type === "Edit") {
+      res = await update_shift_API( payload, setLoading);
+    } else {
+      res = await add_shift_API(payload, setLoading);
+    }
+
+    if (res?.success) {
+      setvisible(true);
+    }
+  };
+  const formatDate = (d) => {
+    const y = d.getFullYear();
+    const m = String(d.getMonth() + 1).padStart(2, '0');
+    const day = String(d.getDate()).padStart(2, '0');
+    console.log(`${y}-${m}-${day}`)
+    return `${y}-${m}-${day}`; // 2025-02-12
+  };
+
+  const formatTime = (d) => {
+    const h = String(d.getHours()).padStart(2, '0');
+    const m = String(d.getMinutes()).padStart(2, '0');
+    return `${h}:${m}`; // 09:30
+  };
+  console.log('DATE:', date);
+  console.log('START:', formatTime(startTime));
+  console.log('END:', endTime);
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#fff' }}>
-      <StatusBarComponent/> 
-      <CustomHeader label={type ? "Edit Shift":'Create New Shift'}/>
+      {loading && <LoadingModal />}
+      <StatusBarComponent />
+      <CustomHeader label={type ? "Edit Shift" : 'Create New Shift'} />
       <KeyboardAvoidingView
         style={{ flex: 1 }}
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 20}
       >
-        <ScrollView  
-        showsVerticalScrollIndicator={false}
-        style={{
-          marginHorizontal:20 ,
-           marginTop: hp(3), 
-           backgroundColor:"white" ,
-  
-        }} >
-          {/* Logo */}
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={{ paddingBottom: 30 }}
+          style={{
+            marginHorizontal: 20,
+            marginTop: hp(3),
+            backgroundColor: "white",
+          }} >
           <View style={{
-                 backgroundColor: '#FFF',        // White background
-     marginHorizontal: 5,           // Horizontal margin
-     borderColor: '#ccc',            // Add border color for better visibility
-    borderRadius: 10,               // Rounded corners (optional but recommended)
-    shadowColor: '#000',            // iOS shadow
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.12,
-    shadowRadius: 3.84,
-    elevation: 5, 
-    padding:15 ,
-    marginTop:11,
-    marginBottom:60
+            backgroundColor: '#FFF',
+            marginHorizontal: 5,
+            borderColor: '#ccc',
+            borderRadius: 10,
+            shadowColor: '#000',
+            shadowOffset: { width: 0, height: 2 },
+            shadowOpacity: 0.12,
+            shadowRadius: 3.84,
+            elevation: 5,
+            padding: 15,
+            marginTop: 11,
+            marginBottom: 60
           }}>
-        
-         
+            <View style={styles.formContainer}>
 
-          {/* Form */}
-          <View style={styles.formContainer}>
 
-         
-           
-            <TextInputField
-              placeholder="Date"
-              value={email}
-              onChangeText={setEmail}
-              firstLogo
-              img={imageIndex.calneder}
-              keyboardType="email-address"
-              autoCapitalize="none"
-            />
-            <TextInputField
-              placeholder="Time Startr"
-              value={phone}
-              onChangeText={setPhone}
-              firstLogo
-              img={imageIndex.time2}
-             />
-            <TextInputField
-              placeholder="Time End"
-              value={password}
-              onChangeText={setPassword}
-              firstLogo
-               img={imageIndex.time2}
-             />
-            <TextInputField
-              placeholder="Location"
-              value={confirmPassword}
-              onChangeText={setConfirmPassword}
-              firstLogo
-               img={imageIndex.location}
-               
-            />
-              
+              <TouchableOpacity onPress={() => openPicker('date', 'date')}>
+                <TextInputField
+                  placeholder="Select Date"
+                  text={formatDate(date)}
+                  editable={false}
+                  firstLogo
+                  img={imageIndex.calneder}
+                />
+              </TouchableOpacity>
 
-             
-  <TextInputField
-              placeholder="Unit"
-               firstLogo
-               img={imageIndex.Level}
-             /> 
+              <TouchableOpacity onPress={() => openPicker('start', 'time')}>
+                <TextInputField
+                  placeholder="Start Time"
+                  text={formatTime(startTime)}
+                  editable={false}
+                  firstLogo
+                  img={imageIndex.time2}
+                />
+              </TouchableOpacity>
+              <TouchableOpacity onPress={() => openPicker('end', 'time')}>
+                <TextInputField
+                  placeholder="End Time"
+                  text={formatTime(endTime)}
+                  editable={false}
+                  firstLogo
+                  img={imageIndex.time2}
+                />
+              </TouchableOpacity>
+              <TextInputField
+                placeholder="Location"
+                text={location}
+                onChangeText={setLocation}
+                firstLogo
+                img={imageIndex.location}
+              />
 
-  <TextInputField
-              placeholder="Description"
-               firstLogo
-               img={imageIndex.Phone1}
-             /> 
- 
-       
+              <TextInputField
+                placeholder="Unit"
+                text={unit}
+                onChangeText={setUnit}
+                firstLogo
+                img={imageIndex.Level}
+                keyboardType="numeric"
+              />
 
- 
-           
+              <TextInputField
+                placeholder="Description"
+                text={description}
+                onChangeText={setDescription}
+                firstLogo
+                img={imageIndex.Phone1}
+                multiline={true}
+                numberOfLines={3}
+              />
+            </View>
           </View>
 
- 
-        
-            </View>
+          {/* <CustomButton
+            title={loading ? 'Posting...' : 'Post Shift'}
+            disabled={loading}
+            onPress={submitShift}
+          /> */}
+          <CustomButton
+            title={type === "Edit" ? "Update Shift" : "Post Shift"}
+            disabled={loading}
+            onPress={submitShift}
+          />
+          <PostSuccessfull
+            userImage={imageIndex.post1}
+            visible={visible}
+            title={`${type === "Edit" ? "Update Successfully" : "Post Successfully"}`}
+            subTitle={`Shift successfully ${type === "Edit" ? "updated" : "posted"}. Workers notified automatically.`}
+            onOpenChat={() => {
+              setvisible(false);
+              navgation.navigate(ScreenNameEnum.Tab2Navigator);
+            }}
+            onClose={() => {
+              setvisible(false)
+            }}
+          />
+          <DatePicker
+            modal
+            open={open}
+            // is24hourSource='locale'
+            mode={mode}
+            date={
+              activeField === 'date'
+                ? date
+                : activeField === 'start'
+                  ? startTime
+                  : endTime
+            }
+            onConfirm={(selectedDate) => {
+              setOpen(false);
 
-   <CustomButton title= {
-               "Post Shift"
-          }  
-          
-          
-          onPress={()=>{
-    setvisible(true)
-  }}
-          /> 
-          <PostSuccessfull  
-userImage={imageIndex.post1}
-          visible={visible}
-          title={"Post Successful"}
-          subTitle={"Shift successfully posted. Workers notified automatically."}
-          
-onOpenChat={() => {
-    setvisible(false);
-    navgation.navigate(ScreenNameEnum.Tab2Navigator);
-}}
-        
-  onClose={()=>{
-    setvisible(false)
-  }}
+              if (activeField === 'date') {
+                setDate(selectedDate);
+              }
+
+              if (activeField === 'start') {
+                setStartTime(selectedDate);
+              }
+
+              if (activeField === 'end') {
+                setEndTime(selectedDate);
+              }
+            }}
+            onCancel={() => setOpen(false)}
           />
         </ScrollView>
-        
       </KeyboardAvoidingView>
-      
     </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  logo: {
- height: 44, width: 120, alignSelf: 'center',
-   },
-  title: {
-    fontSize: 22,
-    fontWeight: '600',
-    textAlign: 'center',
-    marginBottom: 5, 
-    marginTop:18 ,
-    color:"black"
-  },
-  subtitle: {
-    fontSize: 16,
-    color: '#9DB2BF',
-    textAlign: 'center',
-    marginBottom: 20,
-        marginTop:10 , 
-      
-
-  },
   formContainer: {
     marginBottom: 20,
   },
-  dropdown: {
-    borderWidth: 1,
-      backgroundColor: '#F7F8F8',
-            borderColor: '#F7F8F8',
-    padding: 15,
-    borderRadius: 12,
-    marginVertical: 10,
-    flexDirection:"row",
-    justifyContent:"space-between" ,
-
-  },
   modalOverlay: {
     flex: 1,
-    backgroundColor: 'rgba(0,0,0,0.3)',
-    justifyContent: 'center',
-    alignItems: 'center',
+    backgroundColor: 'rgba(0,0,0,0.5)',
+    justifyContent: 'flex-end',
   },
-  modalContent: {
+  iosPickerContainer: {
     backgroundColor: '#fff',
-    width: '80%',
-    borderRadius: 10,
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+    padding: 20,
+    maxHeight: '50%',
   },
-  modalItem: {
-    padding: 15,
-    borderBottomWidth: 1,
-    borderColor: '#eee',
+  iosPicker: {
+    height: 200,
   },
-  modalItemText: {
-    fontSize: 16,
-  },
-  radioContainer: {
+  iosPickerButtons: {
     flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginTop: 20,
+    paddingHorizontal: 10,
+  },
+  iosPickerButton: {
+    paddingHorizontal: 25,
+    paddingVertical: 12,
+    borderRadius: 8,
+    minWidth: 100,
     alignItems: 'center',
-    marginVertical: 15,
   },
-  radioOuter: {
-    width: 20,
-    height: 20,
-    borderRadius: 10,
-    borderWidth: 2,
-    borderColor: '#FF4081',
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginRight: 10,
+  cancelButton: {
+    backgroundColor: '#f0f0f0',
   },
-  radioInner: {
-    width: 12,
-    height: 12,
-    borderRadius: 6,
-    backgroundColor: '#FF4081',
+  doneButton: {
+    backgroundColor: '#F3178B',
   },
-  radioLabel: {
-    fontSize: 14,
+  iosPickerButtonText: {
+    fontSize: 16,
+    fontWeight: '600',
     color: '#333',
-    flex: 1,
   },
-    signUpContainer: { flexDirection: 'row', justifyContent: 'center', marginBottom:30, },
-  signUpText: { fontSize: 17, color: '#909090', fontWeight: '500' },
-  signUpLink: { fontSize: 17, fontWeight: '700', color: '#F3178B' },
-
+  doneButtonText: {
+    color: '#fff',
+  },
 });

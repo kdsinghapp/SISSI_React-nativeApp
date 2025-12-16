@@ -13,10 +13,11 @@ import ScreenNameEnum from '../../../../routes/screenName.enum';
 import StatusBarComponent from '../../../../compoent/StatusBarCompoent';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { styles } from './style';
+import { useSelector } from 'react-redux';
 
 const InstitutionHome = () => {
   const navigation = useNavigation();
-
+ const isLogin = useSelector((state: any) => state.auth);
  
   // Grid items data
   const gridItems = [
@@ -71,7 +72,7 @@ const InstitutionHome = () => {
         />
         <View style={styles.userInfo}>
           <Text style={styles.welcomeText}>Hello, Welcome  🎉</Text>
-          <Text style={styles.userName}>Lincoln Bergson</Text>
+          <Text style={styles.userName}>{isLogin?.userData?.user_name}</Text>
         </View>
         <View style={styles.headerIcons}>
           <TouchableOpacity 

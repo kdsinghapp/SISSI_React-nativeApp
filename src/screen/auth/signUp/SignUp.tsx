@@ -20,8 +20,7 @@ import StatusBarComponent from '../../../compoent/StatusBarCompoent';
 import CustomHeader from '../../../compoent/CustomHeader';
 import { useNavigation } from '@react-navigation/native';
 import ScreenNameEnum from '../../../routes/screenName.enum';
-import useSignup from './useSinup';
-import CustomLoader from '../../../compoent/CustomLoader';
+import useSignup from './useSinup'; 
 import LoadingModal from '../../../utils/Loader';
 
 export default function SignUpUI() {

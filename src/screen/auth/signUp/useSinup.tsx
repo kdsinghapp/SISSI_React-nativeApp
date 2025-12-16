@@ -236,7 +236,7 @@ const useSignup = () => {
       } else {
         signupData = {
           ...signupData,
-          institution_name: credentials.institutionName,
+          full_name: credentials.institutionName,
           unit_name: credentials.unitName,
           unit_manager_name: credentials.unitManagerName,
         };
@@ -248,6 +248,7 @@ const useSignup = () => {
         roleType: savedRole === 'Substitute' ? 'User' : 'Institution',
       };
 
+      console.log(param, 'the param')
       await SinupCustomer(param, setIsLoading);
 
     } catch (error: any) {

@@ -6,7 +6,7 @@ import SvgIndex from '../assets/svgIndex';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import Inbox from '../screen/BottomTab/Inbox/Inbox';
-import InstistionHome from '../screen/InstitutionTab/HomeInstiustion/Home/InstistionHome';
+import InstistionHome from '../screen/InstitutionTab/HomeInstiustion/Home/InstitutionHome';
 import UserProfile from '../screen/BottomTab/Profile/UserProfile';
 import ShiftBooking from '../screen/InstitutionTab/ShiftBooking/ShiftBooking';
 

@@ -47,7 +47,7 @@ const useCreateNewPassword = () => {
       userId: userId,
       navigation: navigation,
     };
-
+console.log(params, 'params==================')
     try {
        const response = await updatePassword(params, setisLoading);
     } catch (error) {
