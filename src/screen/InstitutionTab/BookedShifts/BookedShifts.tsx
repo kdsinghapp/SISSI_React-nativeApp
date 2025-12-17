@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { View, Text, TouchableOpacity, FlatList, StyleSheet, Image } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import StatusBarComponent from "../../../compoent/StatusBarCompoent";
@@ -8,45 +8,50 @@ import ScreenNameEnum from "../../../routes/screenName.enum";
 import CustomHeader from "../../../compoent/CustomHeader";
 import { useNavigation } from "@react-navigation/native";
 import SearchBar from "../../../compoent/SearchBar";
+import { useSelector } from "react-redux";
+import { GetApi } from "../../../api/apiRequest";
+import moment from "moment";
  
 const BookedShifts = () => {
     const [visible,setvisible] = useState(false) 
     const [Decline,setDecline] = useState(false) 
- 
- const navigator = useNavigation()
-    const data = [ 
-    {
-      id: 1,
-      name: "Saturday, 15 February 2025",
-      date: "18:30 AM – 2:30 PM",
-      time: "Ayesha Khan ",
-      section: "+91 98765 44321",
-    },
-    {
-      id: 2,
-      name: "Tuesday, 18 February 2025",
-      date: "1:00 PM – 7:00 PM",
-      time: "Salman Ahmed ",
-      section: "+91 98765 44321",
-    },
-    
-  ];
+    const isLogin = useSelector((state: any) => state.auth);
+  const [data, setData] = useState([]);
+  const [filteredData, setFilteredData] = useState([]);
+  const [searchText, setSearchText] = useState('');
+  const [loading, setLoading] = useState(false);
 
+  useEffect(() => {
+    // Code to run on component mount
+    (async () => {
+      console.log("PostedShifts component mounted");
+      const param = {
+        url: "shift/accept_shift_list_institution",
+        user_id: isLogin?.userData?.id,
+        token: isLogin?.token
+      }
+      const dd = await GetApi(param, setLoading);
+      console.log(dd?.data, 'this is data')
+      setData(dd?.data || []);
+      setFilteredData(dd?.data || []);
+    })()
+  }, [])
+ const navigator = useNavigation() 
   const renderCard = ({ item }) => (
     <View style={styles.card}>
       {/* NAME ROW */}
       <View style={styles.headerRow}>
-        <Text style={styles.name}>{item.name}</Text>
+        <Text style={styles.name}>{moment(item.shift_date).format("dddd, DD MMMM YYYY")}</Text>
         
       </View>
 
       {/* DATE */}
       <View style={styles.row}>
-         <Image source={imageIndex.calneder} 
+         <Image source={imageIndex.time2} 
          style={styles.image}
-         
+         tintColor={'#F3178B'}
          />
-        <Text style={styles.value}>{item.date}</Text>
+        <Text style={styles.value}>{item?.time_start} - {item?.time_end} </Text>
       </View>
 
       {/* TIME */}
@@ -57,7 +62,7 @@ const BookedShifts = () => {
          }]}
          
          />
-         <Text style={styles.value}>{item.time}</Text>
+         <Text style={styles.value}>{item?.user_name}</Text>
       </View>
 
       {/* SECTION */}
@@ -68,7 +73,7 @@ const BookedShifts = () => {
          }]}
          
          />
-        <Text style={styles.value}>{item.section}</Text>
+        <Text style={styles.value}>{item?.mobile_number}</Text>
       </View>
 
       {/* BUTTONS */}
@@ -94,20 +99,16 @@ const BookedShifts = () => {
         <TouchableOpacity style={styles.declineBtn} 
                 onPress={()=>{
            navigator.navigate(ScreenNameEnum.ChatScreen)
-
         }}
-           
         >
           <Text style={styles.btnTextWhite}>Open Chat</Text> 
           <Image  
           style={{
             height:22,
-
             width:22, 
             marginLeft:11
           }}
           source={imageIndex.mess1}
-          
           />
         </TouchableOpacity>
       </View>
@@ -127,7 +128,7 @@ style={{
         padding: 16,
 
 }}
-renderItem={renderCard} keyExtractor={item => item.id.toString()} />
+renderItem={renderCard} keyExtractor={item => item.id} />
      </SafeAreaView>
   );
 };

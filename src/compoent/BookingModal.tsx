@@ -6,6 +6,7 @@ import {
   StyleSheet,
   TouchableOpacity,
   Image,
+  TouchableWithoutFeedback,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import StatusBarComponent from './StatusBarCompoent';
@@ -19,9 +20,12 @@ const BookingSuccessModal = ({ visible, onClose, userName, userImage, onOpenChat
       visible={visible}
       onRequestClose={onClose}
     >
+      <TouchableWithoutFeedback onPress={()=>onClose()} >
       <SafeAreaView style={styles.container}>
         <StatusBarComponent />
-        <View style={styles.modalView}>
+        
+          <View style={styles.modalView}>
+            
           {/* User Image */}
           <Image 
         //   source={{ uri: userImage }} 
@@ -43,8 +47,11 @@ const BookingSuccessModal = ({ visible, onClose, userName, userImage, onOpenChat
           onPress={onOpenChat}
          />
          
-        </View>
+      
+      </View>
+        
       </SafeAreaView>
+      </TouchableWithoutFeedback>
     </Modal>
   );
 };

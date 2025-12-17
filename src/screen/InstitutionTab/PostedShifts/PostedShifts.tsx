@@ -17,6 +17,7 @@ import DeleteRequestModal from "../../../compoent/DeleteSuccessFull";
 
 const PostedShifts = () => {
   const isLogin = useSelector((state: any) => state.auth);
+  console.log(isLogin)
   const navigatorv = useNavigation()
   const [loading, setLoading] = useState(false);
   const [selectedShiftId, setSelectedShiftId] = useState(null);
@@ -29,7 +30,8 @@ const PostedShifts = () => {
     (async () => {
       console.log("PostedShifts component mounted");
       const param = {
-        url: "shift/shift_list",
+        url: "shift/pending_shift_list_institution",
+        user_id: isLogin?.userData?.id,
         token: isLogin?.token
       }
 

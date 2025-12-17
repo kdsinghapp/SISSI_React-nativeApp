@@ -14,7 +14,7 @@ import SearchBar from "../../../compoent/SearchBar";
 import imageIndex from "../../../assets/imageIndex";
 import BookingSuccessModal from "../../../compoent/BookingModal";
 import { useSelector } from "react-redux";
-import { GetApi } from "../../../api/apiRequest";
+import { BookShiftByUserApi, GetApi } from "../../../api/apiRequest";
 import moment from "moment";
 import LoadingModal from "../../../utils/Loader";
 
@@ -46,35 +46,47 @@ export default function BrowseShifts() {
   }, [])
 
   const onSearch = (text) => {
-  setSearchText(text);
+    setSearchText(text);
 
-  if (!text.trim()) {
-    setFilteredData(data);
-    return;
+    if (!text.trim()) {
+      setFilteredData(data);
+      return;
+    }
+
+    const search = text.toLowerCase();
+
+    const filtered = data.filter(item => {
+      return (
+        item?.user_name?.toLowerCase().includes(search) ||
+        item?.unit_name?.toLowerCase().includes(search) ||
+        item?.location?.toLowerCase().includes(search) ||
+        item?.description?.toLowerCase().includes(search) ||
+        moment(item?.shift_date, 'YYYY-MM-DD')
+          .format('dddd, DD MMMM YYYY')
+          .toLowerCase()
+          .includes(search) ||
+        `${item?.time_start} ${item?.time_end}`
+          .toLowerCase()
+          .includes(search)
+      );
+    });
+
+    setFilteredData(filtered);
+  };
+
+  const BookNow = async (item) => {
+    // Logic to handle booking the shift
+    console.log("Book Now pressed for item:", item);
+    const param = {
+      shift_id: item?.id,
+      token: isLogin?.token,
+    }
+   const dd = await BookShiftByUserApi(param, setLoading)
+   if(dd?.status == '1'){
+    setModalVisible(true);
+   }
   }
-
-  const search = text.toLowerCase();
-
-  const filtered = data.filter(item => {
-    return (
-      item?.user_name?.toLowerCase().includes(search) ||
-      item?.unit_name?.toLowerCase().includes(search) ||
-      item?.location?.toLowerCase().includes(search) ||
-      item?.description?.toLowerCase().includes(search) ||
-      moment(item?.shift_date, 'YYYY-MM-DD')
-        .format('dddd, DD MMMM YYYY')
-        .toLowerCase()
-        .includes(search) ||
-      `${item?.time_start} ${item?.time_end}`
-        .toLowerCase()
-        .includes(search)
-    );
-  });
-
-  setFilteredData(filtered);
-};
-
-  const renderCard = ({item}) => (
+  const renderCard = ({ item }: any) => (
     <View style={styles.card}>
       {/* Row 1 */}
       <View style={{
@@ -112,7 +124,7 @@ export default function BrowseShifts() {
           <Text style={styles.label}>Date & Time</Text>
           <Text style={styles.value}>
             {moment(item?.shift_date, 'YYYY-MM-DD')
-                      .format('dddd, DD MMMM YYYY')}{"\n"}{item?.time_start} – {item?.time_end}
+              .format('dddd, DD MMMM YYYY')}{"\n"}{item?.time_start} – {item?.time_end}
           </Text>
         </View>
 
@@ -134,54 +146,54 @@ export default function BrowseShifts() {
         <View style={styles.rightView}>
           <Text style={styles.label}>Badge</Text>
           <View style={[styles.badge, styles.mt12]}>
-            <Text style={styles.badgeTxt}>{item?.status == "Pending"? 'Available':'Not Available'}</Text>
+            <Text style={styles.badgeTxt}>{item?.status == "Pending" ? 'Available' : 'Not Available'}</Text>
           </View>
         </View>
       </View>
-      
+
       {/* Buttons */}
       <View style={styles.btnRow}>
         <TouchableOpacity style={styles.removeBtn}>
-       <Text style={styles.removeTxt}>
-  Favorite{" "}
-  <Text style={{ fontSize: 22, color: "#FF007A" }}>
-    ✩
-  </Text>
-</Text>
+          <Text style={styles.removeTxt}>
+            Favorite{" "}
+            <Text style={{ fontSize: 22, color: "#FF007A" }}>
+              ✩
+            </Text>
+          </Text>
 
         </TouchableOpacity>
 
-        <TouchableOpacity 
-        
-        onPress={() => setModalVisible(true)}
-        style={styles.detailsBtn}>
+        <TouchableOpacity
+
+          onPress={() => BookNow(item)}
+          style={styles.detailsBtn}>
           <Text style={styles.detailsTxt}>Book Now</Text>
         </TouchableOpacity>
       </View>
 
-      </View>
-      );
+    </View>
+  );
   return (
     <SafeAreaView style={styles.container}>
       {loading && <LoadingModal />}
       <StatusBarComponent />
       <CustomHeader label="Browse Shifts" />
-      <SearchBar value={searchText}   onSearchChange={onSearch}
-  placeholder="Search by name, date, time, location"/>
+      <SearchBar value={searchText} onSearchChange={onSearch}
+        placeholder="Search by name, date, time, location" />
 
       <View style={styles.listWrapper}>
         <FlatList
           data={filteredData}
           renderItem={renderCard}
-        keyExtractor={(item) => item.toString()}
+          keyExtractor={(item) => item.toString()}
           showsVerticalScrollIndicator={false}
           contentContainerStyle={{ paddingBottom: 40 }}
         />
       </View>
-      
+
 
       <BookingSuccessModal
-                visible={modalVisible}
+        visible={modalVisible}
         userName="Jocelyn Levin"
         userImage="https://example.com/user.jpg" // replace with real image URL
         onClose={() => setModalVisible(false)}
@@ -189,7 +201,7 @@ export default function BrowseShifts() {
           // navigate to chat screen
           console.log('Open Chat Pressed');
           setModalVisible(false);
-          setModalVisible(false); 
+          setModalVisible(false);
         }}
       />
     </SafeAreaView>

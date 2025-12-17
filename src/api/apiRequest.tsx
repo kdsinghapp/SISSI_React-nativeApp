@@ -2,7 +2,6 @@ import { base_url } from './index';
 import ScreenNameEnum from '../routes/screenName.enum';
 import { loginSuccess } from '../redux/feature/authSlice';
 import { errorToast, successToast } from '../utils/customToast';
-import { MapApiKey } from '../redux/Api';
 
 
 
@@ -43,6 +42,8 @@ const GetApi = (param: any, setLoading: (loading: boolean) => void) => {
         errorToast("Network error");
     }
 };
+
+
 const LoginCustomer = (
     param: any,
     setLoading: (loading: boolean) => void,
@@ -74,7 +75,7 @@ const LoginCustomer = (
                     console.log(response, 'response=========')
                     dispatch(loginSuccess({ userData: response?.data?.user_data, token: response?.data?.token, }));
                     if (param?.roleType == "User") {
-                       
+
                         param?.navigation.replace(ScreenNameEnum.TabNavigator);
                     } else {
                         param?.navigation.navigate(ScreenNameEnum.Tab2Navigator);
@@ -103,14 +104,14 @@ const LoginCustomer = (
 const SinupCustomer = (params: any,
     setLoading: (loading: boolean) => void,) => {
     try {
-      console.log('first')
+        console.log('first')
         setLoading(true)
         const myHeaders = new Headers();
         myHeaders.append("Accept", "application/json");
         const formdata = new FormData();
         formdata.append("user_name", params?.full_name ?? "");
-        formdata.append("mobile_number", params?.mobile  ?? "");
-        formdata.append("password", params?.password  ?? "");
+        formdata.append("mobile_number", params?.mobile ?? "");
+        formdata.append("password", params?.password ?? "");
         formdata.append("email", params?.email ?? "");
         formdata.append("dob", params?.year_of_birth ?? "");
         formdata.append("address", params?.address ?? "");
@@ -284,7 +285,7 @@ const updatePassword = (
                     successToast(
                         response?.message
                     );
-                       console.log(response)
+                    console.log(response)
                     param.navigation.navigate(ScreenNameEnum.Login)
                     return response
                 } else {
@@ -373,7 +374,8 @@ const AddPatientApi = (
         );
     }
 };
-const AddDriverApi = (
+
+const BookShiftByUserApi = (
     param: any,
     setLoading: (loading: boolean) => void,
 ) => {
@@ -384,19 +386,11 @@ const AddDriverApi = (
         const myHeaders = new Headers();
 
         myHeaders.append("Accept", "application/json");
+        myHeaders.append("Authorization", `Bearer ${param.token}`);
         const formData = new FormData();
-        formData.append("user_id", param?.id ?? '');
-        formData.append("first_name", param?.name ?? '');
-        formData.append("last_name", param?.surname ?? '');
-        formData.append("email", param?.email ?? '');
-        formData.append("password", param?.password ?? '');
-        formData.append("lat", param?.lat ?? '');
-        formData.append("lon", param?.lon ?? '');
-        formData.append("dob", param?.date ?? '');
-        formData.append("date_of_obtaining_taxi", param?.dateTaxi ?? '');
-        formData.append("address", param?.address);
-        formData.append("mobile_number", param?.phone);
-        formData.append("car_id", param?.carType);
+        formData.append("shift_id", param?.shift_id ?? '');
+        // formData.append("status", param?.status ?? '');
+
         // formData.append("", param?.);
         // formData.append("", param?.);
 
@@ -407,7 +401,7 @@ const AddDriverApi = (
             body: formData,
         };
         console.log("formData", formData)
-        const respons = fetch(`${base_url}/user_add_driver`, requestOptions)
+        const respons = fetch(`${base_url}shift/ShiftRequest`, requestOptions)
             .then((response) => response.text())
             .then((res) => {
                 const response = JSON.parse(res);
@@ -422,7 +416,7 @@ const AddDriverApi = (
                 } else {
                     setLoading(false)
                     errorToast(
-                        response.error,
+                        response.message,
                     );
                     return response
                 }
@@ -459,7 +453,7 @@ const add_shift_API = (
         formData.append("unit", param?.unit ?? "");
         formData.append("description", param?.description ?? "");
         // formData.append("image", param?.address);
-   
+
         const requestOptions = {
 
             method: "POST",
@@ -520,7 +514,7 @@ const update_shift_API = (
         formData.append("description", param?.description ?? "");
         formData.append("shift_id", param?.shift_id ?? "");
         // formData.append("image", param?.address);
-   
+
         const requestOptions = {
 
             method: "POST",
@@ -608,6 +602,104 @@ const deleteShiftApi = (
     }
 };
 
+const AcceptRequest = (
+    param: any,
+    setLoading: (loading: boolean) => void
+) => {
+    console.log("param", param);
+    try {
+        setLoading(true);
+        const myHeaders = new Headers();
+        myHeaders.append("Accept", "application/json");
+        myHeaders.append("Authorization", `Bearer ${param.token}`);
+
+        const formdata = new FormData();
+        formdata.append("request_id", param?.request_id);
+        // formdata.append("child_id", param?.child_id ?? "1");
+        // formdata.append("milestone_id", param?.milestone_id);
+        // formdata.append("notes", param?.notes ?? 'test');
+        // formdata.append("milestone_date", param?.milestone_date);
+
+        console.log(formdata, "this is formdaata");
+        const requestOptions = {
+            method: "POST",
+            headers: myHeaders,
+            body: formdata,
+        };
+        console.log("formData", formdata);
+        const respons = fetch(`${base_url}shift/approveShiftRequest`, requestOptions)
+            .then((response) => response.text())
+            .then((res) => {
+                const response = JSON.parse(res);
+                console.log("---- ----ddv response", response);
+                if (response.status == "1") {
+                    setLoading(false);
+                    successToast(response?.message);
+                    // param.navigation.goBack();
+                    return response;
+                } else {
+                    setLoading(false);
+                    errorToast(response.message);
+                    return response;
+                }
+            })
+            .catch((error) => console.error(error));
+        return respons;
+    } catch (error) {
+        setLoading(false);
+        errorToast("Network error");
+    }
+};
+
+
+const DeclineRequest = (
+    param: any,
+    setLoading: (loading: boolean) => void
+) => {
+    console.log("param", param);
+    try {
+        setLoading(true);
+        const myHeaders = new Headers();
+        myHeaders.append("Accept", "application/json");
+        myHeaders.append("Authorization", `Bearer ${param.token}`);
+
+        const formdata = new FormData();
+        formdata.append("request_id", param?.request_id);
+        // formdata.append("child_id", param?.child_id ?? "1");
+        // formdata.append("milestone_id", param?.milestone_id);
+        // formdata.append("notes", param?.notes ?? 'test');
+        // formdata.append("milestone_date", param?.milestone_date);
+
+        console.log(formdata, "this is formdaata");
+        const requestOptions = {
+            method: "POST",
+            headers: myHeaders,
+            body: formdata,
+        };
+        console.log("formData", formdata);
+        const respons = fetch(`${base_url}shift/declineShiftRequest`, requestOptions)
+            .then((response) => response.text())
+            .then((res) => {
+                const response = JSON.parse(res);
+                console.log("---- ----ddv response", response);
+                if (response.status == "1") {
+                    setLoading(false);
+                    successToast(response?.message);
+                    // param.navigation.goBack();
+                    return response;
+                } else {
+                    setLoading(false);
+                    errorToast(response.message);
+                    return response;
+                }
+            })
+            .catch((error) => console.error(error));
+        return respons;
+    } catch (error) {
+        setLoading(false);
+        errorToast("Network error");
+    }
+};
 const Policies_Api = (
     setLoading: (loading: boolean) => void,
 ) => {
@@ -636,7 +728,7 @@ const Policies_Api = (
                     );
                     return response
                 }
-                 setLoading(false)
+                setLoading(false)
             })
             .catch((error) =>
                 console.error(error));
@@ -678,7 +770,7 @@ const AboutUs_Api = (
                     );
                     return response
                 }
-                 setLoading(false)
+                setLoading(false)
             })
             .catch((error) =>
                 console.error(error));
@@ -882,7 +974,7 @@ const Get_Notification_Api = async (
 };
 export {
     AddPatientApi,
-    AddDriverApi, 
+    BookShiftByUserApi,
     Get_Notification_Api, SinupCustomer,
     Support_Api, Policies_Api,
     ChangePass_Api, EditProfile_Api, updatePassword,
@@ -891,5 +983,7 @@ export {
     add_shift_API,
     GetApi,
     deleteShiftApi,
-    update_shift_API
+    update_shift_API,
+    AcceptRequest,
+    DeclineRequest
 }  
