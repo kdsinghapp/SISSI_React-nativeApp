@@ -14,6 +14,7 @@ import StatusBarComponent from '../../../../compoent/StatusBarCompoent';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { styles } from './style';
 import { useSelector } from 'react-redux';
+import { color } from '../../../../constant';
 
 const InstitutionHome = () => {
   const navigation = useNavigation();
@@ -64,7 +65,7 @@ const InstitutionHome = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-   <StatusBarComponent barStyle="light-content" backgroundColor="#FF007A"/>
+   <StatusBarComponent barStyle="light-content" backgroundColor={color.primary}/>
        <View style={styles.header}>
         <Image
           source={{ uri: 'https://i.pravatar.cc/150?img=12' }}
@@ -110,9 +111,7 @@ const InstitutionHome = () => {
           </View>
         </TouchableOpacity>
 
-      
-
-         
+    
         <View style={styles.grid}>
           {gridItems.map((item) => (
             <TouchableOpacity 

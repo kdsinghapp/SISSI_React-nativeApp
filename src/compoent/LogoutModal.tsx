@@ -1,6 +1,8 @@
 import React, { memo } from 'react';
-import { View, Text, Modal, TouchableOpacity, StyleSheet, Dimensions } from 'react-native';
+import { View, Text, Modal, TouchableOpacity, StyleSheet, Dimensions, Image } from 'react-native';
 import font from '../theme/font';
+import imageIndex from '../assets/imageIndex';
+import { color } from '../constant';
 
 const LogoutModal = ({ visible, onLogout, onCancel }: any) => {
   return (
@@ -14,7 +16,10 @@ const LogoutModal = ({ visible, onLogout, onCancel }: any) => {
           <TouchableOpacity style={styles.closeButton} onPress={onCancel}>
             <Text style={styles.closeText}>×</Text>
           </TouchableOpacity>
-
+          <Image source={imageIndex.logoutImg} 
+          style={styles.imageStyle} 
+          resizeMode='contain'
+          />
           <Text allowFontScaling={false} style={styles.title}>
             Log Out
           </Text>
@@ -23,12 +28,14 @@ const LogoutModal = ({ visible, onLogout, onCancel }: any) => {
           </Text>
 
           <View style={styles.buttonContainer}>
-            <TouchableOpacity style={styles.cancelButton} onPress={onCancel}>
-              <Text allowFontScaling={false} style={styles.cancelText}>Cancel</Text>
-            </TouchableOpacity>
+          
 
             <TouchableOpacity style={styles.logoutButton} onPress={onLogout}>
               <Text allowFontScaling={false} style={styles.logoutText}>Yes</Text>
+            </TouchableOpacity>
+
+              <TouchableOpacity style={styles.cancelButton} onPress={onCancel}>
+              <Text allowFontScaling={false} style={styles.cancelText}>No</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -63,12 +70,20 @@ const styles = StyleSheet.create({
   closeButton: {
     position: 'absolute',
     top: 15,
-    right: 15,
+    left: 15,
     zIndex: 1,
+    backgroundColor:color.primary,
+    height:22,
+    width:22,
+    borderRadius:11,
+    alignItems:'center',
+    justifyContent:'center'
+
   },
   closeText: {
     fontSize: 22,
-    color: '#A0A0A0',
+    color: '#fff',
+    lineHeight: 22,
   },
   title: {
     fontSize: 18,
@@ -93,9 +108,9 @@ const styles = StyleSheet.create({
   },
   logoutButton: {
     flex: 1,
-    backgroundColor: '#31CFF0',
+    backgroundColor: color.thirdColor,
     paddingVertical: 12,
-    marginLeft: 10,
+    marginRight: 10,
     borderRadius: 25,
     alignItems: 'center',
   },
@@ -106,18 +121,26 @@ const styles = StyleSheet.create({
    },
   cancelButton: {
     flex: 1,
-    backgroundColor: '#EDEDED',
+    // backgroundColor: '#EDEDED',
     paddingVertical: 12,
-    marginRight: 10,
+    marginLeft: 10,
     borderRadius: 25,
     alignItems: 'center',
+    borderColor: color.primary,
+    borderWidth:1
   },
   cancelText: {
-    color: '#333',
+    color: color.primary,
     fontSize: 16,
     fontFamily: font.MonolithRegular,
-    fontWeight: '600',
+    // fontWeight: '600',
   },
+  imageStyle:{
+    height:150, 
+    width:150, 
+    marginBottom:15,
+    marginTop:20
+  }
 });
 
 export default memo(LogoutModal);

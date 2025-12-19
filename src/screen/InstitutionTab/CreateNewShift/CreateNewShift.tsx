@@ -26,6 +26,7 @@ import { add_shift_API, update_shift_API } from '../../../api/apiRequest';
 import { useSelector } from 'react-redux';
 import DatePicker from 'react-native-date-picker'
 import LoadingModal from '../../../utils/Loader';
+import { color } from '../../../constant';
 
 export default function CreateNewShift() {
   const route = useRoute();
@@ -394,7 +395,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#f0f0f0',
   },
   doneButton: {
-    backgroundColor: '#F3178B',
+    backgroundColor: color.primary,
   },
   iosPickerButtonText: {
     fontSize: 16,

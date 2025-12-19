@@ -17,6 +17,7 @@ import { useSelector } from "react-redux";
 import { BookShiftByUserApi, GetApi } from "../../../api/apiRequest";
 import moment from "moment";
 import LoadingModal from "../../../utils/Loader";
+import { color } from "../../../constant";
 
 const DATA = [1, 2, 3];
 
@@ -81,10 +82,10 @@ export default function BrowseShifts() {
       shift_id: item?.id,
       token: isLogin?.token,
     }
-   const dd = await BookShiftByUserApi(param, setLoading)
-   if(dd?.status == '1'){
-    setModalVisible(true);
-   }
+    const dd = await BookShiftByUserApi(param, setLoading)
+    if (dd?.status == '1') {
+      setModalVisible(true);
+    }
   }
   const renderCard = ({ item }: any) => (
     <View style={styles.card}>
@@ -96,7 +97,7 @@ export default function BrowseShifts() {
       }}>
 
         <Image source={imageIndex.home1}
-
+          tintColor={color.primary}
           style={{
             height: 44,
             width: 44,
@@ -291,7 +292,7 @@ const styles = StyleSheet.create({
 
   removeBtn: {
     borderWidth: 2,
-    borderColor: "#F3178B",
+    borderColor: color.primary,
     paddingHorizontal: 35,
     paddingVertical: 11,
     borderRadius: 30,
@@ -299,14 +300,14 @@ const styles = StyleSheet.create({
   },
 
   removeTxt: {
-    color: "#FF007A",
+    color: color.primary,
     fontWeight: "600",
     fontSize: 15,
     textAlign: "center",
   },
 
   detailsBtn: {
-    backgroundColor: "#F3178B",
+    backgroundColor: color.primary,
     paddingHorizontal: 35,
     paddingVertical: 10,
     borderRadius: 30,

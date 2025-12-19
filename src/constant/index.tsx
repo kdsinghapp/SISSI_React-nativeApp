@@ -16,7 +16,7 @@ export const color = {
     white: '#fff',
     grey: "#A59F9F",
     black: '#000000',
-    primary: "#F3178B",
+    primary: "#FF4762",
     onBoarding: "#FFF0E3",
     red: "#B22222",
 
@@ -28,6 +28,7 @@ export const color = {
     
   primaryLight: '#8A84FF',
   secondary: '#FF6584',
+  thirdColor:'#000000',
   background: '#F8F9FA',
   cardBackground: '#FFFFFF',
   textPrimary: '#2D3436',

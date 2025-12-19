@@ -9,7 +9,7 @@ const HomeAtive = (props) => (
     {...props}
   >
     <Path
-      stroke="#F3178B"
+      stroke="#FF4762"
       strokeLinecap="round"
       strokeLinejoin="round"
       strokeWidth={1.5}

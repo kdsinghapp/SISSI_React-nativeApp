@@ -22,6 +22,7 @@ import { useNavigation } from '@react-navigation/native';
 import ScreenNameEnum from '../../../routes/screenName.enum';
 import useSignup from './useSinup'; 
 import LoadingModal from '../../../utils/Loader';
+import { color } from '../../../constant';
 
 export default function SignUpUI() {
   const {
@@ -237,6 +238,7 @@ export default function SignUpUI() {
                       <Image 
                         source={imageIndex.Level}
                         style={styles.dropdownIcon}
+                        tintColor={color.primary}
                       />
                       <Text style={[
                         styles.dropdownText, 
@@ -248,6 +250,7 @@ export default function SignUpUI() {
                     <Image 
                       source={imageIndex.arrowqdown}
                       style={styles.dropdownArrow}
+                      tintColor={color.primary}
                     />
                   </TouchableOpacity>
                   {renderError('educationLevel')}
@@ -465,7 +468,7 @@ const styles = StyleSheet.create({
     height: 20,
     borderRadius: 10,
     borderWidth: 2,
-    borderColor: '#FF4081',
+    borderColor: color.primary,
     alignItems: 'center',
     justifyContent: 'center',
     marginRight: 10,
@@ -475,7 +478,7 @@ const styles = StyleSheet.create({
     width: 12,
     height: 12,
     borderRadius: 6,
-    backgroundColor: '#FF4081',
+    backgroundColor: color.primary,
   },
   checkboxLabel: {
     fontSize: 14,
@@ -496,7 +499,7 @@ const styles = StyleSheet.create({
   signUpLink: {
     fontSize: 17,
     fontWeight: '700',
-    color: '#F3178B'
+    color: color.primary
   },
   errorText: {
     color: '#FF3B30',

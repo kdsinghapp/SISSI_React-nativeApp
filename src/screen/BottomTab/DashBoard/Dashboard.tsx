@@ -6,6 +6,7 @@ import imageIndex from '../../../assets/imageIndex';
 import { useNavigation } from '@react-navigation/native';
 import ScreenNameEnum from '../../../routes/screenName.enum';
 import { useSelector } from 'react-redux';
+import { color } from '../../../constant';
  
 const Dashboard = () => {
   const navigator = useNavigation<any>();
@@ -58,7 +59,7 @@ const Dashboard = () => {
         <TouchableOpacity style={styles.card} 
         
          onPress={(()=>{
-          navigator.navigate(ScreenNameEnum.BrowseShifts);
+          navigator.navigate('Booking');
         })}
         > 
 
@@ -79,7 +80,7 @@ const Dashboard = () => {
         
         
          onPress={(()=>{
-          navigator.navigate(ScreenNameEnum.BrowseShifts);
+          navigator.navigate(ScreenNameEnum.FavoriteScreen);
         })}
         style={styles.card}>
           <Image source={imageIndex.Vector} style={styles.cardIconPink} />
@@ -96,7 +97,7 @@ const Dashboard = () => {
         <TouchableOpacity style={styles.card} 
         
          onPress={(()=>{
-          navigator.navigate(ScreenNameEnum.BrowseShifts);
+          navigator.navigate('Profile');
         })}
         >
           <Image source={imageIndex.Setting} style={styles.cardIconPink} />
@@ -180,7 +181,7 @@ const styles = StyleSheet.create({
   },
 
   cardPrimary: {
-    backgroundColor: "#31CFF0",
+    backgroundColor: color.thirdColor,
   },
 
   cardTextBox: {
@@ -197,7 +198,7 @@ const styles = StyleSheet.create({
   cardIconPink: {
     width: 24,
     height: 24,
-    tintColor: "#F3178B",
+    tintColor: color.primary,
   },
 
   cardTitle: {
@@ -226,11 +227,11 @@ const styles = StyleSheet.create({
 
   arrow: {
     fontSize: 20,
-    color: "#F3178B",
+    color: color.primary,
   },
 
   arrowWhiteIcon: {
-    width: 20,
-    height: 20,
+    width: 22,
+    height: 22,
    },
 });

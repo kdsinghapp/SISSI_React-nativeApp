@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -10,92 +10,141 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import imageIndex from "../../../assets/imageIndex";
+import { color } from "../../../constant";
+import { GetApi } from "../../../api/apiRequest";
+import { useSelector } from "react-redux";
+import moment from "moment";
+import LoadingModal from "../../../utils/Loader";
+import { useNavigation } from "@react-navigation/native";
+import ScreenNameEnum from "../../../routes/screenName.enum";
 
-const TABS = ["Completed", "Upcoming", ];
+const TABS = [ "In Progress","Completed",];
 
 const ShiftsScreen = () => {
-  const [activeTab, setActiveTab] = useState("Completed");
+  const [activeTab, setActiveTab] = useState("In Progress");
   const [search, setSearch] = useState("");
+  const [data, setData] = useState([]);
+  const isLogin = useSelector((state: any) => state.auth);
+  const [loading, setLoading] = useState(false);
+  // useEffect(() => {
+  //   // Code to run on component mount
+  //   (async () => {
+  //     console.log("PostedShifts component mounted");
+  //     const param = {
+  //       url: "shift/myShiftListUser",
+  //       token: isLogin?.token,
+  //       method: 'POST'
+  //     }
 
-  const DATA = [
-    {
-      id: 1,
-      title: "LittleSteps Child Care Unit",
-      date: "Friday, 2 February 2025",
-      time: "9:00 AM – 3:00 PM",
-      status: "Completed",
-    },
-    {
-      id: 2,
-      title: "LittleSteps Child Care Unit",
-      date: "Friday, 2 February 2025",
-      time: "9:00 AM – 3:00 PM",
-      status: "Completed",
-    },
-    {
-      id: 3,
-      title: "Institution A - Downtown Clinic",
-      date: "Monday, Feb 19, 9:00 AM - 1:00 PM",
-      time: "",
-      status: "Upcoming",
-    },
-  ];
 
-  const filteredData = DATA.filter((item) => {
+  //     const dd = await GetApi(param, setLoading);
+  //     setData(dd?.data || []);
+  //     console.log(dd?.data, 'this is data')
+  //   })()
+  // }, [])
+
+  const getApiConfigByTab = (tab: string) => {
+  if (tab === "Completed") {
+    return {
+      url: "shift/myShiftRequestListUser",
+      body: { status: "completed" },
+    };
+  }
+
+  return {
+    url: "shift/myShiftListUser",
+    body: {},
+  };
+};
+useEffect(() => {
+  fetchShifts();
+}, [activeTab]);
+
+const fetchShifts = async () => {
+  try {
+    setLoading(true);
+
+    const { url, body } = getApiConfigByTab(activeTab);
+
+    const param = {
+      url,
+      token: isLogin?.token,
+      method: "POST",
+      data: body, // 👈 POST BODY
+    };
+
+    const res = await GetApi(param, setLoading);
+    
+    setData(res?.data || []);
+  } catch (error) {
+    console.log("Shift API error:", error);
+  } finally {
+    setLoading(false);
+  }
+};
+
+//   const filteredData = data.filter(item => {
+//   if (activeTab === "Completed") {
+//     return item?.status === "Complete";
+//   }
+//   if (activeTab === "In Progress") {
+//     return item?.status === "Accept";
+//   }
+//   return true;
+//   // return item
+// });
+const navigation = useNavigation()
+  
+  const ShiftCard = ({ item }) => {
     return (
-      item.status === activeTab &&
-      item.title.toLowerCase().includes(search.toLowerCase())
-    );
-  });
-const ShiftCard = ({ item }) => {
-  return (
-    <View style={styles.card}>
-      <View style={styles.cardInner}>
-        {/* Icon */}
-        <View style={styles.iconCircle}>
-          <Image
-            source={imageIndex.calneder}
-            style={{ height: 26, width: 26, tintColor: "white" }}
-          />
-        </View>
-
-        {/* Info */}
-        <View style={{ flex: 1, marginLeft: 12 }}>
-          <Text style={styles.cardDate}>{item.date}</Text>
-          <Text style={styles.cardTitle}>{item.title}</Text>
-
-          {item.time &&           <Text style={styles.cardTime}>{item.time}</Text>
- }
- {item.status == "Completed" ? 
-
-  <View style={styles.statusBadge}>
-            <Text style={styles.statusText}>{item.status}</Text>
-          </View> :  
-          
-          <View style={[styles.statusBadge,{
-            backgroundColor:"#F3178B" ,
-            flexDirection:"row" ,
-            alignItems:"center"
-          }]}>
-            <Text style={styles.statusText}>{item.status}</Text>
-            <Image style={{
-              height:18,
-              width:18 ,
-              resizeMode:"contain" ,
-              marginTop:5 ,
-              marginLeft:5
-            }} source={imageIndex.mess1}/>
+      <View style={styles.card}>
+        <View style={styles.cardInner}>
+          {/* Icon */}
+          <View style={styles.iconCircle}>
+            <Image
+              source={imageIndex.calneder}
+              style={{ height: 26, width: 26, tintColor: "white" }}
+            />
           </View>
-}
-        
+
+          {/* Info */}
+          <View style={{ flex: 1, marginLeft: 12 }}>
+            <Text style={styles.cardDate}>{moment(item.shift_date).format('dddd, DD MMMM YYYY')} </Text>
+            <Text style={styles.cardTitle}>{item.user_name} - {item.unit_name} </Text>
+
+            {item.user_name && <Text style={styles.cardTime}>{item.time_start} – {item.time_end}</Text>
+            }
+            {activeTab == "Completed" ?
+
+              <View style={styles.statusBadge}>
+                <Text style={styles.statusText}>Complete</Text>
+              </View> :
+
+              <TouchableOpacity onPress={()=>navigation.navigate(ScreenNameEnum.ChatScreen)} style={[styles.statusBadge, {
+                backgroundColor: color.primary,
+                flexDirection: "row",
+                alignItems: "center"
+              }]}>
+                <Text style={styles.statusText}>Open Chat</Text>
+                <Image style={{
+                  height: 18,
+                  width: 18,
+                  resizeMode: "contain",
+                  marginTop: 5,
+                  marginLeft: 5
+                }} source={imageIndex.mess1} />
+              </TouchableOpacity>
+            }
+
+          </View>
         </View>
       </View>
-    </View>
-  );
-};
+    );
+  };
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "white", padding: 16 }}>
+      {loading && <LoadingModal />}
       <Text style={styles.header}>Shifts</Text>
 
       {/* Tabs */}
@@ -120,20 +169,21 @@ const ShiftCard = ({ item }) => {
         </View>
       </View>
 
-       
 
- 
- <View style={{
-  marginTop:15
- }}> 
-      <FlatList
-        showsVerticalScrollIndicator={false}
-        style={{ marginTop: 15 }}
-        data={filteredData}
-        keyExtractor={(item) => item.id.toString()}
-        renderItem={({ item }) => <ShiftCard item={item} />}
-      />
-      </View>
+
+
+      {/* <View style={{
+        marginTop: 15,
+      }}> */}
+        <FlatList
+          showsVerticalScrollIndicator={false}
+          style={{ marginTop: 15 }}
+          data={data}
+          keyExtractor={(item) => item.id}
+          renderItem={({ item }) => <ShiftCard item={item} />}
+          contentContainerStyle={{ paddingBottom: 100 }}
+        />
+      {/* </View> */}
     </SafeAreaView>
   );
 };
@@ -169,7 +219,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   activeTab: {
-    backgroundColor: "#FF1FA3",
+    backgroundColor: color.primary,
   },
   tabText: {
     fontSize: 15,
@@ -197,15 +247,15 @@ const styles = StyleSheet.create({
     backgroundColor: "#FFFFFF",
     borderRadius: 18,
     marginVertical: 10,
-borderWidth:0.1,
-borderColor:"#000",
+    borderWidth: 0.1,
+    borderColor: "#000",
     // iOS shadow
     shadowColor: "#000",
     shadowOpacity: 0.12,
     shadowOffset: { width: 0, height: 4 },
     shadowRadius: 6,
-     // Android shadow
-   },
+    // Android shadow
+  },
   cardInner: {
     flexDirection: "row",
     alignItems: "flex-start",
@@ -213,7 +263,7 @@ borderColor:"#000",
   iconCircle: {
     height: 45,
     width: 45,
-    backgroundColor: "#00D1FF",
+    backgroundColor: color.thirdColor,
     borderRadius: 50,
     justifyContent: "center",
     alignItems: "center",
@@ -242,7 +292,7 @@ borderColor:"#000",
     paddingVertical: 5,
     paddingHorizontal: 14,
     borderRadius: 20,
-    alignItems:"center"
+    alignItems: "center"
   },
   statusText: {
     color: "white",

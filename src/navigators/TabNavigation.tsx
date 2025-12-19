@@ -8,6 +8,7 @@ import HomeStack from './HomeStack';
  import UserProfile from '../screen/BottomTab/Profile/UserProfile';
  import ChatInboxScreen from '../screen/BottomTab/Inbox/Inbox';
 import ShiftsScreen from '../screen/BottomTab/Shifts/ShiftsScreen';
+import { color } from '../constant';
   
 const Tab = createBottomTabNavigator();
 
@@ -51,7 +52,7 @@ export default function TabNavigator() {
               allowFontScaling={false}
               style={{
                 fontSize: 13,
-                color: focused ? '#F3178B' : '#2F4858',
+                color: focused ? color.primary : '#2F4858',
                 marginTop: 4,
                 fontWeight:"500"
                }}

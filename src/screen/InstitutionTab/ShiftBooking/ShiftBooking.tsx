@@ -152,6 +152,7 @@ const ShiftBooking = () => {
       <View style={styles.row}>
         <Image source={imageIndex.calneder}
           style={styles.image}
+          tintColor = {color.primary}
 
         />
         <Text style={styles.value}>{moment(item.shift_date).format("DD MMM YYYY")}</Text>
@@ -161,7 +162,7 @@ const ShiftBooking = () => {
       <View style={styles.row}>
         <Image source={imageIndex.time2}
           style={[styles.image, {
-            tintColor: "#F3178B"
+            tintColor: color.primary
           }]}
 
         />
@@ -172,7 +173,7 @@ const ShiftBooking = () => {
       <View style={styles.row}>
         <Image source={imageIndex.Health}
           style={[styles.image, {
-            tintColor: "#F3178B"
+            tintColor: color.primary
           }]}
 
         />

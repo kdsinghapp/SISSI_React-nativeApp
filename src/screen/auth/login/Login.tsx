@@ -16,6 +16,7 @@ import ScreenNameEnum from '../../../routes/screenName.enum';
 import LoadingModal from '../../../utils/Loader';
 import useLogin from './useLogin';
 import TextInputField from '../../../compoent/TextInputField';
+import { color } from '../../../constant';
 
 export default function Login() {
   const {
@@ -131,7 +132,7 @@ const styles = StyleSheet.create({
   inputContainer: { marginTop: 20 , marginHorizontal:15 },
   errorText: { color: 'red', fontSize: 12, marginTop: 5 },
   forgotText: { textAlign: 'center', color: 'black', fontSize: 14, marginTop: 15 },
-  loginBtn: { marginTop: 11, backgroundColor: '#E8442E', borderRadius: 30 },
+  loginBtn: { marginTop: 11, borderRadius: 30 },
   orText: { textAlign: 'center', marginTop: 20, fontSize: 16, fontWeight: '500', color: 'black' },
   googleBtn: {
     flexDirection: 'row',
@@ -149,5 +150,5 @@ const styles = StyleSheet.create({
   googleText: { fontSize: 17, fontWeight: '500', color: '#909090' },
   signUpContainer: { flexDirection: 'row', justifyContent: 'center', marginBottom:30, },
   signUpText: { fontSize: 17, color: '#909090', fontWeight: '500' },
-  signUpLink: { fontSize: 17, fontWeight: '700', color: '#F3178B' },
+  signUpLink: { fontSize: 17, fontWeight: '700', color: color.primary },
 });

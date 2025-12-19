@@ -23,6 +23,7 @@ import ScreenNameEnum from '../../../routes/screenName.enum';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { add_shift_API, AddCarApi } from '../../../api/apiRequest';
 import { useSelector } from 'react-redux';
+import { color } from '../../../constant';
 
 export default function CreateNewShift() {
   const [email, setEmail] = useState('');
@@ -430,7 +431,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#f0f0f0',
   },
   doneButton: {
-    backgroundColor: '#F3178B',
+    backgroundColor: color.primary,
   },
   iosPickerButtonText: {
     fontSize: 16,

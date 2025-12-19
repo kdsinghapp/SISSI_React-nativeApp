@@ -5,42 +5,80 @@ import { errorToast, successToast } from '../utils/customToast';
 
 
 
-const GetApi = (param: any, setLoading: (loading: boolean) => void) => {
-    console.log("param", param);
-    try {
-        setLoading(true);
-        const myHeaders = new Headers();
+// const GetApi = (param: any, setLoading: (loading: boolean) => void) => {
+//     console.log("param", param);
+//     try {
+//         setLoading(true);
+//         const myHeaders = new Headers();
 
-        myHeaders.append("Accept", "application/json");
-        myHeaders.append("Authorization", `Bearer ${param.token}`);
+//         myHeaders.append("Accept", "application/json");
+//         myHeaders.append("Authorization", `Bearer ${param.token}`);
 
-        const requestOptions = {
-            method: param?.method || "POST",
-            headers: myHeaders,
-        };
+//         const requestOptions = {
+//             method: param?.method || "POST",
+//             headers: myHeaders,
+//         };
 
-        const respons = fetch(`${base_url + param?.url}`, requestOptions)
-            .then((response) => response.text())
-            .then((res) => {
-                const response = JSON.parse(res);
-                console.log("---- ----ddv response", response);
-                if (response.status == "1") {
-                    setLoading(false);
-                    return response;
-                } else {
-                    setLoading(false);
-                    // errorToast(
-                    //     response.error,
-                    // );
-                    return response;
-                }
-            })
-            .catch((error) => console.error(error));
-        return respons;
-    } catch (error) {
-        setLoading(false);
-        errorToast("Network error");
+//         const respons = fetch(`${base_url + param?.url}`, requestOptions)
+//             .then((response) => response.text())
+//             .then((res) => {
+//                 const response = JSON.parse(res);
+//                 console.log("---- ----ddv response", response);
+//                 if (response.status == "1") {
+//                     setLoading(false);
+//                     return response;
+//                 } else {
+//                     setLoading(false);
+//                     // errorToast(
+//                     //     response.error,
+//                     // );
+//                     return response;
+//                 }
+//             })
+//             .catch((error) => console.error(error));
+//         return respons;
+//     } catch (error) {
+//         setLoading(false);
+//         errorToast("Network error");
+//     }
+// };
+
+const GetApi = async (param: any, setLoading: (loading: boolean) => void) => {
+  console.log("API PARAM:", param);
+
+  try {
+    setLoading(true);
+
+    const myHeaders = new Headers();
+    myHeaders.append("Accept", "application/json");
+    myHeaders.append("Content-Type", "application/json");
+    myHeaders.append("Authorization", `Bearer ${param.token}`);
+
+    const requestOptions: any = {
+      method: param.method || "POST",
+      headers: myHeaders,
+    };
+
+    // ✅ ADD BODY ONLY IF EXISTS
+    if (param.data && Object.keys(param.data).length > 0) {
+      requestOptions.body = JSON.stringify(param.data);
     }
+
+    const response = await fetch(base_url + param.url, requestOptions);
+    const resText = await response.text();
+    const result = JSON.parse(resText);
+
+    console.log("API RESPONSE:", result);
+
+    setLoading(false);
+    return result;
+
+  } catch (error) {
+    console.log("API ERROR:", error);
+    setLoading(false);
+    errorToast("Network error");
+    return null;
+  }
 };
 
 

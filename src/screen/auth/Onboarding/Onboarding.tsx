@@ -7,6 +7,7 @@ import StatusBarComponent from "../../../compoent/StatusBarCompoent";
 import { useNavigation } from "@react-navigation/native";
 import { onNavgation } from "../../../api/authApi/BaseUrl";
 import ScreenNameEnum from "../../../routes/screenName.enum";
+import { color } from "../../../constant";
 
 export default function OnboardingScreen() { 
   const navigation = useNavigation();
@@ -80,7 +81,7 @@ const styles = StyleSheet.create({
   },
 
   skipText: {
-    color: "#ff4081",
+    color: color.primary,
     fontSize: 16,
     fontWeight: "600",
   },
@@ -99,7 +100,7 @@ const styles = StyleSheet.create({
 
   bottomCard: {
     height: "40%",
-    backgroundColor: "#31CFF0",
+    backgroundColor: color.thirdColor,
     borderTopLeftRadius: 30,
     borderTopRightRadius: 30,
     padding: 15,
@@ -129,6 +130,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     marginBottom: 20,
+    alignSelf:'center'
   },
 
   dot: {

@@ -76,7 +76,7 @@ const ChatScreen = () => {
 const navgtaion = useNavigation()
   return (
     <SafeAreaView style={styles.container}>
-        <StatusBarComponent/>
+        <StatusBarComponent  barStyle="light-content"/>
        <View style={styles.header}>
         <TouchableOpacity onPress={()=>{
             navgtaion.goBack()
@@ -102,14 +102,21 @@ const navgtaion = useNavigation()
       </View>
 
       {/* Chat messages */}
+      
       <FlatList
         data={messages}
         renderItem={renderMessage}
         keyExtractor={(item) => item.id}
         showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.chatContainer}
+        style={{
+          backgroundColor:'#fff',
+          borderTopLeftRadius:30,
+          borderTopRightRadius:30,
+          borderTopColor:'#000'
+        }}
       />
-
+<View style={{backgroundColor:'#fff'}}>
       {/* Input box */}
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : undefined}
@@ -124,33 +131,35 @@ const navgtaion = useNavigation()
             placeholderTextColor={"black"}
           />
           <TouchableOpacity onPress={sendMessage} style={styles.sendButton}>
-            <Image source={imageIndex.voies} 
+            <Image source={imageIndex.send} 
             
             style={{
-                height:55,
-                width:55
+                height:30,
+                width:30,
+                alignSelf:'center'
             }}
             />
            </TouchableOpacity>
         </View>
       </KeyboardAvoidingView>
+      </View>
     </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: "#fff" },
+  container: { flex: 1, backgroundColor: "#000" },
   header: {
     flexDirection: "row",
     alignItems: "center",
     padding: 15,
-    backgroundColor: "#fff",
-    borderBottomWidth: 1,
-    borderBottomColor: "#eee",
+    // backgroundColor: "#fff",
+    // borderBottomWidth: 1,
+    // borderBottomColor: "#eee",
   },
   avatar: { width: 40, height: 40, borderRadius: 20, marginRight: 10 },
-  name: {  fontFamily:font.TrialBold, fontSize: 16, color:color.primary },
-  status: { fontSize: 12, color: "green",fontFamily:font.MonolithRegular, },
+  name: {  fontFamily:font.TrialBold, fontSize: 16, color:color.white },
+  status: { fontSize: 12, color: color.white,fontFamily:font.MonolithRegular, },
   chatContainer: { padding: 10 },
   messageBubble: {
     maxWidth: "75%",
@@ -160,7 +169,7 @@ const styles = StyleSheet.create({
   },
   myMessage: {
     alignSelf: "flex-end",
-    backgroundColor: "#09BFCD",
+    backgroundColor: color.primary,
     borderBottomRightRadius: 0,
   },
   otherMessage: {
@@ -179,7 +188,8 @@ const styles = StyleSheet.create({
     height:55 ,
     justifyContent:"center" ,
     marginHorizontal:10 ,
-    marginBottom:30
+    marginBottom:30,
+    backgroundColor:'#fff'
   },
   input: {
     flex: 1,
@@ -197,7 +207,11 @@ const styles = StyleSheet.create({
   sendButton: {
  justifyContent:"center",
  alignItems:"center" ,
- marginTop:30
+ height:55,
+//  backgroundColor:'blue',
+    marginTop:15
+
+//  marginTop:30
    
   },
 });

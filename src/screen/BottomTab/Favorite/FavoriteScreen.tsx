@@ -10,6 +10,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import CustomHeader from "../../../compoent/CustomHeader";
 import StatusBarComponent from "../../../compoent/StatusBarCompoent";
 import SearchBar from "../../../compoent/SearchBar";
+import { color } from "../../../constant";
  
 const DATA = [1, 2, 3];
 
@@ -132,7 +133,7 @@ const styles = StyleSheet.create({
 
   removeBtn: {
     borderWidth: 2,
-    borderColor: "#F3178B",
+    borderColor: color.primary,
     paddingHorizontal: 35,
     paddingVertical: 11,
     borderRadius: 30,
@@ -141,14 +142,14 @@ const styles = StyleSheet.create({
   },
 
   removeTxt: {
-    color: "#FF007A",
+    color: color.primary,
     fontWeight: "600",
     fontSize: 15, 
     textAlign:"center"
   },
 
   detailsBtn: {
-    backgroundColor: "#F3178B",
+    backgroundColor: color.primary,
     paddingHorizontal: 35,
     paddingVertical: 10,
     borderRadius: 30,

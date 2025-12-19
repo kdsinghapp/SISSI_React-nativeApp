@@ -9,6 +9,7 @@ import Inbox from '../screen/BottomTab/Inbox/Inbox';
 import InstistionHome from '../screen/InstitutionTab/HomeInstiustion/Home/InstitutionHome';
 import UserProfile from '../screen/BottomTab/Profile/UserProfile';
 import ShiftBooking from '../screen/InstitutionTab/ShiftBooking/ShiftBooking';
+import { color } from '../constant';
 
 const Tab = createBottomTabNavigator();
 
@@ -59,7 +60,7 @@ export default function DeliveryTabNavigator() {
                 fontSize: 11,
                 marginTop: 4,
                 fontFamily: font.MonolithRegular,
-                color: focused ? '#F3178B' : '#2F4858',
+                color: focused ? color.primary : '#2F4858',
               }}
             >
               {tab?.label ?? route.name}

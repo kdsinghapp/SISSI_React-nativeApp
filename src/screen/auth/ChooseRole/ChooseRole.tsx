@@ -12,6 +12,7 @@ import imageIndex from "../../../assets/imageIndex";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useNavigation } from "@react-navigation/native";
 import ScreenNameEnum from "../../../routes/screenName.enum";
+import { color } from "../../../constant";
 
 const RoleButton = ({ title, subtitle, icon, selected, onPress }) => {
   const scale = new Animated.Value(1);
@@ -30,10 +31,12 @@ const RoleButton = ({ title, subtitle, icon, selected, onPress }) => {
         <View
           style={[
             styles.inactiveButton,
-            { backgroundColor: selected ? "#F3178B" : "white" },
+            { backgroundColor: selected ? color.primary : "white" },
           ]}
         >
+          <View style={styles.iconView}>
           <Image source={icon} style={styles.icon} />
+          </View>
           <View>
             <Text
               style={[
@@ -148,11 +151,25 @@ const styles = StyleSheet.create({
     height: 100,
     marginBottom: 20,
   },
-  icon: {
-    width: 100,
-    height: 100,
+    icon: {
+    width: 30,
+    height: 30,
+    resizeMode: "contain",
+    // right: 1,
+  },
+
+   iconView: {
+    width: 70,
+    height: 70,
     resizeMode: "contain",
     right: 1,
+    borderWidth:2,
+    borderColor:color.primary,
+    alignItems:'center',
+    justifyContent:'center',
+    borderRadius:50,
+    marginLeft:15,
+    marginRight:10
   },
   inactiveTitle: {
     color: "#000",

@@ -7,7 +7,6 @@ import HelpScreen from "../screen/Profile/Help/Helps";
 import Splash from "../screen/auth/Splash/Splash";
   import OtpScreen from "../screen/auth/OTPScreen/OtpScreen";
 import ProfileSetup from "../screen/auth/ProfileSetup/ProfileSetup";
- import ViewDetails from "../screen/BottomTab/Shifts/ViewDetails";
 import LegalPoliciesScreen from "../screen/Profile/LegalPoliciesScreen";
 import PrivacyPolicy from "../screen/Profile/PrivacyPolicy";
 import EditProfile from "../screen/Profile/EditProfile/EditProfile";
@@ -169,10 +168,7 @@ import AboutUS from "../screen/Profile/AboutUS";
       Component: CreateNewShift,
     },
  
-       {
-      name: ScreenNameEnum.ViewDetails,
-      Component: ViewDetails,
-    },
+  
  
   
      {

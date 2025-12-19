@@ -2,6 +2,7 @@ import { View, TextInput, Image, Text, TouchableOpacity } from 'react-native';
 import React, { useState } from 'react';
 import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import imageIndex from '../assets/imageIndex';
+import { color } from '../constant';
 
 export default function TextInputField({ ...props }) {
   const [showPassword, setShowPassword] = useState(props.hide);
@@ -52,7 +53,7 @@ export default function TextInputField({ ...props }) {
             }}>
             <Image
               source={props.img}
-              style={[{ width: 22, height: 22  ,tintColor:"#F3178B"}, props.imgStyle]}
+              style={[{ width: 22, height: 22  ,tintColor:color.primary}, props.imgStyle]}
               resizeMode="contain"
             />
 

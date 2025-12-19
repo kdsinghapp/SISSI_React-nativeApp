@@ -16,6 +16,8 @@ import CustomButton from "../../../compoent/CustomButton";
 import ScreenNameEnum from "../../../routes/screenName.enum";
 import { useNavigation } from "@react-navigation/native";
 import { useSelector } from "react-redux";
+import { color } from "../../../constant";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const ProfileScreen = () => {
   const navigation = useNavigation();
@@ -127,11 +129,10 @@ const isLogin = useSelector((state: any) => state.auth);
         {/* LOGOUT BUTTON */}
         <View style={{ marginTop: 20 }}>
           <CustomButton title="Logout"  
-          button1={{ backgroundColor: "#FF383C" }}
+          // button1={{ backgroundColor: "#FF383C" }}
         onPress={() => {
-    setLogoutModal(false);
-        navigation.navigate(ScreenNameEnum.ChooseRole);
-
+    setLogoutModal(true);
+        // navigation.navigate(ScreenNameEnum.ChooseRole);
 }}
 
         />
@@ -140,8 +141,10 @@ const isLogin = useSelector((state: any) => state.auth);
         <LogoutModal
           visible={logoutModal} 
           onCancel={() => setLogoutModal(false)}
-          onLogout={() => {
+          onLogout={async() => {
             setLogoutModal(false);
+await AsyncStorage.clear();
+            navigation.navigate(ScreenNameEnum.ChooseRole);
           }}
         />
       </ScrollView>
@@ -258,7 +261,7 @@ margin:8
   arrowIcon: {
     width: 25,
     height: 25,
-    tintColor: "#F3178B",
+    tintColor: color.primary,
   },
 
   divider: {

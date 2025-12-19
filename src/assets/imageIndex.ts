@@ -40,12 +40,11 @@
     privacy: require('./images/privacy.png'),
     banner1: require('./image/banner1.png'),
     mapbg: require('./image/mapbg.png'),
-    rightBack: require('./image/rightBack.png'),
+    rightBack: require('./images/rightBack.png'),
     mess1: require('./images/mess1.png'),
     chatMt: require('./images/chatMt.png'),
+logoutImg: require('./images/logoutImg.png'),
 
-
-    fram: require('./images/fram.png'),
     Mobile: require('./images/Mobile.png'),
     marketplace: require('./images/marketplace.png'),
     CourierBoy: require('./images/CourierBoy.png'),
@@ -74,6 +73,7 @@
     textLock: require('./images/textLock.png'),
     Location: require('./images/Location.png'),
     voies: require('./images/voies.png'),
+    send: require('./images/send.png'),
     profiel: require('./images/profiel.png'),
     rightaArrow: require('./images/rightaArrow.png'),
     earing: require('./images/earing.png'),

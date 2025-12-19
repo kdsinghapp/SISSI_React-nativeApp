@@ -94,7 +94,8 @@ const PostedShifts = () => {
           .format('ddd, DD MMMM YYYY')}</Text>
         <View style={[styles.statusChip, {
           flexDirection: "row",
-          alignItems: "center"
+          alignItems: "center",
+          // backgroundColor: color.thirdColor
         }]}>
           <Image source={imageIndex.eye}
             style={{
@@ -121,7 +122,7 @@ const PostedShifts = () => {
         </Text>
       </View>
       <View style={{
-        backgroundColor: "#31CFF0",
+        backgroundColor: color.thirdColor,
         width: "45%",
         borderRadius: 20,
         height: 28,
@@ -259,14 +260,18 @@ const styles = StyleSheet.create({
   },
 
   statusChip: {
-    paddingHorizontal: 11,
-    paddingVertical: 5,
+    // paddingHorizontal: 11,
+    // paddingVertical: 5,
     borderRadius: 20,
+    alignItems:'center',
+    justifyContent:'center',
+  
+    
   },
 
   statusText: {
     fontSize: 12,
-    color: "black",
+    color: "#000",
     fontWeight: "600",
   },
 
@@ -274,6 +279,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     marginBottom: 6,
+    
   },
 
   value: {
@@ -302,7 +308,7 @@ const styles = StyleSheet.create({
   },
 
   declineBtn: {
-    backgroundColor: "#F3178B",
+    backgroundColor: color.primary,
     paddingVertical: 10,
     width:
       "40%", borderRadius: 25,

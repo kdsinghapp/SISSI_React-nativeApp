@@ -1,11 +1,12 @@
 import { StyleSheet, Dimensions } from "react-native";
+import { color } from "../../../constant";
   
 
  
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F3178B',
+    backgroundColor: color.primary,
   },
   header: {
     flexDirection: 'row',
@@ -58,10 +59,10 @@ export const styles = StyleSheet.create({
     minHeight: '100%',
   },
   createShiftCard: {
-    backgroundColor: '#F3178B',
+    backgroundColor: color.primary,
     borderRadius: 18,
      elevation: 5,
-    shadowColor: '#F3178B',
+    shadowColor: color.primary,
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.3,
     shadowRadius: 8, 
@@ -100,7 +101,7 @@ export const styles = StyleSheet.create({
     color: '#333',
   },
   seeAllText: {
-    color: '#F3178B',
+    color: color.primary,
     fontSize: 14,
     fontWeight: '500',
   },
@@ -249,7 +250,7 @@ export const styles = StyleSheet.create({
     borderTopColor: '#F0F0F0',
   },
   viewDetailsText: {
-    color: '#F3178B',
+    color: color.primary,
     fontSize: 14,
     fontWeight: '600',
     marginRight: 8,
@@ -258,7 +259,7 @@ export const styles = StyleSheet.create({
     width: 16,
     height: 16,
     resizeMode: 'contain',
-    tintColor: '#F3178B',
+    tintColor: color.primary,
   },
   emptyContainer: {
     alignItems: 'center',

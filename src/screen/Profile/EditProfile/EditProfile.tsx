@@ -23,7 +23,8 @@ import CustomButton from "../../../compoent/CustomButton";
 import ImagePickerModal from "../../../compoent/ImagePickerModal";
 import imageIndex from "../../../assets/imageIndex";
 import TextInputField from "../../../compoent/TextInputField";
- import ScreenNameEnum from "../../../routes/screenName.enum";
+import ScreenNameEnum from "../../../routes/screenName.enum";
+import { color } from "../../../constant";
 
 const EditProfile = () => {
   const navigation = useNavigation();
@@ -109,24 +110,24 @@ const EditProfile = () => {
               onPress={() => setIsModalVisible(true)}
             >
               {/* <Image source={imageIndex.eoditphots} style={styles.editIcon} 
-              tintColor={"#F3178B"} /> */}
+              tintColor={color.primary} /> */}
             </TouchableOpacity>
           </View>
           <Text style={{
-            textAlign:"center" ,
-            fontSize:20 ,
-            color:"black" ,
-            fontWeight:"600"
+            textAlign: "center",
+            fontSize: 20,
+            color: "black",
+            fontWeight: "600"
           }}>Ashlynn Bergson</Text>
-          <Text 
-          
-          style={{
-            textAlign:"center" ,
-            fontSize:13 ,
-            color:"#6B7280" ,
-            fontWeight:"600" ,
-            marginTop:8
-          }}
+          <Text
+
+            style={{
+              textAlign: "center",
+              fontSize: 13,
+              color: "#6B7280",
+              fontWeight: "600",
+              marginTop: 8
+            }}
           >@Ashlynn</Text>
           <View style={styles.card}>
 
@@ -195,7 +196,7 @@ const EditProfile = () => {
                 img={imageIndex.location}
               />
 
-               {savedRole == "Substitute" && (
+              {savedRole == "Substitute" && (
                 <>
                   <Text style={styles.sectionTitle}>Education Details</Text>
 
@@ -204,7 +205,7 @@ const EditProfile = () => {
                     onPress={() => setDropdownVisible(true)}
                   >
                     <View style={styles.dropdownContent}>
-                      <Image source={imageIndex.Level} style={styles.dropdownIcon} />
+                      <Image source={imageIndex.Level} style={styles.dropdownIcon} tintColor={color.primary}/>
                       <Text style={{ marginLeft: 8, color: education ? "#000" : "#999" }}>
                         {education || "Level of Education"}
                       </Text>
@@ -235,20 +236,20 @@ const EditProfile = () => {
                   />
                 </>
               )}
-              {savedRole == "Substitute" && ( 
+              {savedRole == "Substitute" && (
                 <>
-                              <Text style={styles.sectionTitle}>Worker Experience</Text>
+                  <Text style={styles.sectionTitle}>Worker Experience</Text>
 
-                <TextInputField
+                  <TextInputField
 
-                placeholder="Write here "
-              />
+                    placeholder="Write here "
+                  />
                 </>
 
 
-               ) }
+              )}
 
-              
+
               <View style={{
                 marginTop: 15
               }}>
@@ -383,7 +384,7 @@ const styles = StyleSheet.create({
     height: 20,
     borderRadius: 10,
     borderWidth: 2,
-    borderColor: "#FF4081",
+    borderColor: color.primary,
     alignItems: "center",
     justifyContent: "center",
     marginRight: 10,
@@ -393,7 +394,7 @@ const styles = StyleSheet.create({
     width: 10,
     height: 10,
     borderRadius: 5,
-    backgroundColor: "#FF4081",
+    backgroundColor: color.primary,
   },
 
   radioLabel: { flex: 1, color: "#333" },

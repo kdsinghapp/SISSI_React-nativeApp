@@ -1,6 +1,7 @@
 import React from "react";
 import { View, TextInput, Image, StyleSheet } from "react-native";
 import imageIndex from "../assets/imageIndex";
+import { color } from "../constant";
 
 interface SearchBarProps {
   placeholder?: string;
@@ -52,18 +53,15 @@ borderRadius: 10,
   shadowRadius: 3.5,
   backgroundColor: "#FFF", 
   marginHorizontal:15
-
-  
-  
   },
   icon: {
     height: 26,
     width: 26,
-    tintColor:"#F3178B"
+    tintColor:color.primary
   },
   input: {
     flex: 1,
-    fontSize: 15,
+    fontSize: 14,
     color: "black",
     marginLeft: 15,
   },
