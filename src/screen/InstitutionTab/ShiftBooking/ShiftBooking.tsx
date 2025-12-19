@@ -34,7 +34,10 @@ const ShiftBooking = () => {
       const param = {
         url: "shift/allShiftRequestsForinstitution",
         user_id: isLogin?.userData?.id,
-        token: isLogin?.token
+        token: isLogin?.token,
+        data:{
+          status: "Pending"
+        }
       }
       const dd = await GetApi(param, setLoading);
       console.log(dd?.data, 'this is data')
@@ -52,14 +55,14 @@ const ShiftBooking = () => {
 
     const lower = text.toLowerCase();
 
-    // const filtered = data.filter(item =>
-    //   item?.shift_date?.toLowerCase().includes(lower) ||
-    //   item?.time_start?.toLowerCase().includes(lower) ||
-    //   item?.time_end?.toLowerCase().includes(lower) ||
-    //   item?.description?.toLowerCase().includes(lower)
-    // );
+    const filtered = data.filter(item =>
+      item?.shift_date?.toLowerCase().includes(lower) ||
+      item?.time_start?.toLowerCase().includes(lower) ||
+      item?.time_end?.toLowerCase().includes(lower) ||
+      item?.description?.toLowerCase().includes(lower)
+    );
 
-    // setFilteredData(filtered);
+    setFilteredData(filtered);
   };
 
   const handleAcceptRequest = async (id) => {
@@ -166,7 +169,7 @@ const ShiftBooking = () => {
           }]}
 
         />
-        <Text style={styles.value}>{item.time_start} - {item.time_end}</Text>
+        <Text style={styles.value}>{moment(item.time_start, "HH:mm:ss").format("hh:mm A")} - {moment(item.time_end, "HH:mm:ss").format("hh:mm A")}</Text>
       </View>
 
       {/* SECTION */}

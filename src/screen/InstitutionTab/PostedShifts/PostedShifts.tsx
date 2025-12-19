@@ -113,7 +113,7 @@ const PostedShifts = () => {
       {/* DATE */}
       <View style={styles.row}>
 
-        <Text style={styles.value}>{item?.time_start} – {item?.time_end}
+        <Text style={styles.value}>{moment(item.time_start, "HH:mm:ss").format("hh:mm A")} – {moment(item.time_end, "HH:mm:ss").format("hh:mm A")}
         </Text>
 
       </View>

@@ -689,6 +689,54 @@ const AcceptRequest = (
     }
 };
 
+const CompleteBooking = (
+    param: any,
+    setLoading: (loading: boolean) => void
+) => {
+    console.log("param", param);
+    try {
+        setLoading(true);
+        const myHeaders = new Headers();
+        myHeaders.append("Accept", "application/json");
+        myHeaders.append("Authorization", `Bearer ${param.token}`);
+
+        const formdata = new FormData();
+        formdata.append("shift_id", param?.shift_id);
+        // formdata.append("child_id", param?.child_id ?? "1");
+        // formdata.append("milestone_id", param?.milestone_id);
+        // formdata.append("notes", param?.notes ?? 'test');
+        // formdata.append("milestone_date", param?.milestone_date);
+
+        console.log(formdata, "this is formdaata");
+        const requestOptions = {
+            method: "POST",
+            headers: myHeaders,
+            body: formdata,
+        };
+        console.log("formData", formdata);
+        const respons = fetch(`${base_url}shift/completeShift`, requestOptions)
+            .then((response) => response.text())
+            .then((res) => {
+                const response = JSON.parse(res);
+                console.log("---- ----ddv response", response);
+                if (response.status == "1") {
+                    setLoading(false);
+                    successToast(response?.message);
+                    // param.navigation.goBack();
+                    return response;
+                } else {
+                    setLoading(false);
+                    errorToast(response.message);
+                    return response;
+                }
+            })
+            .catch((error) => console.error(error));
+        return respons;
+    } catch (error) {
+        setLoading(false);
+        errorToast("Network error");
+    }
+};
 
 const DeclineRequest = (
     param: any,
@@ -1023,5 +1071,6 @@ export {
     deleteShiftApi,
     update_shift_API,
     AcceptRequest,
-    DeclineRequest
+    DeclineRequest,
+    CompleteBooking
 }  

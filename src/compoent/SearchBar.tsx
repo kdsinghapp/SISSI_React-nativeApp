@@ -7,7 +7,7 @@ interface SearchBarProps {
   placeholder?: string;
   onSearchChange?: (text: string) => void;
   value?:string,
-  searchBar1:any
+  searchBar1?:any
  }
 
 const SearchBar: React.FC<SearchBarProps> = ({ searchBar1,placeholder = "Search", onSearchChange ,value}) => {

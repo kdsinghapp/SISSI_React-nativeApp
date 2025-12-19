@@ -9,7 +9,7 @@ import CustomHeader from "../../../compoent/CustomHeader";
 import { useNavigation } from "@react-navigation/native";
 import SearchBar from "../../../compoent/SearchBar";
 import { useSelector } from "react-redux";
-import { AcceptRequest, GetApi } from "../../../api/apiRequest";
+import { AcceptRequest, CompleteBooking, GetApi } from "../../../api/apiRequest";
 import moment from "moment";
 import { color } from "../../../constant";
 
@@ -48,13 +48,13 @@ const BookedShifts = () => {
       isLogin?.token,
       setLoading)
     const param = {
-      request_id: id,
+      shift_id: id,
       token: isLogin?.token,
-      data: {
-        status: "completed"
-      }
+      // data: {
+      //   status: "completed"
+      // }
     }
-    const res = await AcceptRequest(
+    const res = await CompleteBooking(
       param,
       setLoading
     );
@@ -105,7 +105,7 @@ const BookedShifts = () => {
           style={styles.image}
           tintColor={color.primary}
         />
-        <Text style={styles.value}>{item?.time_start} - {item?.time_end} </Text>
+        <Text style={styles.value}>{moment(item.time_start, "HH:mm:ss").format("hh:mm A")} – {moment(item.time_end, "HH:mm:ss").format("hh:mm A")} </Text>
       </View>
 
       {/* TIME */}

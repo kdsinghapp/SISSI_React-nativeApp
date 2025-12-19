@@ -112,7 +112,7 @@ const navigation = useNavigation()
             <Text style={styles.cardDate}>{moment(item.shift_date).format('dddd, DD MMMM YYYY')} </Text>
             <Text style={styles.cardTitle}>{item.user_name} - {item.unit_name} </Text>
 
-            {item.user_name && <Text style={styles.cardTime}>{item.time_start} – {item.time_end}</Text>
+            {item.user_name && <Text style={styles.cardTime}>{moment(item.time_start, "HH:mm:ss").format("hh:mm A")} – {moment(item.time_end, "HH:mm:ss").format("hh:mm A")}</Text>
             }
             {activeTab == "Completed" ?
 
