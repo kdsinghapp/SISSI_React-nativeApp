@@ -14,10 +14,12 @@ import SearchBar from "../../../compoent/SearchBar";
 import imageIndex from "../../../assets/imageIndex";
 import BookingSuccessModal from "../../../compoent/BookingModal";
 import { useSelector } from "react-redux";
-import { BookShiftByUserApi, GetApi } from "../../../api/apiRequest";
+import { BookShiftByUserApi, GetApi, onFavoriteShift } from "../../../api/apiRequest";
 import moment from "moment";
 import LoadingModal from "../../../utils/Loader";
 import { color } from "../../../constant";
+import { useNavigation } from "@react-navigation/native";
+import ScreenNameEnum from "../../../routes/screenName.enum";
 
 const DATA = [1, 2, 3];
 
@@ -87,8 +89,32 @@ export default function BrowseShifts() {
       setModalVisible(true);
     }
   }
+  const onFavorite = async (item) => {
+    // Logic to handle booking the shift
+    console.log("Book Now pressed for item:", item);
+    const param = {
+      shift_id: item?.id,
+      token: isLogin?.token,
+    }
+    const dd = await onFavoriteShift(param, setLoading)
+    if (dd?.status == '1') {
+      // setModalVisible(true);
+      setFilteredData(prev =>
+      prev.map(i =>
+        i.id === item.id
+          ? { ...i, favorite_status: i.favorite_status == 1 ? 0 : 1 }
+          : i
+      )
+    );
+    }
+  }
+  const navigation = useNavigation()
   const renderCard = ({ item }: any) => (
-    <View style={styles.card}>
+    <TouchableOpacity   onPress={() =>
+    navigation.navigate(ScreenNameEnum.ShiftDetailScreen, {
+      item: item, // 👈 passing single object
+    })
+  } style={styles.card}>
       {/* Row 1 */}
       <View style={{
         alignItems: "center",
@@ -154,10 +180,12 @@ export default function BrowseShifts() {
 
       {/* Buttons */}
       <View style={styles.btnRow}>
-        <TouchableOpacity style={styles.removeBtn}>
+        <TouchableOpacity style={styles.removeBtn}
+        onPress={() => onFavorite(item)}
+        >
           <Text style={styles.removeTxt}>
-            Favorite{" "}
-            <Text style={{ fontSize: 22, color: "#FF007A" }}>
+           {item?.favorite_status == 0? 'Favorite' :'Unfavorite'}{" "}
+            <Text style={{ fontSize: 22, color: color.primary }}>
               ✩
             </Text>
           </Text>
@@ -167,12 +195,13 @@ export default function BrowseShifts() {
         <TouchableOpacity
 
           onPress={() => BookNow(item)}
+          
           style={styles.detailsBtn}>
           <Text style={styles.detailsTxt}>Book Now</Text>
         </TouchableOpacity>
       </View>
 
-    </View>
+    </TouchableOpacity>
   );
   return (
     <SafeAreaView style={styles.container}>

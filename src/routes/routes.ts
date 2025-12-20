@@ -28,6 +28,7 @@ import BookedShifts from "../screen/InstitutionTab/BookedShifts/BookedShifts";
 import PastShifts from "../screen/InstitutionTab/PastShifts/PastShifts";
 import ShiftBooking from "../screen/InstitutionTab/ShiftBooking/ShiftBooking";
 import AboutUS from "../screen/Profile/AboutUS";
+import ShiftDetailScreen from "../screen/BottomTab/Favorite/ShiftDetailScreen";
    const _routes: any = {
   REGISTRATION_ROUTE: [
        {
@@ -167,10 +168,11 @@ import AboutUS from "../screen/Profile/AboutUS";
       name: ScreenNameEnum.CreateNewShift,
       Component: CreateNewShift,
     },
- 
-  
- 
-  
+       {
+      name: ScreenNameEnum.ShiftDetailScreen,
+      Component: ShiftDetailScreen,
+    },
+
      {
       name: ScreenNameEnum.NotificationsScreen,
       Component: NotificationsScreen,

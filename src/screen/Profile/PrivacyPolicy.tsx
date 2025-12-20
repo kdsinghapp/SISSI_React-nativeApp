@@ -36,7 +36,7 @@ const PrivacyPolicy = () => {
 
     return (
         <SafeAreaView style={styles.container}>
-            {/* {isLoading && <Loading />} */}
+            {isLoading && <Loading />}
             <StatusBarComponent />
             {/* <LoadingModal visible ={isLoading}/> */}
 

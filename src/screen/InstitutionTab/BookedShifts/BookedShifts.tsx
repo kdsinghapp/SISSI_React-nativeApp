@@ -12,6 +12,7 @@ import { useSelector } from "react-redux";
 import { AcceptRequest, CompleteBooking, GetApi } from "../../../api/apiRequest";
 import moment from "moment";
 import { color } from "../../../constant";
+import LoadingModal from "../../../utils/Loader";
 
 const BookedShifts = () => {
   const [visible, setvisible] = useState(false)
@@ -168,6 +169,7 @@ const BookedShifts = () => {
 
   return (
     <SafeAreaView style={styles.container}>
+      {loading && <LoadingModal/>}
       <StatusBarComponent />
       <CustomHeader label="Booked Shifts" />
       <SearchBar

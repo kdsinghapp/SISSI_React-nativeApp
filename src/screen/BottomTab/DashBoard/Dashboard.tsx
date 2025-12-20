@@ -22,14 +22,16 @@ const Dashboard = () => {
         {/* HEADER */}
         <View style={styles.headerContainer}>
           <Image
-            source={{ uri: "https://i.pravatar.cc/300" }}
+              source={isLogin?.userData?.image_url ? { uri:  isLogin?.userData?.image_url} : imageIndex.prfile}
+            
+            // source={{ uri: "https://i.pravatar.cc/300" }}
             style={styles.profileImage}
           />
 
-          <View style={{ marginLeft: 12 }}>
+          <TouchableOpacity onPress={() => navigator.navigate(ScreenNameEnum.EditProfile)} style={{ marginLeft: 12 }}>
             <Text style={styles.welcomeText}>Hello, Welcome 👋</Text>
             <Text style={styles.userName}>{isLogin?.userData?.user_name}</Text>
-          </View>
+          </TouchableOpacity>
 
           <TouchableOpacity style={styles.notification}>
             <Image

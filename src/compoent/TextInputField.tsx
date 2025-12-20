@@ -17,15 +17,15 @@ export default function TextInputField({ ...props }) {
   };
 
   return (
-<View
-  style={[
-    {
-      height: hp(7),
-      justifyContent: 'center',
-      marginVertical: 12,
-    },
-   ]}
->
+    <View
+      style={[
+        {
+          height: hp(7),
+          justifyContent: 'center',
+          marginVertical: 12,
+        },
+      ]}
+    >
       <View
         style={[
           {
@@ -53,7 +53,7 @@ export default function TextInputField({ ...props }) {
             }}>
             <Image
               source={props.img}
-              style={[{ width: 22, height: 22  ,tintColor:color.primary}, props.imgStyle]}
+              style={[{ width: 22, height: 22, tintColor: color.primary }, props.imgStyle]}
               resizeMode="contain"
             />
 
@@ -83,7 +83,7 @@ export default function TextInputField({ ...props }) {
                 props.textStyle,
               ]}
               onChangeText={onChangeText}
-              value={props.text} // Directly using parent `email` state
+              value={props.text || props.value} // Directly using parent `email` state
               placeholder={props.placeholder}
               secureTextEntry={showPassword}
               maxLength={props.maxLength}

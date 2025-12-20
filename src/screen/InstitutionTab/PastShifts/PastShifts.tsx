@@ -42,7 +42,7 @@ export default function PastShifts() {
         user_id: isLogin?.userData?.id,
         token: isLogin?.token,
         data: {
-          status: "Pending"
+          status: "Complete"
         }
       }
       const dd = await GetApi(param, setLoading);

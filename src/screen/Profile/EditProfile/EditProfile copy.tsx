@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from "react";
 import {
   View,
@@ -10,7 +11,6 @@ import {
   Text,
   FlatList,
   Modal,
-  Alert,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { launchCamera, launchImageLibrary } from "react-native-image-picker";
@@ -26,80 +26,43 @@ import imageIndex from "../../../assets/imageIndex";
 import TextInputField from "../../../compoent/TextInputField";
 import ScreenNameEnum from "../../../routes/screenName.enum";
 import { color } from "../../../constant";
-import { GetApi, PostApi } from "../../../api/apiRequest";
-import { successToast } from "../../../utils/customToast";
-import { loginSuccess } from "../../../redux/feature/authSlice";
-import LoadingModal from "../../../utils/Loader";
 
 const EditProfile = () => {
   const navigation = useNavigation();
-  const isLogin = useSelector((state: any) => state.auth);
+  const dispatch = useDispatch();
 
-  const [loading, setLoading] = useState(false);
-  const [savedRole, setSavedRole] = useState<string | null>(null);
+  const userData: any = useSelector((state: any) => state.auth.userData);
 
-  /** ================= FORM STATES ================= */
-  const [fullName, setFullName] = useState("");
-  const [email, setEmail] = useState("");
-  const [phone, setPhone] = useState("");
-  const [address, setAddress] = useState("");
-  const [dob, setDob] = useState("");
+  const [fullName, setFullName] = useState(userData?.firstName || "Emma Johnson");
+  const [email, setEmail] = useState(userData?.email || "");
+  const [address, setAddress] = useState(userData?.address || "");
+  const [phone, setPhone] = useState(userData?.phone || "");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
 
-  const [education, setEducation] = useState("");
-  const [degree, setDegree] = useState("");
-  const [schoolName, setSchoolName] = useState("");
-  const [graduationYear, setGraduationYear] = useState("");
-
-  const [unitName, setUnitName] = useState("");
-  const [unitManager, setUnitManager] = useState("");
-
-  const [image, setImage] = useState<any>(null);
-  const [imageUrl, setImageUrl] = useState<string | null>(null);
-
-  const [dropdownVisible, setDropdownVisible] = useState(false);
+  const [image, setImage] = useState<any>(userData?.image || null);
   const [isModalVisible, setIsModalVisible] = useState(false);
 
-  const educationOptions = ["High School", "Bachelor", "Master", "PhD"];
+  const [radioSelected, setRadioSelected] = useState(false);
+  const [radioSelected1, setRadioSelected1] = useState(false);
 
-  /** ================= GET ROLE ================= */
+  const [education, setEducation] = useState("");
+  const educationOptions = ["High School", "Bachelor", "Master", "PhD"];
+  const [dropdownVisible, setDropdownVisible] = useState(false);
+
+  const [savedRole, setSavedRole] = useState(null); // CLEAN FIX
+
+  // ====================== GET SAVED ROLE ======================
   const loadRole = async () => {
     const role = await AsyncStorage.getItem("userRole");
     if (role) setSavedRole(role);
   };
 
-  /** ================= GET PROFILE ================= */
-  const getProfile = async () => {
-    const param = {
-      url: "auth/get-profile",
-      user_id: isLogin?.userData?.id,
-      token: isLogin?.token,
-    };
-
-    const res = await GetApi(param, setLoading);
-    const data = res?.data?.user_data;
-    console.log(data?.user_name, '======================)')
-    if (!data) return;
-
-    setFullName(data.user_name || "");
-    setEmail(data.email || "");
-    setPhone(data.mobile_number || "");
-    setAddress(data.address || "");
-    setDob(data.dob || "");
-    setEducation(data.education || "");
-    setDegree(data.degree || "");
-    setSchoolName(data.school_name || "");
-    setGraduationYear(data.year_of_graduation || "");
-    setUnitName(data.unit_name || "");
-    setUnitManager(data.unit_manager_name || "");
-    setImageUrl(data.image || null);
-  };
-
   useEffect(() => {
     loadRole();
-    getProfile();
   }, []);
-  const dispatch = useDispatch()
-  /** ================= IMAGE PICKER ================= */
+
+  // ====================== IMAGE PICKER ======================
   const pickImageFromGallery = () => {
     launchImageLibrary({ mediaType: "photo" }, (res) => {
       if (res.assets?.[0]) {
@@ -118,62 +81,13 @@ const EditProfile = () => {
     });
   };
 
-  /** ================= UPDATE PROFILE ================= */
-  const handleUpdateProfile = async () => {
-    const formData = new FormData();
-
-    formData.append("user_name", fullName);
-    formData.append("email", email);
-    formData.append("mobile_number", phone);
-    formData.append("address", address);
-    formData.append("dob", dob);
-
-    if (savedRole === "Substitute") {
-      formData.append("education", education);
-      formData.append("degree", degree);
-      formData.append("school_name", schoolName);
-      formData.append("year_of_graduation", graduationYear);
-    } else {
-      formData.append("unit_name", unitName);
-      formData.append("unit_manager_name", unitManager);
-    }
-
-    if (image) {
-      formData.append("image", {
-        uri: image.uri,
-        type: image.type,
-        name: image.fileName || "profile.jpg",
-      });
-    }
-    console.log(formData, '==============formdata')
-    // const param = {
-    //   url: "auth/update-profile",
-    //   token: isLogin?.token,
-    //   data: formData,
-    //   isFormData: true,
-    // };
-
-    // const res = await PostApi(param, setLoading);
-
-    const param = {
-      url: "auth/update-profile",
-      token: isLogin?.token,
-      data: formData,
-      isFormData: true,
-    };
-
-    const res = await PostApi(param, setLoading);
-    if (res?.status) {
-      console.log(res, 'thisi si res==================')
-      dispatch(loginSuccess({ userData: res?.data, token: isLogin?.token, }));
-      successToast("Profile updated successfully");
-      navigation.goBack();
-    }
+  // ====================== HANDLE SUBMIT ======================
+  const handleSubmit = () => {
+    navigation.navigate(ScreenNameEnum.Login);
   };
 
   return (
     <SafeAreaView style={styles.safeArea}>
-      {loading && <LoadingModal/>}
       <StatusBarComponent />
       <CustomHeader label="My Profile" />
 
@@ -182,33 +96,43 @@ const EditProfile = () => {
         behavior={Platform.OS === "ios" ? "padding" : undefined}
       >
         <ScrollView showsVerticalScrollIndicator={false}>
-          {/* PROFILE IMAGE */}
+          {/* ====================== PROFILE IMAGE ====================== */}
           <View style={styles.profileContainer}>
             <Image
-              source={
-                image
-                  ? { uri: image.uri }
-                  : imageUrl
-                    ? { uri: imageUrl }
-                    : imageIndex.prfile
-              }
+              // source={image ? { uri: image.uri } : imageIndex.prfile}
+
+              source={{ uri: "https://i.pravatar.cc/300" }}
               style={styles.profileImage}
+              resizeMode="cover"
             />
 
             <TouchableOpacity
               style={styles.editIconContainer}
               onPress={() => setIsModalVisible(true)}
             >
-              <Image
-                source={imageIndex.eoditphots}
-                style={styles.editIcon}
-              // tintColor={color.white}
-              />
+              {/* <Image source={imageIndex.eoditphots} style={styles.editIcon} 
+              tintColor={color.primary} /> */}
             </TouchableOpacity>
           </View>
+          <Text style={{
+            textAlign: "center",
+            fontSize: 20,
+            color: "black",
+            fontWeight: "600"
+          }}>Ashlynn Bergson</Text>
+          <Text
 
-
+            style={{
+              textAlign: "center",
+              fontSize: 13,
+              color: "#6B7280",
+              fontWeight: "600",
+              marginTop: 8
+            }}
+          >@Ashlynn</Text>
           <View style={styles.card}>
+
+
             <View style={styles.formContainer}>
               {savedRole === "Substitute" ? (
                 <TextInputField
@@ -224,32 +148,28 @@ const EditProfile = () => {
                     placeholder="Institution Name"
                     firstLogo
                     img={imageIndex.Level}
-                    value={fullName}
-                  onChangeText={setFullName}
                   />
                   <TextInputField
                     placeholder="Unit Name"
                     firstLogo
                     img={imageIndex.Health}
-                    value={unitName}
-                  onChangeText={setUnitName}
                   />
                   <TextInputField
                     placeholder="Unit Manager Name"
                     firstLogo
                     img={imageIndex.Textprofile}
-                    value={unitManager}
-                  onChangeText={setUnitManager}
                   />
                 </>
               )}
 
+              {/* COMMON FIELDS */}
               <TextInputField
                 placeholder="Email"
                 value={email}
                 onChangeText={setEmail}
                 firstLogo
                 img={imageIndex.mess}
+                keyboardType="email-address"
               />
 
               <TextInputField
@@ -258,17 +178,26 @@ const EditProfile = () => {
                 onChangeText={setPhone}
                 firstLogo
                 img={imageIndex.Textphone}
+                keyboardType="phone-pad"
               />
+
+
+
+              {savedRole === "Substitute" && (
+                <TextInputField
+                  placeholder="Year of birth"
+                  firstLogo
+                  img={imageIndex.calneder}
+                />
+              )}
 
               <TextInputField
                 placeholder="Address"
-                value={address}
-                onChangeText={setAddress}
                 firstLogo
                 img={imageIndex.location}
               />
 
-              {savedRole === "Substitute" && (
+              {savedRole == "Substitute" && (
                 <>
                   <Text style={styles.sectionTitle}>Education Details</Text>
 
@@ -277,57 +206,57 @@ const EditProfile = () => {
                     onPress={() => setDropdownVisible(true)}
                   >
                     <View style={styles.dropdownContent}>
-                      <Image source={imageIndex.Level} style={styles.dropdownIcon} tintColor={color.primary} />
-
-                      <Text style={{ marginLeft: 8, color: education ? "#000" : "#999" }} >{education || "Level of Education"}</Text>
+                      <Image source={imageIndex.Level} style={styles.dropdownIcon} tintColor={color.primary}/>
+                      <Text style={{ marginLeft: 8, color: education ? "#000" : "#999" }}>
+                        {education || "Level of Education"}
+                      </Text>
                     </View>
+
+                    <Image
+                      source={imageIndex.arrowqdown}
+                      style={{ width: 18, height: 18 }}
+                    />
                   </TouchableOpacity>
 
                   <TextInputField
-
                     placeholder="Degree"
-                    value={degree}
-                    onChangeText={setDegree}
-                    img={imageIndex.heart}
                     firstLogo
+                    img={imageIndex.heart}
                   />
 
                   <TextInputField
                     placeholder="School Name"
-                    value={schoolName}
-                    onChangeText={setSchoolName}
                     firstLogo
                     img={imageIndex.Health}
                   />
 
                   <TextInputField
                     placeholder="Year of Graduation"
-                    value={graduationYear}
-                    onChangeText={setGraduationYear}
                     firstLogo
                     img={imageIndex.yerar}
                   />
                 </>
               )}
+              {savedRole == "Substitute" && (
+                <>
+                  <Text style={styles.sectionTitle}>Worker Experience</Text>
 
-              {/* {savedRole == "Substitute" && (
-                              <>
-                                <Text style={styles.sectionTitle}>Worker Experience</Text>
-              
-                                <TextInputField
-              
-                                  placeholder="Write here "
-                                />
-                              </>
-              
-              
-                            )} */}
+                  <TextInputField
 
-              <CustomButton
-                title="Update Profile"
-                // loading={loading}
-                onPress={handleUpdateProfile}
-              />
+                    placeholder="Write here "
+                  />
+                </>
+
+
+              )}
+
+
+              <View style={{
+                marginTop: 15
+              }}>
+
+                <CustomButton title="Edit Profile" onPress={handleSubmit} />
+              </View>
             </View>
           </View>
         </ScrollView>
@@ -340,8 +269,7 @@ const EditProfile = () => {
         takePhotoFromCamera={takePhotoFromCamera}
       />
 
-      {/* EDUCATION DROPDOWN */}
-      <Modal visible={dropdownVisible} transparent>
+      <Modal visible={dropdownVisible} transparent animationType="fade">
         <TouchableOpacity
           style={styles.modalOverlay}
           onPress={() => setDropdownVisible(false)}
@@ -349,7 +277,7 @@ const EditProfile = () => {
           <View style={styles.modalContent}>
             <FlatList
               data={educationOptions}
-              keyExtractor={(i) => i}
+              keyExtractor={(item) => item}
               renderItem={({ item }) => (
                 <TouchableOpacity
                   style={styles.modalItem}
@@ -358,7 +286,7 @@ const EditProfile = () => {
                     setDropdownVisible(false);
                   }}
                 >
-                  <Text>{item}</Text>
+                  <Text style={styles.modalItemText}>{item}</Text>
                 </TouchableOpacity>
               )}
             />
@@ -370,7 +298,6 @@ const EditProfile = () => {
 };
 
 export default EditProfile;
-
 
 
 const styles = StyleSheet.create({

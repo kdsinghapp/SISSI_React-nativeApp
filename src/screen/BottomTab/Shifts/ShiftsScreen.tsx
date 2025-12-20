@@ -46,15 +46,16 @@ const ShiftsScreen = () => {
   const getApiConfigByTab = (tab: string) => {
   if (tab === "Completed") {
     return {
-      url: "shift/myShiftRequestListUser",
-      body: { status: "completed" },
-    };
-  }
-
-  return {
     url: "shift/myShiftListUser",
-    body: {},
+     body: { status: "Complete" },
   };
+  }else if (tab === "In Progress") {
+ return {
+      url: "shift/myShiftRequestListUser",
+      body: { request_status: "pending" },
+    };
+ 
+}
 };
 useEffect(() => {
   fetchShifts();
@@ -117,7 +118,7 @@ const navigation = useNavigation()
             {activeTab == "Completed" ?
 
               <View style={styles.statusBadge}>
-                <Text style={styles.statusText}>Complete</Text>
+                <Text style={styles.statusText}>{item?.status}</Text>
               </View> :
 
               <TouchableOpacity onPress={()=>navigation.navigate(ScreenNameEnum.ChatScreen)} style={[styles.statusBadge, {

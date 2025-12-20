@@ -7,6 +7,7 @@ import {
   Pressable,
   ScrollView,
   FlatList,
+  TouchableOpacity,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import imageIndex from "../../../assets/imageIndex";
@@ -22,7 +23,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 const ProfileScreen = () => {
   const navigation = useNavigation();
   const [logoutModal, setLogoutModal] = useState(false);
-const isLogin = useSelector((state: any) => state.auth);
+  const isLogin = useSelector((state: any) => state.auth);
   console.log(isLogin, 'userData')
   /* -------- MENU DATA ARRAY -------- */
   const menuData = isLogin?.userData?.type == "User" ? [
@@ -56,34 +57,34 @@ const isLogin = useSelector((state: any) => state.auth);
       icon: imageIndex.privacy,
       screen: ScreenNameEnum.PrivacyPolicy,
     },
-  ]:
-  [
-    {
-      id: "1",
-      title: "My Profile",
-      icon: imageIndex.P1,
-      screen: ScreenNameEnum.EditProfile,
-    },
-    
-    {
-      id: "3",
-      title: "Notifications",
-      icon: imageIndex.notifcaton,
-      screen: ScreenNameEnum.NotificationsSetting,
-    },
-    {
-      id: "4",
-      title: "About Us",
-      icon: imageIndex.privacy,
-      screen: ScreenNameEnum.AboutUS,
-    },
-    {
-      id: "5",
-      title: "Privacy Policy",
-      icon: imageIndex.privacy,
-      screen: ScreenNameEnum.PrivacyPolicy,
-    },
-  ];
+  ] :
+    [
+      {
+        id: "1",
+        title: "My Profile",
+        icon: imageIndex.P1,
+        screen: ScreenNameEnum.EditProfile,
+      },
+
+      {
+        id: "3",
+        title: "Notifications",
+        icon: imageIndex.notifcaton,
+        screen: ScreenNameEnum.NotificationsSetting,
+      },
+      {
+        id: "4",
+        title: "About Us",
+        icon: imageIndex.privacy,
+        screen: ScreenNameEnum.AboutUS,
+      },
+      {
+        id: "5",
+        title: "Privacy Policy",
+        icon: imageIndex.privacy,
+        screen: ScreenNameEnum.PrivacyPolicy,
+      },
+    ];
 
   return (
     <SafeAreaView style={styles.safe}>
@@ -95,19 +96,20 @@ const isLogin = useSelector((state: any) => state.auth);
         <Text style={styles.profileTitle}>Profile</Text>
 
         {/* USER CARD */}
-        <View style={styles.userCard}>
+        <TouchableOpacity activeOpacity={1} onPress={() => navigation.navigate(ScreenNameEnum.EditProfile)} style={styles.userCard}>
           <View>
+
             <Image
-              source={{ uri: "https://i.pravatar.cc/300" }}
+              source={isLogin?.userData?.image_url ? { uri: isLogin?.userData?.image_url } : imageIndex.prfile}
               style={styles.avatar}
             />
           </View>
 
           <View style={{ marginLeft: 15 }}>
             <Text style={styles.userName}>{isLogin?.userData?.user_name}</Text>
-            <Text style={styles.username}>@Ashlynn</Text>
+            <Text style={styles.username}>{isLogin?.userData?.email}</Text>
           </View>
-        </View>
+        </TouchableOpacity>
 
         {/* MENU FLATLIST */}
         <View style={styles.menuCard}>
@@ -116,7 +118,7 @@ const isLogin = useSelector((state: any) => state.auth);
             keyExtractor={(item) => item.id}
             scrollEnabled={false}
             // ItemSeparatorComponent={() => <Divider />}
-            renderItem={({ item }:any) => (
+            renderItem={({ item }: any) => (
               <MenuItem
                 title={item.title}
                 icon={item.icon}
@@ -128,22 +130,22 @@ const isLogin = useSelector((state: any) => state.auth);
 
         {/* LOGOUT BUTTON */}
         <View style={{ marginTop: 20 }}>
-          <CustomButton title="Logout"  
-          // button1={{ backgroundColor: "#FF383C" }}
-        onPress={() => {
-    setLogoutModal(true);
-        // navigation.navigate(ScreenNameEnum.ChooseRole);
-}}
+          <CustomButton title="Logout"
+            // button1={{ backgroundColor: "#FF383C" }}
+            onPress={() => {
+              setLogoutModal(true);
+              // navigation.navigate(ScreenNameEnum.ChooseRole);
+            }}
 
-        />
+          />
         </View>
 
         <LogoutModal
-          visible={logoutModal} 
+          visible={logoutModal}
           onCancel={() => setLogoutModal(false)}
-          onLogout={async() => {
+          onLogout={async () => {
             setLogoutModal(false);
-await AsyncStorage.clear();
+            await AsyncStorage.clear();
             navigation.navigate(ScreenNameEnum.ChooseRole);
           }}
         />
@@ -153,7 +155,7 @@ await AsyncStorage.clear();
 };
 
 /* -------- MENU ITEM COMPONENT -------- */
-const MenuItem = ({ title, icon, onPress }:any) => {
+const MenuItem = ({ title, icon, onPress }: any) => {
   return (
     <Pressable style={styles.menuRow} onPress={onPress}>
       <View style={styles.menuLeft}>
@@ -221,24 +223,24 @@ const styles = StyleSheet.create({
   },
 
   menuCard: {
- marginTop:2
- 
-   },
+    marginTop: 2
+
+  },
 
   menuRow: {
-  flexDirection: "row",
-  justifyContent: "space-between",
-  alignItems: "center",
-   backgroundColor: "#FFF",
-  elevation: 5,
-   shadowColor: "#000",
-  shadowOpacity: 0.10,
-  shadowOffset: { width: 0, height: 2 },
-  shadowRadius: 3,
-   borderRadius: 10, // optional for smooth edges
-padding:18,
-margin:8
-   },
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    backgroundColor: "#FFF",
+    elevation: 5,
+    shadowColor: "#000",
+    shadowOpacity: 0.10,
+    shadowOffset: { width: 0, height: 2 },
+    shadowRadius: 3,
+    borderRadius: 10, // optional for smooth edges
+    padding: 18,
+    margin: 8
+  },
 
   menuLeft: {
     flexDirection: "row",
@@ -267,7 +269,7 @@ margin:8
   divider: {
     height: 1,
     backgroundColor: "#EFEFEF",
-   },
+  },
 });
 
 export default ProfileScreen;

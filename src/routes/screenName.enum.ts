@@ -8,6 +8,7 @@ enum ScreenNameEnum {
   FavoriteScreen="FavoriteScreen",
   AppointmentScreen="AppointmentScreen",
   AboutUS="AboutUS",
+  ShiftDetailScreen="ShiftDetailScreen",
   ProfileScreen = "ProfileScreen",
   BrowseShifts="BrowseShifts",
   CreateNewShift="CreateNewShift",

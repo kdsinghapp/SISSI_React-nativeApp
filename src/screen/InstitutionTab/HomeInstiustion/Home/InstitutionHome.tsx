@@ -68,13 +68,14 @@ const InstitutionHome = () => {
    <StatusBarComponent barStyle="light-content" backgroundColor={color.primary}/>
        <View style={styles.header}>
         <Image
-          source={{ uri: 'https://i.pravatar.cc/150?img=12' }}
+        source={isLogin?.userData?.image_url ? { uri:  isLogin?.userData?.image_url} : imageIndex.prfile}
+          // source={{ uri: 'https://i.pravatar.cc/150?img=12' }}
           style={styles.profileImage}
         />
-        <View style={styles.userInfo}>
+        <TouchableOpacity onPress={() => navigation.navigate(ScreenNameEnum.EditProfile)} style={styles.userInfo}>
           <Text style={styles.welcomeText}>Hello, Welcome  🎉</Text>
           <Text style={styles.userName}>{isLogin?.userData?.user_name}</Text>
-        </View>
+        </TouchableOpacity>
         <View style={styles.headerIcons}>
           <TouchableOpacity 
             style={styles.iconButton}
