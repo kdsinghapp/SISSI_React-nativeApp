@@ -2,6 +2,7 @@
     appLogo: require('./images/appLogo.png'),
     appLogo1: require('./images/loginTop.png'),
     bag: require('./images/bag.png'),
+    review: require('./image/review.png'),
 
 
     category1: require('./images/first.png'),

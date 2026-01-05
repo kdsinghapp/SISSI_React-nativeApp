@@ -99,7 +99,7 @@ export const PostApi = async (param, setLoading) => {
       param.data,
       { headers }
     );
-
+console.log(response)
     return response.data;
   } catch (error) {
     console.log("POST API ERROR 👉", error?.response || error);
@@ -156,6 +156,10 @@ const LoginCustomer = (
 
                     return response
                 } else {
+                    console.log(response)
+                    if(response?.message == 'Your account is inactive. Please connect admin.'){
+                        param?.navigation.navigate(ScreenNameEnum.UnderVerification)
+                    }
                     setLoading(false)
                     errorToast(
                         response.message,

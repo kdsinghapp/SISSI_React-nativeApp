@@ -7,6 +7,7 @@ enum ScreenNameEnum {
   HomeStack="HomeStack",
   FavoriteScreen="FavoriteScreen",
   AppointmentScreen="AppointmentScreen",
+  UnderVerification="UnderVerification",
   AboutUS="AboutUS",
   ShiftDetailScreen="ShiftDetailScreen",
   ProfileScreen = "ProfileScreen",

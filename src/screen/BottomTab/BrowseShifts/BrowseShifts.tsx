@@ -29,6 +29,7 @@ export default function BrowseShifts() {
   const [filteredData, setFilteredData] = useState([]);
   const [searchText, setSearchText] = useState('');
   const isLogin = useSelector((state: any) => state.auth);
+  const [bookedItem, setBookedItem] = useState(null);
   const [loading, setLoading] = useState(false);
   useEffect(() => {
     // Code to run on component mount
@@ -86,6 +87,7 @@ export default function BrowseShifts() {
     }
     const dd = await BookShiftByUserApi(param, setLoading)
     if (dd?.status == '1') {
+      setBookedItem(item);
       setModalVisible(true);
     }
   }
@@ -100,21 +102,21 @@ export default function BrowseShifts() {
     if (dd?.status == '1') {
       // setModalVisible(true);
       setFilteredData(prev =>
-      prev.map(i =>
-        i.id === item.id
-          ? { ...i, favorite_status: i.favorite_status == 1 ? 0 : 1 }
-          : i
-      )
-    );
+        prev.map(i =>
+          i.id === item.id
+            ? { ...i, favorite_status: i.favorite_status == 1 ? 0 : 1 }
+            : i
+        )
+      );
     }
   }
   const navigation = useNavigation()
   const renderCard = ({ item }: any) => (
-    <TouchableOpacity   onPress={() =>
-    navigation.navigate(ScreenNameEnum.ShiftDetailScreen, {
-      item: item, // 👈 passing single object
-    })
-  } style={styles.card}>
+    <TouchableOpacity onPress={() =>
+      navigation.navigate(ScreenNameEnum.ShiftDetailScreen, {
+        item: item, // 👈 passing single object
+      })
+    } style={styles.card}>
       {/* Row 1 */}
       <View style={{
         alignItems: "center",
@@ -181,10 +183,10 @@ export default function BrowseShifts() {
       {/* Buttons */}
       <View style={styles.btnRow}>
         <TouchableOpacity style={styles.removeBtn}
-        onPress={() => onFavorite(item)}
+          onPress={() => onFavorite(item)}
         >
           <Text style={styles.removeTxt}>
-           {item?.favorite_status == 0? 'Favorite' :'Unfavorite'}{" "}
+            {item?.favorite_status == 0 ? 'Favorite' : 'Unfavorite'}{" "}
             <Text style={{ fontSize: 22, color: color.primary }}>
               ✩
             </Text>
@@ -194,8 +196,16 @@ export default function BrowseShifts() {
 
         <TouchableOpacity
 
-          onPress={() => BookNow(item)}
-          
+          onPress={() =>
+            BookNow(item)
+            // {
+            //   console.log(item,
+            //     item?.user_id,
+            //     item?.users_image,)
+
+            // }
+          }
+
           style={styles.detailsBtn}>
           <Text style={styles.detailsTxt}>Book Now</Text>
         </TouchableOpacity>
@@ -215,7 +225,7 @@ export default function BrowseShifts() {
         <FlatList
           data={filteredData}
           renderItem={renderCard}
-          keyExtractor={(item) => item.toString()}
+          keyExtractor={(item) => item?.toString()}
           showsVerticalScrollIndicator={false}
           contentContainerStyle={{ paddingBottom: 40 }}
         />
@@ -224,14 +234,21 @@ export default function BrowseShifts() {
 
       <BookingSuccessModal
         visible={modalVisible}
-        userName="Jocelyn Levin"
-        userImage="https://example.com/user.jpg" // replace with real image URL
+        userName={bookedItem?.user_name}
+        userImage= {bookedItem?.users_image} // replace with real image URL
         onClose={() => setModalVisible(false)}
         onOpenChat={() => {
           // navigate to chat screen
           console.log('Open Chat Pressed');
           setModalVisible(false);
           setModalVisible(false);
+          navigation.navigate(ScreenNameEnum.ChatScreen, {
+            item: {
+              user_name: bookedItem?.user_name,
+              id: bookedItem?.user_id,
+              image: bookedItem?.users_image,
+            },
+          });
         }}
       />
     </SafeAreaView>

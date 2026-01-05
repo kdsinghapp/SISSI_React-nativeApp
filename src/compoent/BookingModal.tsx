@@ -1,10 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
   View,
   Text,
   Modal,
-  StyleSheet,
-  TouchableOpacity,
+  StyleSheet, 
   Image,
   TouchableWithoutFeedback,
 } from 'react-native';
@@ -30,7 +29,7 @@ const BookingSuccessModal = ({ visible, onClose, userName, userImage, onOpenChat
           <Image 
         //   source={{ uri: userImage }} 
           
-            source={{ uri: "https://i.pravatar.cc/300" }}
+            source={{ uri:userImage ?? "https://i.pravatar.cc/300" }}
           style={styles.userImage} />
 
           {/* User Name */}
@@ -46,8 +45,6 @@ const BookingSuccessModal = ({ visible, onClose, userName, userImage, onOpenChat
            <CustomButton title="Open Chat With Institution 💬"  
           onPress={onOpenChat}
          />
-         
-      
       </View>
         
       </SafeAreaView>

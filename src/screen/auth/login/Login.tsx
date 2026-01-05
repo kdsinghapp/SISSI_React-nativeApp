@@ -11,7 +11,7 @@ import {
 import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import StatusBarComponent from '../../../compoent/StatusBarCompoent';
 import imageIndex from '../../../assets/imageIndex';
- import CustomButton from '../../../compoent/CustomButton';
+import CustomButton from '../../../compoent/CustomButton';
 import ScreenNameEnum from '../../../routes/screenName.enum';
 import LoadingModal from '../../../utils/Loader';
 import useLogin from './useLogin';
@@ -81,55 +81,56 @@ export default function Login() {
             <Text style={styles.forgotText}>Forgot your password?</Text>
           </TouchableOpacity>
 
-     <View style={{
-      marginTop:15 ,
-      marginBottom:15 ,
-       marginHorizontal:15
-     }}>
-      {/* onPress={handleLogin}  */}
-          <CustomButton title="Login"  
-          onPress={handleLogin}
-          style={styles.loginBtn} />
-</View>
- 
- 
-         
-        </View>
-                 
-      </ScrollView>
-       <View style={styles.signUpContainer}>
-            <Text style={styles.signUpText}>Don’t have an account? </Text>
-            <TouchableOpacity 
-            
-            onPress={() => navigation.navigate(ScreenNameEnum.Sinup)}
-            
-            >
-              <Text style={styles.signUpLink}>Sign Up</Text>
-            </TouchableOpacity>
+          <View style={{
+            marginTop: 15,
+            marginBottom: 15,
+            marginHorizontal: 15
+          }}>
+            {/* onPress={handleLogin}  */}
+            <CustomButton title="Login"
+              onPress={handleLogin}
+              style={styles.loginBtn} />
           </View>
+
+
+
+        </View>
+
+      </ScrollView>
+      <View style={styles.signUpContainer}>
+        <Text style={styles.signUpText}>Don’t have an account? </Text>
+        <TouchableOpacity
+
+          onPress={() => navigation.navigate(ScreenNameEnum.Sinup)}
+
+        >
+          <Text style={styles.signUpLink}>Sign Up</Text>
+        </TouchableOpacity>
+      </View>
     </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: 'white' },
-  innerContainer: {flex: 1,
-     backgroundColor: '#FFF',        // White background
+  innerContainer: {
+    flex: 1,
+    backgroundColor: '#FFF',        // White background
     marginTop: hp(10),               // Responsive top margin
     marginHorizontal: 15,           // Horizontal margin
-     borderColor: '#ccc',            // Add border color for better visibility
+    borderColor: '#ccc',            // Add border color for better visibility
     borderRadius: 20,               // Rounded corners (optional but recommended)
     shadowColor: '#000',            // iOS shadow
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.12,
     shadowRadius: 3.84,
-    elevation: 8, 
+    elevation: 8,
   },
-    // often needed with elevation },
+  // often needed with elevation },
   logo: { height: 80, width: 120, alignSelf: 'center', },
   title: { fontSize: 28, fontWeight: '600', color: 'black', textAlign: 'center' },
   subtitle: { fontSize: 15, color: '#9DB2BF', textAlign: 'center', marginTop: 5 },
-  inputContainer: { marginTop: 20 , marginHorizontal:15 },
+  inputContainer: { marginTop: 20, marginHorizontal: 15 },
   errorText: { color: 'red', fontSize: 12, marginTop: 5 },
   forgotText: { textAlign: 'center', color: 'black', fontSize: 14, marginTop: 15 },
   loginBtn: { marginTop: 11, borderRadius: 30 },
@@ -148,7 +149,7 @@ const styles = StyleSheet.create({
   },
   googleLogo: { width: 20, height: 20, marginRight: 10 },
   googleText: { fontSize: 17, fontWeight: '500', color: '#909090' },
-  signUpContainer: { flexDirection: 'row', justifyContent: 'center', marginBottom:30, },
+  signUpContainer: { flexDirection: 'row', justifyContent: 'center', marginBottom: 30, },
   signUpText: { fontSize: 17, color: '#909090', fontWeight: '500' },
   signUpLink: { fontSize: 17, fontWeight: '700', color: color.primary },
 });

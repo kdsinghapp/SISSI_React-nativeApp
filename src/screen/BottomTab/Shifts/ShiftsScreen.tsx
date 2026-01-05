@@ -18,7 +18,7 @@ import LoadingModal from "../../../utils/Loader";
 import { useNavigation } from "@react-navigation/native";
 import ScreenNameEnum from "../../../routes/screenName.enum";
 
-const TABS = [ "In Progress","Completed",];
+const TABS = ["In Progress", "Completed",];
 
 const ShiftsScreen = () => {
   const [activeTab, setActiveTab] = useState("In Progress");
@@ -44,58 +44,58 @@ const ShiftsScreen = () => {
   // }, [])
 
   const getApiConfigByTab = (tab: string) => {
-  if (tab === "Completed") {
-    return {
-    url: "shift/myShiftListUser",
-     body: { status: "Complete" },
+    if (tab === "Completed") {
+      return {
+        url: "shift/myShiftListUser",
+        body: { status: "Complete" },
+      };
+    } else if (tab === "In Progress") {
+      return {
+        url: "shift/myShiftRequestListUser",
+        body: { request_status: "pending" },
+      };
+
+    }
   };
-  }else if (tab === "In Progress") {
- return {
-      url: "shift/myShiftRequestListUser",
-      body: { request_status: "pending" },
-    };
- 
-}
-};
-useEffect(() => {
-  fetchShifts();
-}, [activeTab]);
+  useEffect(() => {
+    fetchShifts();
+  }, [activeTab]);
 
-const fetchShifts = async () => {
-  try {
-    setLoading(true);
+  const fetchShifts = async () => {
+    try {
+      setLoading(true);
 
-    const { url, body } = getApiConfigByTab(activeTab);
+      const { url, body } = getApiConfigByTab(activeTab);
 
-    const param = {
-      url,
-      token: isLogin?.token,
-      method: "POST",
-      data: body, // 👈 POST BODY
-    };
+      const param = {
+        url,
+        token: isLogin?.token,
+        method: "POST",
+        data: body, // 👈 POST BODY
+      };
 
-    const res = await GetApi(param, setLoading);
-    
-    setData(res?.data || []);
-  } catch (error) {
-    console.log("Shift API error:", error);
-  } finally {
-    setLoading(false);
-  }
-};
+      const res = await GetApi(param, setLoading);
 
-//   const filteredData = data.filter(item => {
-//   if (activeTab === "Completed") {
-//     return item?.status === "Complete";
-//   }
-//   if (activeTab === "In Progress") {
-//     return item?.status === "Accept";
-//   }
-//   return true;
-//   // return item
-// });
-const navigation = useNavigation()
-  
+      setData(res?.data || []);
+    } catch (error) {
+      console.log("Shift API error:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  //   const filteredData = data.filter(item => {
+  //   if (activeTab === "Completed") {
+  //     return item?.status === "Complete";
+  //   }
+  //   if (activeTab === "In Progress") {
+  //     return item?.status === "Accept";
+  //   }
+  //   return true;
+  //   // return item
+  // });
+  const navigation = useNavigation()
+
   const ShiftCard = ({ item }) => {
     return (
       <View style={styles.card}>
@@ -116,12 +116,18 @@ const navigation = useNavigation()
             {item.user_name && <Text style={styles.cardTime}>{moment(item.time_start, "HH:mm:ss").format("hh:mm A")} – {moment(item.time_end, "HH:mm:ss").format("hh:mm A")}</Text>
             }
             {activeTab == "Completed" ?
-
               <View style={styles.statusBadge}>
                 <Text style={styles.statusText}>{item?.status}</Text>
-              </View> :
-
-              <TouchableOpacity onPress={()=>navigation.navigate(ScreenNameEnum.ChatScreen)} style={[styles.statusBadge, {
+              </View>
+              :
+              <TouchableOpacity onPress={() => navigation.navigate(ScreenNameEnum.ChatScreen, 
+                { 
+                item: {
+                 user_name: item?.user_name, 
+                 id: item?.shift_user_id, 
+                 image: item?.manager_image 
+                } 
+              })} style={[styles.statusBadge, {
                 backgroundColor: color.primary,
                 flexDirection: "row",
                 alignItems: "center"
@@ -176,14 +182,14 @@ const navigation = useNavigation()
       {/* <View style={{
         marginTop: 15,
       }}> */}
-        <FlatList
-          showsVerticalScrollIndicator={false}
-          style={{ marginTop: 15 }}
-          data={data}
-          keyExtractor={(item) => item.id}
-          renderItem={({ item }) => <ShiftCard item={item} />}
-          contentContainerStyle={{ paddingBottom: 100 }}
-        />
+      <FlatList
+        showsVerticalScrollIndicator={false}
+        style={{ marginTop: 15 }}
+        data={data}
+        keyExtractor={(item) => item.id}
+        renderItem={({ item }) => <ShiftCard item={item} />}
+        contentContainerStyle={{ paddingBottom: 100 }}
+      />
       {/* </View> */}
     </SafeAreaView>
   );

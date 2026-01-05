@@ -11,7 +11,5 @@ export const constant = {
   getAboutUs:"get-about-us",
   updateProfile:"update-profile",
   add_coach_session:"add_coach_session",
- };
- export const base_url = 'https://server-php-8-3.technorizen.com/chewbe/api';
- export const image_url = 'https://server-php-8-3.technorizen.com/Football/api/';
+ }; 
  

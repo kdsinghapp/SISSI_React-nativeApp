@@ -42,7 +42,6 @@ const BookedShifts = () => {
     })()
   }, [])
   const navigator = useNavigation()
-
   const handleAcceptRequest = async (id) => {
     if (!id) return;
     console.log(id,
@@ -63,7 +62,7 @@ const BookedShifts = () => {
     if (res?.status == "1") {
       // ✅ remove from UI instantly
       const updated = data.filter(item => item.shift_id !== id);
-
+// console.log(updated, 'data===========================')
       setData(updated);
       setFilteredData(updated);
       setvisible(true);
@@ -150,7 +149,13 @@ const BookedShifts = () => {
 
         <TouchableOpacity style={styles.declineBtn}
           onPress={() => {
-            navigator.navigate(ScreenNameEnum.ChatScreen)
+            navigator.navigate(ScreenNameEnum.ChatScreen, {
+            item: {
+              user_name: item?.user_name,
+              id: item?.user_id,
+              image: item?.req_user_image,
+            },
+          })
           }}
         >
           <Text style={styles.btnTextWhite}>Open Chat</Text>

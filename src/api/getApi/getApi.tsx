@@ -1,8 +1,5 @@
-import axios from "axios";
-import { BaseUrl } from "../authApi/BaseUrl";
-
-
-
+import axios from "axios";    
+import { base_url } from "..";
 export const getApi = async (
   endpoint: string,
   setLoading?: (l: boolean) => void,
@@ -42,7 +39,47 @@ export const getApi = async (
   }
 };
 
+export const getApiByID = async (
+  endpoint: string,
+  setLoading?: (l: boolean) => void,
+  id?: string
+) => {
+  try {
+    setLoading && setLoading(true);
 
+    const url = endpoint.startsWith("http")
+      ? endpoint
+      : `${base_url}${endpoint}`;
+
+    const config = {
+      method: "POST",
+      maxBodyLength: Infinity,
+      url: url,
+      headers: {
+        "Content-Type": "application/json",
+        // ...(token && { Authorization: `Bearer ${token}` }),
+      },
+    };
+
+      const formData = new FormData();
+        formData.append("user_id",id ?? '');
+    console.log("📡 Fetching:", url);
+
+    const response = await axios.request(config);
+    // console.log(response)
+    return response.data;
+  } catch (error: any) {
+    console.error("GET API Error:", error?.response?.data || error?.message);
+    return (
+      error?.response?.data || {
+        success: false,
+        message: "Something went wrong",
+      }
+    );
+  } finally {
+    setLoading && setLoading(false);
+  }
+};
 
 interface ApiOptions {
   method?: "GET" | "POST" | "PUT" | "DELETE";
@@ -75,7 +112,7 @@ export const apiHelper = async (endpoint: string, options: ApiOptions = {}) => {
       requestOptions.body = JSON.stringify(body);
     }
 
-    const url = `${BaseUrl}${endpoint}`;
+    const url = `${base_url}${endpoint}`;
     console.log("🌐 API call:", url);
 
     const response = await fetch(url, requestOptions);
