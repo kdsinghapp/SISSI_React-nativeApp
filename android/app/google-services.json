@@ -1,51 +1,26 @@
 {
   "project_info": {
-    "project_number": "996226020296",
-    "project_id": "chewbe",
-    "storage_bucket": "chewbe.firebasestorage.app"
+    "project_number": "732661654768",
+    "project_id": "mila-25c3c",
+    "storage_bucket": "mila-25c3c.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:996226020296:android:d0d75cb5024cc63823c6fd",
+        "mobilesdk_app_id": "1:732661654768:android:526b561909925534804e35",
         "android_client_info": {
-          "package_name": "com.DainaApp"
+          "package_name": "com.mila.sissi"
         }
       },
-      "oauth_client": [
-        {
-          "client_id": "996226020296-aauv5rdf598nlsi917i7o95vp04rqltv.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.DainaApp",
-            "certificate_hash": "6d45fdf14ba9674f9bed8c8e3be8b8cd68980f0d"
-          }
-        },
-        {
-          "client_id": "996226020296-6k1n00n6on0e99b6uaife4lqe17bj7sd.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
+      "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyApLQbB5niMm13D8b5-ioDgafEhGT4K9BQ"
+          "current_key": "AIzaSyC8EkiSGxjsNU8ufPSOuhH2WZj2UMU7ARc"
         }
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "996226020296-6k1n00n6on0e99b6uaife4lqe17bj7sd.apps.googleusercontent.com",
-              "client_type": 3
-            },
-            {
-              "client_id": "996226020296-137gljjh0qa6i4734qj5o8lb868jd31s.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "com.DainaApp"
-              }
-            }
-          ]
+          "other_platform_oauth_client": []
         }
       }
     }

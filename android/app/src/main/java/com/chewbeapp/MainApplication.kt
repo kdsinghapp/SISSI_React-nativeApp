@@ -1,4 +1,4 @@
-package com.DainaApp
+package com.mila.sissi
 
 import android.app.Application
 import com.facebook.react.PackageList
