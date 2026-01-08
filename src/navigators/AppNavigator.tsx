@@ -12,7 +12,7 @@ import NotificationHandler  from './../../NotificationHandler'
 import { PermissionsAndroid, Platform } from 'react-native';
 
 import messaging from '@react-native-firebase/messaging';
-
+ 
 
 const AppNavigator: React.FC = () => {
   const [isConnected, setIsConnected] = useState<boolean>(true);
@@ -25,12 +25,20 @@ const AppNavigator: React.FC = () => {
 
     return () => unsubscribe();
   }, []);
-   useEffect(() => { 
+ 
+    useEffect(() => {
+    // checkNetInfo();
     requestUserPermission();
     // listenForForegroundNotification();
   }, []);
 
-   
+  // const checkNetInfo = () => {
+  //   const unsubscribe = NetInfo.addEventListener(state => {
+  //     setIsConnected(state.isConnected ?? true);
+  //     setModalVisible(!state.isConnected);
+  //   });
+  //   return () => unsubscribe();
+  // };
 
   const requestUserPermission = async () => {
     if (Platform.OS === 'android' && Platform.Version >= 33) {
@@ -57,12 +65,7 @@ const AppNavigator: React.FC = () => {
   };
 
   const getFcmToken = async () => {
-    console.log('FCM Token:');
-
-    const token = await messaging().getToken().then((res)=>{
-      console.log(res,'res')
-    })
-    .catch((e)=>console.log(e))
+    const token = await messaging().getToken();
     console.log('FCM Token:', token);
     // 🔥 Send this token to your backend or Firestore if needed
   };

@@ -1,4 +1,4 @@
-package com.mila.sissi
+package com.sissi
 
 import com.facebook.react.ReactActivity
 import com.facebook.react.ReactActivityDelegate

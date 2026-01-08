@@ -1,13 +1,17 @@
-import React from 'react';
-import { View, Text, StyleSheet, SectionList } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { View, Text, StyleSheet, SectionList, FlatList } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import CustomHeader from '../../compoent/CustomHeader';
 import imageIndex from '../../assets/imageIndex';
 import { useNavigation } from '@react-navigation/native';
+import { GetApi } from '../../api/apiRequest';
+import { useSelector } from 'react-redux';
+import LoadingModal from '../../utils/Loader';
+import moment from 'moment';
 
 const notifications = [
   {
-    title: 'Today',
+    title: '',
     data: [
       {
         id: '1',
@@ -23,29 +27,8 @@ const notifications = [
       },
     ],
   },
-  {
-    title: 'This week',
-    data: [
-      {
-        id: '3',
-        title: 'Unread notification title',
-        date: 'Date',
-        unread: true,
-      },
-      {
-        id: '4',
-        title: 'Notification title',
-        date: 'Date',
-        unread: false,
-      },
-      {
-        id: '5',
-        title: 'Notification title',
-        date: 'Date',
-        unread: false,
-      },
-    ],
-  },
+
+
 ];
 
 const NotificationItem = ({ item }) => {
@@ -59,32 +42,55 @@ const NotificationItem = ({ item }) => {
       <View style={styles.dot} />
       <View style={styles.textContainer}>
         <Text style={styles.title}>{item.title}</Text>
-        <Text style={styles.date}>{item.date}</Text>
+        <Text style={styles.date}>{item.message}</Text>
       </View>
+        <Text style={styles.title}>{moment(item.created_at).fromNow()}</Text>
+
     </View>
   );
 };
 
 const NotificationsScreen = () => {
-    const navigation = useNavigation()
+  const navigation = useNavigation()
+  const [data, setData] = useState([])
+  const [loading, setLoading] = useState(false)
+  const isLogin = useSelector((state: any) => state.auth);
+  useEffect(() => {
+    getData()
+  }, [])
+
+  const getData = async () => {
+    const param = {
+      token: isLogin?.token,
+      method: 'POST',
+      url: 'shift/getNotifications',
+
+    }
+    console.log(param)
+    const dd = await GetApi(param, setLoading)
+    console.log(dd, 'this is data')
+    if (dd.success) {
+      setData(dd?.data?.data)
+    }
+  }
   return (
     <SafeAreaView style={styles.container}>
-            <CustomHeader
-                label={"Notification"}
-                menuIcon={imageIndex.left}
-                leftPress={true}
-                navigation={navigation}
-                // rightIcons={[
-                //     { icon: imageIndex.close, onPress:()=>navigation.navigate(ScreenNameEnum.NotificationsScreen)}
-                // ]}
-            />
-      <SectionList
-        sections={notifications}
+      {loading && <LoadingModal />}
+      <CustomHeader
+        label={"Notification"}
+        leftPress={() => navigation.goBack()}
+      // rightIcons={[
+      //     { icon: imageIndex.close, onPress:()=>navigation.navigate(ScreenNameEnum.NotificationsScreen)}
+      // ]}
+      />
+      <FlatList
+        // sections={f}
+        data={data}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => <NotificationItem item={item} />}
-        renderSectionHeader={({ section: { title } }) => (
-          <Text style={styles.sectionHeader}>{title}</Text>
-        )}
+        // renderSectionHeader={({ section: { title } }) => (
+        //   <Text style={styles.sectionHeader}>{title}</Text>
+        // )}
         contentContainerStyle={{ paddingBottom: 20 }}
       />
     </SafeAreaView>

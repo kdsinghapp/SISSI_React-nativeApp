@@ -1,4 +1,4 @@
-package com.mila.sissi
+package com.sissi
 
 import android.app.Application
 import com.facebook.react.PackageList

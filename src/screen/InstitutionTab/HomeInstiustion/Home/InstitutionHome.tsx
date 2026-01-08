@@ -79,7 +79,7 @@ const InstitutionHome = () => {
         <View style={styles.headerIcons}>
           <TouchableOpacity 
             style={styles.iconButton}
-            // onPress={() => navigation.navigate('Search')}
+            onPress={() => navigation.navigate(ScreenNameEnum.NotificationsScreen)}
           >
             <Image 
               source={imageIndex.no1} 

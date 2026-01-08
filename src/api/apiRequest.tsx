@@ -128,7 +128,7 @@ const LoginCustomer = (
         formdata.append("email", param?.email);
         formdata.append("password", param?.password);
         formdata.append("type", param?.roleType);
-        formdata.append("device_id", param?.token);
+        formdata.append("device_token", param?.token);
         const requestOptions = {
             method: "POST",
             headers: myHeaders,

@@ -33,7 +33,7 @@ const Dashboard = () => {
             <Text style={styles.userName}>{isLogin?.userData?.user_name}</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity style={styles.notification}>
+          <TouchableOpacity style={styles.notification} onPress={()=>navigator.navigate(ScreenNameEnum.NotificationsScreen)}>
             <Image
               source={imageIndex.notification}
               style={styles.notificationIcon}

@@ -78,9 +78,9 @@ android {
     buildToolsVersion rootProject.ext.buildToolsVersion
     compileSdk rootProject.ext.compileSdkVersion
 
-    namespace "com.mila.sissi"
+    namespace "com.sissi"
     defaultConfig {
-               applicationId "com.mila.sissi"
+               applicationId "com.sissi"
         minSdkVersion 26              // already fine
         targetSdkVersion 35           // <--- updated
         versionCode 1
@@ -124,8 +124,6 @@ dependencies {
     implementation "androidx.camera:camera-extensions:${camerax_version}"
   implementation project(':react-native-worklets-core')
 
-    // ML Kit Face Detection
-    implementation 'com.google.mlkit:face-detection:16.1.5'
 
     // Kotlin coroutines for async operations
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.1"
