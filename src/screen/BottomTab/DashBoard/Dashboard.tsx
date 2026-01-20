@@ -6,13 +6,15 @@ import imageIndex from '../../../assets/imageIndex';
 import { useNavigation } from '@react-navigation/native';
 import ScreenNameEnum from '../../../routes/screenName.enum';
 import { useSelector } from 'react-redux';
-import { color } from '../../../constant';
- 
+import { color } from '../../../constant'; 
+import { useLanguage } from '../../../LanguageContext';
+
 const Dashboard = () => {
   const navigator = useNavigation<any>();
+  const { labels} = useLanguage(); // Reference Finnish strings
   
   const isLogin = useSelector((state: any) => state.auth);
-  console.log(isLogin, 'userData')
+
   return (
     <SafeAreaView style={styles.container}>
       <StatusBarComponent />
@@ -22,18 +24,22 @@ const Dashboard = () => {
         {/* HEADER */}
         <View style={styles.headerContainer}>
           <Image
-              source={isLogin?.userData?.image_url ? { uri:  isLogin?.userData?.image_url} : imageIndex.prfile}
-            
-            // source={{ uri: "https://i.pravatar.cc/300" }}
+            source={isLogin?.userData?.image ? { uri: isLogin?.userData?.image } : imageIndex.prfile}
             style={styles.profileImage}
           />
 
-          <TouchableOpacity onPress={() => navigator.navigate(ScreenNameEnum.EditProfile)} style={{ marginLeft: 12 }}>
-            <Text style={styles.welcomeText}>Hello, Welcome 👋</Text>
+          <TouchableOpacity 
+            onPress={() => navigator.navigate(ScreenNameEnum.EditProfile)} 
+            style={{ marginLeft: 12 }}
+          >
+            <Text style={styles.welcomeText}>{labels.helloWelcome}</Text>
             <Text style={styles.userName}>{isLogin?.userData?.user_name}</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity style={styles.notification} onPress={()=>navigator.navigate(ScreenNameEnum.NotificationsScreen)}>
+          <TouchableOpacity 
+            style={styles.notification} 
+            onPress={() => navigator.navigate(ScreenNameEnum.NotificationsScreen)}
+          >
             <Image
               source={imageIndex.notification}
               style={styles.notificationIcon}
@@ -41,75 +47,56 @@ const Dashboard = () => {
           </TouchableOpacity>
         </View>
 
-        {/* MENU CARD - 1 */}
-        <TouchableOpacity style={[styles.card, styles.cardPrimary]} 
-        onPress={(()=>{
-          navigator.navigate(ScreenNameEnum.BrowseShifts);
-        })}
+        {/* MENU CARD - 1: Browse Shifts */}
+        <TouchableOpacity 
+          style={[styles.card, styles.cardPrimary]} 
+          onPress={() => navigator.navigate(ScreenNameEnum.BrowseShifts)}
         >
           <Image source={imageIndex.calneder} style={styles.cardIconWhite} />
-
           <View style={styles.cardTextBox}>
-            <Text style={styles.cardTitleWhite}>Browse Shifts</Text>
-            <Text style={styles.cardSubtitleWhite}>Find all available shifts</Text>
+            <Text style={styles.cardTitleWhite}>{labels.browseShifts}</Text>
+            <Text style={styles.cardSubtitleWhite}>{labels.findAllAvailable}</Text>
           </View>
-
           <Image source={imageIndex.rightBack} style={styles.arrowWhiteIcon} />
         </TouchableOpacity>
 
-        {/* MENU CARD - 2 */}
-        <TouchableOpacity style={styles.card} 
-        
-         onPress={(()=>{
-          navigator.navigate('Booking');
-        })}
+        {/* MENU CARD - 2: My Shifts */}
+        <TouchableOpacity 
+          style={styles.card} 
+          onPress={() => navigator.navigate('Booking')}
         > 
-
-
           <Image source={imageIndex.time2} style={styles.cardIconPink} />
-
           <View style={styles.cardTextBox}>
-            <Text style={styles.cardTitle}>My Shifts</Text>
-            <Text style={styles.cardSubtitle}>Upcoming & completed</Text>
+            <Text style={styles.cardTitle}>{labels.myShifts}</Text>
+            <Text style={styles.cardSubtitle}>{labels.upcomingCompleted}</Text>
           </View>
-
-                  <Image source={imageIndex.rightBack} style={styles.arrowWhiteIcon} />
-
+          <Image source={imageIndex.rightBack} style={styles.arrowWhiteIcon} />
         </TouchableOpacity>
 
-        {/* MENU CARD - 3 */}
+        {/* MENU CARD - 3: Favorites */}
         <TouchableOpacity  
-        
-        
-         onPress={(()=>{
-          navigator.navigate(ScreenNameEnum.FavoriteScreen);
-        })}
-        style={styles.card}>
+          onPress={() => navigator.navigate(ScreenNameEnum.FavoriteScreen)}
+          style={styles.card}
+        >
           <Image source={imageIndex.Vector} style={styles.cardIconPink} />
-
           <View style={styles.cardTextBox}>
-            <Text style={styles.cardTitle}>Favorite Institutions</Text>
+            <Text style={styles.cardTitle}>{labels.favoriteInstitutions}</Text>
           </View>
-
-                    <Image source={imageIndex.rightBack} style={styles.arrowWhiteIcon} />
-
+          <Image source={imageIndex.rightBack} style={styles.arrowWhiteIcon} />
         </TouchableOpacity>
 
-        {/* MENU CARD - 4 */}
-        <TouchableOpacity style={styles.card} 
-        
-         onPress={(()=>{
-          navigator.navigate('Profile');
-        })}
+        {/* MENU CARD - 4: Profile */}
+        <TouchableOpacity 
+          style={styles.card} 
+          onPress={() => navigator.navigate('Profile')}
         >
           <Image source={imageIndex.Setting} style={styles.cardIconPink} />
-
           <View style={styles.cardTextBox}>
-            <Text style={styles.cardTitle}>Profile & Preferences</Text>
+            <Text style={styles.cardTitle}>{labels.profilePreferences}</Text>
           </View>
-
           <Image source={imageIndex.rightBack} style={styles.arrowWhiteIcon} />
         </TouchableOpacity>
+
       </View>
     </SafeAreaView>
   );

@@ -1,155 +1,107 @@
-import {
-  View,
-  Text,
-  Image,
-  StyleSheet,
-  ScrollView,
-
-} from 'react-native';
 import React, { useState } from 'react';
+import { View, Text, ScrollView, StyleSheet } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
+
 import StatusBarComponent from '../../../../compoent/StatusBarCompoent';
 import CustomHeader from '../../../../compoent/CustomHeader';
-import imageIndex from '../../../../assets/imageIndex';
-import LoadingModal from '../../../../utils/Loader';
-import useCreateNewPassword from './useCreateNewPassword';
 import TextInputField from '../../../../compoent/TextInputField';
-import ResponsiveSize from '../../../../utils/ResponsiveSize';
 import CustomButton from '../../../../compoent/CustomButton';
-import { wp } from '../../../../utils/Constant';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import LoadingModal from '../../../../utils/Loader';
 import PasswordSuccessfullyModal from '../../../../compoent/ PasswordSuccessfullyModal';
 
+import imageIndex from '../../../../assets/imageIndex';
+import ResponsiveSize from '../../../../utils/ResponsiveSize'; 
+import useCreateNewPassword from './useCreateNewPassword';
+import { language } from '../../../../constant/Language';
+
 export default function CreateNewPassword() {
-  const { credentials,
-    errors,
-    isLoading,
-    handleChange,
-    handleResetPass,
-    navigation, } = useCreateNewPassword();
+  const labels = language.fi;
+  const { credentials, errors, isLoading, handleChange, handleResetPass } = useCreateNewPassword();
   const [modalVisible, setModalVisible] = useState(false);
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: '#fff' }}>
+    <SafeAreaView style={styles.safeArea}>
       <StatusBarComponent />
-      <View style={{ marginTop: 5 }}>
-        <CustomHeader label="Back" />
+      <View style={styles.headerContainer}>
+        <CustomHeader label={labels.back} />
       </View>
-      <ScrollView showsVerticalScrollIndicator={false} >
-        {isLoading ? <LoadingModal /> : null}
 
-        <View
-          style={{
-            backgroundColor: '#FFF',        // White background
-            marginTop: hp(4),               // Responsive top margin
-            marginHorizontal: 15,           // Horizontal margin
-            borderColor: '#ccc',            // Add border color for better visibility
-            borderRadius: 20,               // Rounded corners (optional but recommended)
-            shadowColor: '#000',            // iOS shadow
-            shadowOffset: { width: 0, height: 2 },
-            shadowOpacity: 0.12,
-            shadowRadius: 3.84,
-            elevation: 8,
-          }}>
+      <ScrollView showsVerticalScrollIndicator={false}>
+        {isLoading && <LoadingModal />}
 
-          <View style={{ marginTop: 5, }}>
-            <Text style={{
-              fontWeight: '700',
-              fontSize: 24,
-              lineHeight: 36,
-              color: 'rgba(0, 0, 0, 1)',
-              textAlign: 'center',
-              marginTop: 8
-            }}>Create New Password</Text>
-            <Text style={{
-              fontWeight: '400',
-              fontSize: 16,
-              color: '#9DB2BF',
-              marginTop: 5,
-              lineHeight: 20,
-              textAlign: 'center'
-            }}>
-              Your new password must be different from previous used passwords.
-            </Text>
+        <View style={styles.cardContainer}>
+          <View style={styles.textSection}>
+            <Text style={styles.title}>{labels.createNewPassword}</Text>
+            <Text style={styles.description}>{labels.passwordDesc}</Text>
           </View>
-          <View style={{ marginHorizontal: 15, marginTop: ResponsiveSize.marginTop(18), paddingVertical: hp(2), }}>
-            <TextInputField
-              lable={"Password"}
-              text={credentials.password}
-              placeholder={'Password'}
-              onChangeText={(value: string) => handleChange('password', value)} // Handles email input dynamically
 
-              firstLogo={true}
-              showEye={true}
-              img={imageIndex.lock}
+          <View style={styles.inputSection}>
+            <TextInputField
+              lable={labels.passwordLabel}
+              text={credentials.password}
+              placeholder={labels.passwordLabel}
+              onChangeText={(val) => handleChange('password', val)}
+              firstLogo showEye img={imageIndex.lock}
             />
-            {errors.password ? <Text style={{ color: 'red', fontSize: 14, marginTop: 8 }}>{errors.password}</Text> : null}
+            {errors.password && <Text style={styles.errorText}>{errors.password}</Text>}
+
             <View style={{ marginTop: 12 }}>
               <TextInputField
-                lable={"Confirm Password"}
+                lable={labels.confirmPasswordLabel}
                 text={credentials.confirmPassword}
-                onChangeText={(value: string) => handleChange('confirmPassword', value)} // Handles email input dynamically
-                placeholder={'Confirm Password'}
-                firstLogo={true}
-                showEye={true}
-                img={imageIndex.lock}
+                placeholder={labels.confirmPasswordLabel}
+                onChangeText={(val) => handleChange('confirmPassword', val)}
+                firstLogo showEye img={imageIndex.lock}
               />
             </View>
-            {errors.confirmPassword ? <Text style={{ color: 'red', fontSize: 14, marginTop: 10 }}>{errors.confirmPassword}</Text> : null}
+            {errors.confirmPassword && <Text style={styles.errorText}>{errors.confirmPassword}</Text>}
           </View>
 
-          <View style={{
-            justifyContent: 'flex-start', marginBottom: 10,
-            marginHorizontal: 15,
-
-          }}>
-            <CustomButton
-              title={'Save'}
-              onPress={() => {
-                handleResetPass()
-                // setModalVisible(true)
-              }}
-
-            />
-
+          <View style={styles.buttonContainer}>
+            <CustomButton title={labels.save} onPress={handleResetPass} />
           </View>
         </View>
 
         <PasswordSuccessfullyModal
           visible={modalVisible}
           onClose={() => setModalVisible(false)}
-          onOpenChat={() => {
-            setModalVisible(false);
-
-            handleResetPass()
-          }}
         />
       </ScrollView>
-
-
     </SafeAreaView>
   );
 }
 
-const Styles = StyleSheet.create({
-  text: {
-    fontSize: 16,
-    lineHeight: 24,
-    fontWeight: '700',
-    color: 'rgba(255, 77, 76, 1)',
-    bottom: 2
+const styles = StyleSheet.create({
+  safeArea: { flex: 1, backgroundColor: '#fff' },
+  headerContainer: { marginTop: 5 },
+  cardContainer: {
+    backgroundColor: '#FFF',
+    marginTop: hp(4),
+    marginHorizontal: 15,
+    borderRadius: 20,
+    paddingBottom: 20,
+    // Shadow
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.12,
+    shadowRadius: 3.84,
+    elevation: 8,
   },
-  btn: {
-    alignSelf: 'center',
-    backgroundColor: '#E8442E',
-    height: 55,
-
-    borderRadius: 30,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginTop: 30,
-    width: wp(90),
+  textSection: { marginTop: 5, paddingHorizontal: 10 },
+  title: {
+    fontWeight: '700', fontSize: 24, lineHeight: 36,
+    color: '#000', textAlign: 'center', marginTop: 8
   },
+  description: {
+    fontWeight: '400', fontSize: 16, color: '#9DB2BF',
+    marginTop: 5, lineHeight: 20, textAlign: 'center'
+  },
+  inputSection: {
+    marginHorizontal: 15,
+    marginTop: ResponsiveSize.marginTop(18),
+    paddingVertical: hp(2)
+  },
+  errorText: { color: 'red', fontSize: 14, marginTop: 8 },
+  buttonContainer: { marginHorizontal: 15, marginBottom: 10 }
 });
-
-

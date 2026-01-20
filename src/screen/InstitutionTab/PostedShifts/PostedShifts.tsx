@@ -12,115 +12,94 @@ import { useSelector } from "react-redux";
 import { deleteShiftApi, GetApi } from "../../../api/apiRequest";
 import LoadingModal from "../../../utils/Loader";
 import moment from "moment";
-import PostSuccessfull from "../../../compoent/PostSuccessfull";
+import 'moment/locale/fi'; // Import Finnish locale
 import DeleteRequestModal from "../../../compoent/DeleteSuccessFull";
+import { language } from "../../../constant/Language";
+import { useLanguage } from "../../../LanguageContext";
 
 const PostedShifts = () => {
+  const { labels} = useLanguage(); // Reference Finnish strings
+  moment.locale('fi'); // Set locale to Finnish
+
   const isLogin = useSelector((state: any) => state.auth);
-  console.log(isLogin)
-  const navigatorv = useNavigation()
+  const navigatorv = useNavigation<any>();
   const [loading, setLoading] = useState(false);
   const [selectedShiftId, setSelectedShiftId] = useState(null);
   const [data, setData] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
   const [searchText, setSearchText] = useState('');
   const [visible, setvisible] = useState(false);
+
   useEffect(() => {
-    // Code to run on component mount
     (async () => {
-      console.log("PostedShifts component mounted");
       const param = {
         url: "shift/pending_shift_list_institution",
         user_id: isLogin?.userData?.id,
         token: isLogin?.token
-      }
-
-
+      };
       const dd = await GetApi(param, setLoading);
       setData(dd?.data || []);
       setFilteredData(dd?.data || []);
-    })()
-  }, [])
-  const onSearch = (text) => {
-    setSearchText(text);
+    })();
+  }, []);
 
+  const onSearch = (text: string) => {
+    setSearchText(text);
     if (!text.trim()) {
       setFilteredData(data);
       return;
     }
-
     const lower = text.toLowerCase();
-
     const filtered = data.filter(item =>
       item?.shift_date?.toLowerCase().includes(lower) ||
       item?.time_start?.toLowerCase().includes(lower) ||
       item?.time_end?.toLowerCase().includes(lower) ||
       item?.description?.toLowerCase().includes(lower)
     );
-
     setFilteredData(filtered);
   };
 
   const handleDeleteRequest = async () => {
     if (!selectedShiftId) return;
-    console.log(selectedShiftId,
-      isLogin?.token,
-      setLoading)
     const param = {
       shift_id: selectedShiftId,
       token: isLogin?.token,
-    }
-    const res = await deleteShiftApi(
-      param,
-      setLoading
-    );
+    };
+    const res = await deleteShiftApi(param, setLoading);
 
     if (res?.success) {
-      // ✅ remove from UI instantly
       const updated = data.filter(item => item.id !== selectedShiftId);
-
       setData(updated);
       setFilteredData(updated);
       setvisible(false);
       setSelectedShiftId(null);
     }
   };
-  const renderCard = ({ item }) => (
+
+  const renderCard = ({ item }: any) => (
     <View style={styles.card}>
-      {/* NAME ROW */}
       <View style={styles.headerRow}>
-        {/* <Text style={styles.name}>{item?.shift_date}</Text> */}
-        <Text style={styles.name}>{moment(item?.shift_date, 'YYYY-MM-DD')
-          .format('ddd, DD MMMM YYYY')}</Text>
-        <View style={[styles.statusChip, {
-          flexDirection: "row",
-          alignItems: "center",
-          // backgroundColor: color.thirdColor
-        }]}>
-          <Image source={imageIndex.eye}
-            style={{
-              height: 22,
-              width: 22,
-              resizeMode: "contain"
-            }}
-          />
-          <Text style={[styles.statusText, {
-            marginLeft: 8
-          }]}>2</Text>
+        <Text style={styles.name}>
+          {moment(item?.shift_date, 'YYYY-MM-DD').format('ddd, DD MMMM YYYY')}
+        </Text>
+        <View style={[styles.statusChip, { flexDirection: "row", alignItems: "center" }]}>
+          <Image source={imageIndex.eye} style={{ height: 22, width: 22, resizeMode: "contain" }} />
+          <Text style={[styles.statusText, { marginLeft: 8 }]}>2</Text>
         </View>
       </View>
 
-      {/* DATE */}
       <View style={styles.row}>
-
-        <Text style={styles.value}>{moment(item.time_start, "HH:mm:ss").format("hh:mm A")} – {moment(item.time_end, "HH:mm:ss").format("hh:mm A")}
-        </Text>
-
-      </View>
-      <View style={styles.row}>
-        <Text style={styles.value}>Description : {item?.description}
+        <Text style={styles.value}>
+          {moment(item.time_start, "HH:mm:ss").format("HH:mm")} – {moment(item.time_end, "HH:mm:ss").format("HH:mm")}
         </Text>
       </View>
+
+      <View style={styles.row}>
+        <Text style={styles.value}>
+          {labels.descriptionLabel} : {item?.description}
+        </Text>
+      </View>
+
       <View style={{
         backgroundColor: color.thirdColor,
         width: "45%",
@@ -128,54 +107,34 @@ const PostedShifts = () => {
         height: 28,
         justifyContent: "center"
       }}>
-
-        <Text style={[styles.value, {
-          color: "white"
-        }]}>No bookings yet
+        <Text style={[styles.value, { color: "white", textAlign: 'center' }]}>
+          {labels.noBookings}
         </Text>
       </View>
 
-      {/* TIME */}
-
-
-      {/* SECTION */}
-
-
-      {/* BUTTONS */}
       <View style={styles.btnRow}>
-        <TouchableOpacity style={styles.approveBtn}
-
-
+        <TouchableOpacity 
+          style={styles.approveBtn}
           onPress={() => {
             setSelectedShiftId(item.id);
             setvisible(true);
           }}
         >
-          <Text style={styles.btnTextWhite}>Remove  </Text>
-          <Image source={imageIndex.REMOVE}
-            style={{
-              height: 22,
-              width: 22
-            }}
-          />
+          <Text style={styles.btnTextWhite}>{labels.remove} </Text>
+          <Image source={imageIndex.REMOVE} style={{ height: 22, width: 22 }} />
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.declineBtn}
+        <TouchableOpacity 
+          style={styles.declineBtn}
           onPress={() => {
             navigatorv.navigate(ScreenNameEnum.CreateNewShift, {
               type: "Edit",
               shiftData: item
-            })
+            });
           }}
-
         >
-          <Text style={styles.btnTextWhite}>Edit </Text>
-          <Image source={imageIndex.editp}
-            style={{
-              height: 22,
-              width: 22
-            }}
-          />
+          <Text style={styles.btnTextWhite}>{labels.edit} </Text>
+          <Image source={imageIndex.editp} style={{ height: 22, width: 22 }} />
         </TouchableOpacity>
       </View>
     </View>
@@ -184,32 +143,32 @@ const PostedShifts = () => {
   return (
     <SafeAreaView style={styles.container}>
       <StatusBarComponent />
-      <CustomHeader label="Posted Shifts" />
+      <CustomHeader label={labels.postedShifts} />
       {loading && <LoadingModal />}
 
       <SearchBar
         value={searchText}
         onSearchChange={onSearch}
-        placeholder="Search by date, time or description"
+        placeholder={labels.searchPlaceholder}
       />
+      
       <FlatList
-        // data={data}
         data={filteredData}
         showsVerticalScrollIndicator={false}
-        style={{
-          marginTop: 11,
-          marginHorizontal: 15
-        }}
-        renderItem={renderCard} keyExtractor={item => item.id.toString()} />
+        style={{ marginTop: 11, marginHorizontal: 15 }}
+        renderItem={renderCard} 
+        keyExtractor={item => item.id.toString()} 
+      />
+
       <DeleteRequestModal
         visible={visible}
         onClose={() => setvisible(false)}
         onConfirm={handleDeleteRequest}
-        title="Delete Request"
-        message="Are you sure you want to delete this request? This action cannot be undone."
-        confirmButtonText="Delete"
-        cancelButtonText="Cancel"
-        icon={imageIndex.Decline} // Optional warning icon
+        title={labels.deleteRequestTitle}
+        message={labels.deleteRequestMessage}
+        confirmButtonText={labels.deleteBtn}
+        cancelButtonText={labels.cancelBtn}
+        icon={imageIndex.Decline}
         showCancelButton={true}
       />
     </SafeAreaView>
@@ -218,6 +177,7 @@ const PostedShifts = () => {
 
 export default PostedShifts;
 
+// ... Styles (kept exactly as original) ...
 const styles = StyleSheet.create({
   container: {
     flex: 1,

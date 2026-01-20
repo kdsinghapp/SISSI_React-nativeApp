@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 import { color } from '../constant';
 import font from '../theme/font';
+import { language } from '../constant/Language'; // Adjust path as needed
 
 interface ImagePickerModalProps {
   modalVisible: boolean;
@@ -23,6 +24,9 @@ const ImagePickerModal: React.FC<ImagePickerModalProps> = ({
   pickImageFromGallery,
   takePhotoFromCamera,
 }) => {
+  // Reference Finnish labels
+  const labels = language.fi;
+
   const handleSelectGallery = useCallback(() => {
     setModalVisible(false);
     pickImageFromGallery();
@@ -49,16 +53,24 @@ const ImagePickerModal: React.FC<ImagePickerModalProps> = ({
           <View style={styles.modalContainer}>
             <View style={styles.handleBar} />
             <Text allowFontScaling={false} style={styles.title}>
-              Choose an Option
+              {labels.chooseOption}
             </Text>
 
-            <OptionButton text=" 📷   Select from Gallery" onPress={handleSelectGallery} />
-            {/* Uncomment below if camera option needed */}
-            {/* <OptionButton text="📸 Take a Photo" onPress={handleTakePhoto} /> */}
+            <OptionButton 
+              text={`📷   ${labels.selectFromGallery}`} 
+              onPress={handleSelectGallery} 
+            />
+            
+            {/* Example if you want to use the camera option:
+            <OptionButton 
+              text={`📸   ${labels.takePhoto}`} 
+              onPress={handleTakePhoto} 
+            /> 
+            */}
 
             <TouchableOpacity style={styles.cancelButton} onPress={handleCancel}>
               <Text allowFontScaling={false} style={styles.cancelText}>
-                Cancel
+                {labels.cancel}
               </Text>
             </TouchableOpacity>
           </View>
@@ -67,6 +79,7 @@ const ImagePickerModal: React.FC<ImagePickerModalProps> = ({
     </Modal>
   );
 };
+ 
 
 interface OptionButtonProps {
   text: string;

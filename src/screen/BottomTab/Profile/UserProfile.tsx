@@ -19,41 +19,44 @@ import { useNavigation } from "@react-navigation/native";
 import { useSelector } from "react-redux";
 import { color } from "../../../constant";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { language } from "../../../constant/Language";
+import { useLanguage } from "../../../LanguageContext";
 
 const ProfileScreen = () => {
   const navigation = useNavigation();
   const [logoutModal, setLogoutModal] = useState(false);
   const isLogin = useSelector((state: any) => state.auth);
+  const { labels} = useLanguage(); // Reference Finnish strings
   console.log(isLogin, 'userData')
   /* -------- MENU DATA ARRAY -------- */
   const menuData = isLogin?.userData?.type == "User" ? [
     {
       id: "1",
-      title: "My Profile",
+      title: labels.myProfile,
       icon: imageIndex.P1,
       screen: ScreenNameEnum.EditProfile,
     },
     {
       id: "2",
-      title: "Favorite Institutions",
+      title: labels.favoriteInstitutions,
       icon: imageIndex.favort,
       screen: ScreenNameEnum.FavoriteScreen,
     },
     {
       id: "3",
-      title: "Notifications",
+      title: labels.notifications,
       icon: imageIndex.notifcaton,
       screen: ScreenNameEnum.NotificationsSetting,
     },
     {
       id: "4",
-      title: "About Us",
+      title: labels.aboutUs,
       icon: imageIndex.privacy,
       screen: ScreenNameEnum.AboutUS,
     },
     {
       id: "5",
-      title: "Privacy Policy",
+      title: labels.privacyPolicy,
       icon: imageIndex.privacy,
       screen: ScreenNameEnum.PrivacyPolicy,
     },
@@ -61,26 +64,26 @@ const ProfileScreen = () => {
     [
       {
         id: "1",
-        title: "My Profile",
+        title: labels.myProfile,
         icon: imageIndex.P1,
         screen: ScreenNameEnum.EditProfile,
       },
 
       {
         id: "3",
-        title: "Notifications",
+        title: labels.notifications,
         icon: imageIndex.notifcaton,
         screen: ScreenNameEnum.NotificationsSetting,
       },
       {
         id: "4",
-        title: "About Us",
+        title: labels.aboutUs,
         icon: imageIndex.privacy,
         screen: ScreenNameEnum.AboutUS,
       },
       {
         id: "5",
-        title: "Privacy Policy",
+        title: labels.privacyPolicy,
         icon: imageIndex.privacy,
         screen: ScreenNameEnum.PrivacyPolicy,
       },
@@ -93,14 +96,14 @@ const ProfileScreen = () => {
         contentContainerStyle={styles.container}
       >
         {/* TITLE */}
-        <Text style={styles.profileTitle}>Profile</Text>
+        <Text style={styles.profileTitle}>{labels.profile}</Text>
 
         {/* USER CARD */}
         <TouchableOpacity activeOpacity={1} onPress={() => navigation.navigate(ScreenNameEnum.EditProfile)} style={styles.userCard}>
           <View>
 
             <Image
-              source={isLogin?.userData?.image_url ? { uri: isLogin?.userData?.image_url } : imageIndex.prfile}
+              source={isLogin?.userData?.image ? { uri: isLogin?.userData?.image } : imageIndex.prfile}
               style={styles.avatar}
             />
           </View>
@@ -130,7 +133,7 @@ const ProfileScreen = () => {
 
         {/* LOGOUT BUTTON */}
         <View style={{ marginTop: 20 }}>
-          <CustomButton title="Logout"
+          <CustomButton title={labels.logout}
             // button1={{ backgroundColor: "#FF383C" }}
             onPress={() => {
               setLogoutModal(true);

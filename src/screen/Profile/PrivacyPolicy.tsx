@@ -10,11 +10,14 @@ import { hp } from '../../utils/Constant';
 import font from '../../theme/font';
 import LoadingModal from '../../utils/Loader';
 import { AboutUs_Api, Policies_Api } from '../../api/apiRequest';
+import { language } from '../../constant/Language';
+import { useLanguage } from '../../LanguageContext';
 
 const PrivacyPolicy = () => {
     const [isLoading, setLoading] = useState(false);
     const [content, setContent] = useState<string>('');
     const { width } = useWindowDimensions();
+    const { labels} = useLanguage(); // Reference Finnish strings
 
     useEffect(() => {
         getPrivacyPolicy();
@@ -40,7 +43,7 @@ const PrivacyPolicy = () => {
             <StatusBarComponent />
             {/* <LoadingModal visible ={isLoading}/> */}
 
-            <CustomHeader label="Privacy Policy" />
+            <CustomHeader label={labels.privacyPolicy} />
             <ScrollView
                 showsVerticalScrollIndicator={false}
                 contentContainerStyle={styles.contentContainer}

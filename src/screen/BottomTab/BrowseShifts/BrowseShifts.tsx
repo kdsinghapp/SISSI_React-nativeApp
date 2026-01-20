@@ -16,14 +16,18 @@ import BookingSuccessModal from "../../../compoent/BookingModal";
 import { useSelector } from "react-redux";
 import { BookShiftByUserApi, GetApi, onFavoriteShift } from "../../../api/apiRequest";
 import moment from "moment";
+import 'moment/locale/fi'; // Import Finnish locale
 import LoadingModal from "../../../utils/Loader";
 import { color } from "../../../constant";
 import { useNavigation } from "@react-navigation/native";
-import ScreenNameEnum from "../../../routes/screenName.enum";
-
-const DATA = [1, 2, 3];
+import ScreenNameEnum from "../../../routes/screenName.enum"; 
+import { language } from "../../../constant/Language";
+import { useLanguage } from "../../../LanguageContext";
 
 export default function BrowseShifts() {
+  const { labels} = useLanguage();
+  moment.locale('fi'); // Set moment to Finnish globally for this screen
+
   const [modalVisible, setModalVisible] = useState(false);
   const [data, setData] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
@@ -31,34 +35,28 @@ export default function BrowseShifts() {
   const isLogin = useSelector((state: any) => state.auth);
   const [bookedItem, setBookedItem] = useState(null);
   const [loading, setLoading] = useState(false);
+  const navigation = useNavigation();
+
   useEffect(() => {
-    // Code to run on component mount
     (async () => {
-      console.log("PostedShifts component mounted");
       const param = {
         url: "shift/all_shift_list_user",
         token: isLogin?.token,
         method: 'GET'
       }
-
-
       const dd = await GetApi(param, setLoading);
       setData(dd?.data || []);
-      console.log(dd?.data, 'this is data')
       setFilteredData(dd?.data || []);
     })()
   }, [])
 
   const onSearch = (text) => {
     setSearchText(text);
-
     if (!text.trim()) {
       setFilteredData(data);
       return;
     }
-
     const search = text.toLowerCase();
-
     const filtered = data.filter(item => {
       return (
         item?.user_name?.toLowerCase().includes(search) ||
@@ -74,13 +72,10 @@ export default function BrowseShifts() {
           .includes(search)
       );
     });
-
     setFilteredData(filtered);
   };
 
   const BookNow = async (item) => {
-    // Logic to handle booking the shift
-    console.log("Book Now pressed for item:", item);
     const param = {
       shift_id: item?.id,
       token: isLogin?.token,
@@ -91,16 +86,14 @@ export default function BrowseShifts() {
       setModalVisible(true);
     }
   }
+
   const onFavorite = async (item) => {
-    // Logic to handle booking the shift
-    console.log("Book Now pressed for item:", item);
     const param = {
       shift_id: item?.id,
       token: isLogin?.token,
     }
     const dd = await onFavoriteShift(param, setLoading)
     if (dd?.status == '1') {
-      // setModalVisible(true);
       setFilteredData(prev =>
         prev.map(i =>
           i.id === item.id
@@ -110,137 +103,105 @@ export default function BrowseShifts() {
       );
     }
   }
-  const navigation = useNavigation()
+
   const renderCard = ({ item }: any) => (
     <TouchableOpacity onPress={() =>
       navigation.navigate(ScreenNameEnum.ShiftDetailScreen, {
-        item: item, // 👈 passing single object
+        item: item,
       })
     } style={styles.card}>
-      {/* Row 1 */}
-      <View style={{
-        alignItems: "center",
-        justifyContent: "center",
-        marginBottom: 16
-      }}>
-
+      <View style={{ alignItems: "center", justifyContent: "center", marginBottom: 16 }}>
         <Image source={imageIndex.home1}
           tintColor={color.primary}
-          style={{
-            height: 44,
-            width: 44,
-            resizeMode: "contain",
-          }}
+          style={{ height: 44, width: 44, resizeMode: "contain" }}
         />
       </View>
 
-
       <View style={styles.row}>
         <View style={styles.flex1}>
-          <Text style={styles.label}>Institution Name</Text>
+          <Text style={styles.label}>{labels.institutionName}</Text>
           <Text style={styles.value}>{item?.user_name}</Text>
         </View>
 
         <View style={styles.rightView}>
-          <Text style={styles.label}>Unit Name</Text>
+          <Text style={styles.label}>{labels.unitName}</Text>
           <Text style={styles.value}>{item?.unit_name}</Text>
         </View>
       </View>
 
-      {/* Row 2 */}
       <View style={[styles.row, styles.mt12]}>
         <View style={styles.flex1}>
-          <Text style={styles.label}>Date & Time</Text>
+          <Text style={styles.label}>{labels.dateTime}</Text>
           <Text style={styles.value}>
-            {moment(item?.shift_date, 'YYYY-MM-DD')
-              .format('dddd, DD MMMM YYYY')}{"\n"}{item?.time_start} – {item?.time_end}
+            {moment(item?.shift_date, 'YYYY-MM-DD').format('dddd, DD MMMM YYYY')}
+            {"\n"}{item?.time_start} – {item?.time_end}
           </Text>
         </View>
 
         <View style={styles.rightView}>
-          <Text style={styles.label}>Location</Text>
+          <Text style={styles.label}>{labels.location}</Text>
           <Text style={styles.value}>{item?.location}</Text>
         </View>
       </View>
 
-      {/* Row 3 */}
       <View style={[styles.row, styles.mt12]}>
         <View style={styles.flex1}>
-          <Text style={styles.label}>Short Description</Text>
-          <Text style={styles.value}>
-            {item?.description}
-          </Text>
+          <Text style={styles.label}>{labels.shortDescription}</Text>
+          <Text style={styles.value}>{item?.description}</Text>
         </View>
 
         <View style={styles.rightView}>
-          <Text style={styles.label}>Badge</Text>
+          <Text style={styles.label}>{labels.badgeLabel}</Text>
           <View style={[styles.badge, styles.mt12]}>
-            <Text style={styles.badgeTxt}>{item?.status == "Pending" ? 'Available' : 'Not Available'}</Text>
+            <Text style={styles.badgeTxt}>
+              {item?.status === "Pending" ? labels.available : labels.notAvailable}
+            </Text>
           </View>
         </View>
       </View>
 
-      {/* Buttons */}
       <View style={styles.btnRow}>
-        <TouchableOpacity style={styles.removeBtn}
-          onPress={() => onFavorite(item)}
-        >
+        <TouchableOpacity style={styles.removeBtn} onPress={() => onFavorite(item)}>
           <Text style={styles.removeTxt}>
-            {item?.favorite_status == 0 ? 'Favorite' : 'Unfavorite'}{" "}
-            <Text style={{ fontSize: 22, color: color.primary }}>
-              ✩
-            </Text>
+            {item?.favorite_status == 0 ? labels.favorite : labels.unfavorite}{" "}
+            <Text style={{ fontSize: 22, color: color.primary }}>✩</Text>
           </Text>
-
         </TouchableOpacity>
 
-        <TouchableOpacity
-
-          onPress={() =>
-            BookNow(item)
-            // {
-            //   console.log(item,
-            //     item?.user_id,
-            //     item?.users_image,)
-
-            // }
-          }
-
-          style={styles.detailsBtn}>
-          <Text style={styles.detailsTxt}>Book Now</Text>
+        <TouchableOpacity onPress={() => BookNow(item)} style={styles.detailsBtn}>
+          <Text style={styles.detailsTxt}>{labels.bookNow}</Text>
         </TouchableOpacity>
       </View>
-
     </TouchableOpacity>
   );
+
   return (
     <SafeAreaView style={styles.container}>
       {loading && <LoadingModal />}
       <StatusBarComponent />
-      <CustomHeader label="Browse Shifts" />
-      <SearchBar value={searchText} onSearchChange={onSearch}
-        placeholder="Search by name, date, time, location" />
+      <CustomHeader label={labels.browseShifts} />
+      <SearchBar 
+        value={searchText} 
+        onSearchChange={onSearch}
+        placeholder={labels.searchPlaceholder} 
+      />
 
       <View style={styles.listWrapper}>
         <FlatList
           data={filteredData}
           renderItem={renderCard}
-          keyExtractor={(item) => item?.toString()}
+          keyExtractor={(item) => item?.id?.toString()}
           showsVerticalScrollIndicator={false}
           contentContainerStyle={{ paddingBottom: 40 }}
         />
       </View>
 
-
       <BookingSuccessModal
         visible={modalVisible}
         userName={bookedItem?.user_name}
-        userImage= {bookedItem?.users_image} // replace with real image URL
+        userImage={bookedItem?.users_image}
         onClose={() => setModalVisible(false)}
         onOpenChat={() => {
-          // navigate to chat screen
-          console.log('Open Chat Pressed');
-          setModalVisible(false);
           setModalVisible(false);
           navigation.navigate(ScreenNameEnum.ChatScreen, {
             item: {
@@ -255,6 +216,7 @@ export default function BrowseShifts() {
   );
 }
 
+// ... styles remain the same ...
 const styles = StyleSheet.create({
   /* Screen Container */
   container: {

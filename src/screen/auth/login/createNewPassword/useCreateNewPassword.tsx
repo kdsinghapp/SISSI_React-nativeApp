@@ -1,58 +1,61 @@
 import { useState } from 'react';
 import { useNavigation, useRoute } from '@react-navigation/native';
-  import ScreenNameEnum from '../../../../routes/screenName.enum';
 import { Alert } from 'react-native';
-import { updatePassword } from '../../../../api/apiRequest';
- 
+import { updatePassword } from '../../../../api/apiRequest'; 
+import { language } from '../../../../constant/Language';
+import { useLanguage } from '../../../../LanguageContext';
 
 const useCreateNewPassword = () => {
-  const [credentials, setCredentials] = useState <any>({
+  const { labels} = useLanguage();
+  const navigation = useNavigation<any>();
+  const route: any = useRoute();
+  const { userId } = route.params || {};
+
+  const [credentials, setCredentials] = useState({
     password: '',
     confirmPassword: '',
   });
-  const route:any = useRoute();
-  const { userId } = route.params || ''; // Provide a fallback if route.params is undefined
   const [errors, setErrors] = useState<any>({});
-  const [isLoading, setisLoading] = useState(false);
-  const navigation = useNavigation<any>();
-  const handleChange = (field:string, value:string) => {
-    setCredentials((prev:any) => ({ ...prev, [field]: value }));
-    setErrors((prev:any) => ({ ...prev, [field]: '' }));
-    if (field === "password" && value.length < 5) {
-      setErrors((prev:any) => ({ ...prev, password: "Password must be at least 5 characters." }));
-    }
-    if (field === "confirmPassword" && value !== credentials.password) {
-      setErrors((prev:any) => ({ ...prev, confirmPassword: "Passwords do not match." }));
-    }
+  const [isLoading, setIsLoading] = useState(false);
 
+  const handleChange = (field: string, value: string) => {
+    setCredentials(prev => ({ ...prev, [field]: value }));
+    setErrors(prev => ({ ...prev, [field]: '' }));
+
+    // Real-time validation
+    if (field === "password" && value.length > 0 && value.length < 5) {
+      setErrors(prev => ({ ...prev, password: labels.passwordMinLength }));
+    }
   };
 
   const handleResetPass = async () => {
-     navigation.navigate(ScreenNameEnum.Login)
     const { password, confirmPassword } = credentials;
-    let validationErrors:any = {};
-    if (!password.trim()) validationErrors.password = 'Password is required.';
-    if (!confirmPassword.trim()) validationErrors.confirmPassword = 'Confirm Password is required.';
+    let validationErrors: any = {};
+
+    if (!password.trim()) validationErrors.password = labels.passwordRequired;
+    if (!confirmPassword.trim()) validationErrors.confirmPassword = labels.confirmPasswordRequired;
+
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
       return;
     }
+
     if (password !== confirmPassword) {
-      Alert.alert('Error', 'Passwords do not match.');
+      Alert.alert(labels.errorTitle, labels.passwordsDoNotMatch);
       return;
     }
-    const params = {
-      password: password,
-      confirm_password: confirmPassword,
-      userId: userId,
-      navigation: navigation,
-    };
-console.log(params, 'params==================')
-    try {
-       const response = await updatePassword(params, setisLoading);
-    } catch (error) {
-     }
 
+    try {
+      const params = {
+        password,
+        confirm_password: confirmPassword,
+        userId,
+        navigation,
+      };
+      await updatePassword(params, setIsLoading);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return {

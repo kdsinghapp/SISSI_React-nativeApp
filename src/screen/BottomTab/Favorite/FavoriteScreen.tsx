@@ -17,16 +17,18 @@ import LoadingModal from "../../../utils/Loader";
 import moment from "moment";
 import ScreenNameEnum from "../../../routes/screenName.enum";
 import { useNavigation } from "@react-navigation/native";
-
-const DATA = [1, 2, 3];
+import { language } from "../../../constant/Language";
+import { useLanguage } from "../../../LanguageContext";
 
 export default function FavoriteScreen() {
+  const { labels } = useLanguage(); // Reference Finnish strings
   const [modalVisible, setModalVisible] = useState(false);
   const [data, setData] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
   const [searchText, setSearchText] = useState('');
   const isLogin = useSelector((state: any) => state.auth);
   const [loading, setLoading] = useState(false);
+
   useEffect(() => {
     // Code to run on component mount
     (async () => {
@@ -93,12 +95,12 @@ export default function FavoriteScreen() {
       <View style={styles.card}>
         <View style={styles.row}>
           <View style={{ flex: 1 }}>
-            <Text style={styles.label}>Institution Name</Text>
+            <Text style={styles.label}>{labels.institutionName}</Text>
             <Text style={styles.value}>{item?.user_name}</Text>
           </View>
 
           <View style={{ flex: 1, alignItems: "flex-end" }}>
-            <Text style={styles.label}>Unit Example</Text>
+            <Text style={styles.label}>{labels.unitName}</Text>
             <Text style={styles.value}>{item?.unit_name}</Text>
           </View>
         </View>
@@ -106,12 +108,12 @@ export default function FavoriteScreen() {
         {/* Row 2 */}
         <View style={[styles.row, { marginTop: 12 }]}>
           <View style={{ flex: 1 }}>
-            <Text style={styles.label}>Location</Text>
+            <Text style={styles.label}>{labels.location}</Text>
             <Text style={styles.value}>{item?.location}</Text>
           </View>
 
           <View style={{ flex: 1, alignItems: "flex-end" }}>
-            <Text style={styles.label}>Badge</Text>
+            <Text style={styles.label}>{labels.badge}</Text>
             <View style={styles.badge}>
               <Text style={styles.badgeTxt}>{item?.status}</Text>
             </View>
@@ -121,15 +123,15 @@ export default function FavoriteScreen() {
         {/* Buttons */}
         <View style={styles.btnRow}>
           <TouchableOpacity style={styles.removeBtn} onPress={() => onFavorite(item)}>
-            <Text style={styles.removeTxt}>Remove</Text>
+            <Text style={styles.removeTxt}>{labels.remove}</Text>
           </TouchableOpacity>
 
           <TouchableOpacity style={styles.detailsBtn} onPress={() =>
             navigation.navigate(ScreenNameEnum.ShiftDetailScreen, {
-              item: item,
+              item: item
             })
           }>
-            <Text style={styles.detailsTxt}>View Details</Text>
+            <Text style={styles.detailsTxt}>{labels.viewDetail}</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -140,9 +142,9 @@ export default function FavoriteScreen() {
     <SafeAreaView style={styles.container}>
       {loading && <LoadingModal />}
       <StatusBarComponent />
-      <CustomHeader label="Favorite Institutions" />
+      <CustomHeader label={labels.favoriteInstitutions} />
       <SearchBar value={searchText} onSearchChange={onSearch}
-        placeholder="Search by name, date, time, location" />
+        placeholder={labels.searchPlaceholder} />
 
       <View style={{ flex: 1, marginTop: 18, marginHorizontal: 16 }}>
         <FlatList
@@ -151,9 +153,9 @@ export default function FavoriteScreen() {
           keyExtractor={(item) => item.id}
           showsVerticalScrollIndicator={false}
           contentContainerStyle={{ paddingBottom: 40 }}
-          ListEmptyComponent={()=><View>
-            <Text style={{textAlign:'center'}}>No Favorite Institutions Found</Text>
-            </View>}
+          ListEmptyComponent={() => <View>
+            <Text style={{ textAlign: 'center' }}>{labels.noFavoritesFound}</Text>
+          </View>}
         />
       </View>
     </SafeAreaView>
@@ -168,7 +170,7 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
 
-   card: {
+  card: {
     borderWidth: 1.5,
     borderColor: "#FF007A", // PINK BORDER
     borderRadius: 18,

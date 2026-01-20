@@ -8,28 +8,8 @@ import { GetApi } from '../../api/apiRequest';
 import { useSelector } from 'react-redux';
 import LoadingModal from '../../utils/Loader';
 import moment from 'moment';
-
-const notifications = [
-  {
-    title: '',
-    data: [
-      {
-        id: '1',
-        title: 'Your weekly review has been answered',
-        date: 'Jun 2, 2024 at 09:41 AM',
-        unread: false,
-      },
-      {
-        id: '2',
-        title: 'Unread notification title',
-        date: 'Date',
-        unread: true,
-      },
-    ],
-  },
-
-
-];
+import { language } from '../../constant/Language';
+ 
 
 const NotificationItem = ({ item }) => {
   return (
@@ -58,7 +38,7 @@ const NotificationsScreen = () => {
   useEffect(() => {
     getData()
   }, [])
-
+const label = language.fi
   const getData = async () => {
     const param = {
       token: isLogin?.token,
@@ -77,7 +57,7 @@ const NotificationsScreen = () => {
     <SafeAreaView style={styles.container}>
       {loading && <LoadingModal />}
       <CustomHeader
-        label={"Notification"}
+        label={label.notifications}
         leftPress={() => navigation.goBack()}
       // rightIcons={[
       //     { icon: imageIndex.close, onPress:()=>navigation.navigate(ScreenNameEnum.NotificationsScreen)}

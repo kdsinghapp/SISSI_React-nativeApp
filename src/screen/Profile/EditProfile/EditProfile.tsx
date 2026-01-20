@@ -10,7 +10,6 @@ import {
   Text,
   FlatList,
   Modal,
-  Alert,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { launchCamera, launchImageLibrary } from "react-native-image-picker";
@@ -24,60 +23,61 @@ import CustomButton from "../../../compoent/CustomButton";
 import ImagePickerModal from "../../../compoent/ImagePickerModal";
 import imageIndex from "../../../assets/imageIndex";
 import TextInputField from "../../../compoent/TextInputField";
-import ScreenNameEnum from "../../../routes/screenName.enum";
 import { color } from "../../../constant";
 import { GetApi, PostApi } from "../../../api/apiRequest";
 import { successToast } from "../../../utils/customToast";
 import { loginSuccess } from "../../../redux/feature/authSlice";
 import LoadingModal from "../../../utils/Loader";
+import { language } from "../../../constant/Language";
+import { useLanguage } from "../../../LanguageContext";
 
 const EditProfile = () => {
   const navigation = useNavigation();
+  const dispatch = useDispatch();
   const isLogin = useSelector((state: any) => state.auth);
+  const { labels} = useLanguage();
 
   const [loading, setLoading] = useState(false);
   const [savedRole, setSavedRole] = useState<string | null>(null);
 
-  /** ================= FORM STATES ================= */
+  // FORM STATES
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [address, setAddress] = useState("");
   const [dob, setDob] = useState("");
-
   const [education, setEducation] = useState("");
   const [degree, setDegree] = useState("");
   const [schoolName, setSchoolName] = useState("");
   const [graduationYear, setGraduationYear] = useState("");
-
   const [unitName, setUnitName] = useState("");
   const [unitManager, setUnitManager] = useState("");
-
   const [image, setImage] = useState<any>(null);
   const [imageUrl, setImageUrl] = useState<string | null>(null);
 
   const [dropdownVisible, setDropdownVisible] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
 
-  const educationOptions = ["High School", "Bachelor", "Master", "PhD"];
+  const educationOptions = [
+    labels.highSchool,
+    labels.bachelor,
+    labels.master,
+    labels.phd
+  ];
 
-  /** ================= GET ROLE ================= */
   const loadRole = async () => {
     const role = await AsyncStorage.getItem("userRole");
     if (role) setSavedRole(role);
   };
 
-  /** ================= GET PROFILE ================= */
   const getProfile = async () => {
     const param = {
       url: "auth/get-profile",
       user_id: isLogin?.userData?.id,
       token: isLogin?.token,
     };
-
     const res = await GetApi(param, setLoading);
     const data = res?.data?.user_data;
-    console.log(data?.user_name, '======================)')
     if (!data) return;
 
     setFullName(data.user_name || "");
@@ -98,8 +98,7 @@ const EditProfile = () => {
     loadRole();
     getProfile();
   }, []);
-  const dispatch = useDispatch()
-  /** ================= IMAGE PICKER ================= */
+
   const pickImageFromGallery = () => {
     launchImageLibrary({ mediaType: "photo" }, (res) => {
       if (res.assets?.[0]) {
@@ -118,10 +117,8 @@ const EditProfile = () => {
     });
   };
 
-  /** ================= UPDATE PROFILE ================= */
   const handleUpdateProfile = async () => {
     const formData = new FormData();
-
     formData.append("user_name", fullName);
     formData.append("email", email);
     formData.append("mobile_number", phone);
@@ -145,15 +142,6 @@ const EditProfile = () => {
         name: image.fileName || "profile.jpg",
       });
     }
-    console.log(formData, '==============formdata')
-    // const param = {
-    //   url: "auth/update-profile",
-    //   token: isLogin?.token,
-    //   data: formData,
-    //   isFormData: true,
-    // };
-
-    // const res = await PostApi(param, setLoading);
 
     const param = {
       url: "auth/update-profile",
@@ -164,55 +152,51 @@ const EditProfile = () => {
 
     const res = await PostApi(param, setLoading);
     if (res?.status) {
-      console.log(res, 'thisi si res==================')
-      dispatch(loginSuccess({ userData: res?.data, token: isLogin?.token, }));
-      successToast("Profile updated successfully");
+      dispatch(loginSuccess({ userData: res?.data, token: isLogin?.token }));
+      successToast(labels.profileUpdated);
       navigation.goBack();
     }
   };
 
   return (
     <SafeAreaView style={styles.safeArea}>
-      {loading && <LoadingModal/>}
+      {loading && <LoadingModal />}
       <StatusBarComponent />
-      <CustomHeader label="My Profile" />
+      <CustomHeader label={labels.myProfile} />
 
       <KeyboardAvoidingView
         style={{ flex: 1 }}
-        behavior={Platform.OS === "ios" ? "padding" : undefined}
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        keyboardVerticalOffset={Platform.OS === "ios" ? 0 : 20}
       >
-        <ScrollView showsVerticalScrollIndicator={false}>
+        <ScrollView 
+            showsVerticalScrollIndicator={false}
+            contentContainerStyle={{ flexGrow: 1 }}
+            keyboardShouldPersistTaps="handled"
+        >
           {/* PROFILE IMAGE */}
           <View style={styles.profileContainer}>
             <Image
               source={
-                image
-                  ? { uri: image.uri }
-                  : imageUrl
-                    ? { uri: imageUrl }
-                    : imageIndex.prfile
+                image ? { uri: image.uri } : 
+                imageUrl ? { uri: imageUrl } : 
+                imageIndex.prfile
               }
               style={styles.profileImage}
             />
-
             <TouchableOpacity
               style={styles.editIconContainer}
               onPress={() => setIsModalVisible(true)}
             >
-              <Image
-                source={imageIndex.eoditphots}
-                style={styles.editIcon}
-              // tintColor={color.white}
-              />
+              <Image source={imageIndex.eoditphots} style={styles.editIcon} />
             </TouchableOpacity>
           </View>
-
 
           <View style={styles.card}>
             <View style={styles.formContainer}>
               {savedRole === "Substitute" ? (
                 <TextInputField
-                  placeholder="Full Name"
+                  placeholder={labels.fullName}
                   value={fullName}
                   onChangeText={setFullName}
                   firstLogo
@@ -221,47 +205,49 @@ const EditProfile = () => {
               ) : (
                 <>
                   <TextInputField
-                    placeholder="Institution Name"
+                    placeholder={labels.institutionName}
                     firstLogo
                     img={imageIndex.Level}
                     value={fullName}
-                  onChangeText={setFullName}
+                    onChangeText={setFullName}
                   />
                   <TextInputField
-                    placeholder="Unit Name"
+                    placeholder={labels.unitName}
                     firstLogo
                     img={imageIndex.Health}
                     value={unitName}
-                  onChangeText={setUnitName}
+                    onChangeText={setUnitName}
                   />
                   <TextInputField
-                    placeholder="Unit Manager Name"
+                    placeholder={labels.unitManagerName}
                     firstLogo
                     img={imageIndex.Textprofile}
                     value={unitManager}
-                  onChangeText={setUnitManager}
+                    onChangeText={setUnitManager}
                   />
                 </>
               )}
 
               <TextInputField
-                placeholder="Email"
+                placeholder={labels.email}
                 value={email}
                 onChangeText={setEmail}
                 firstLogo
                 img={imageIndex.mess}
+                editable={false}
               />
 
               <TextInputField
-                placeholder="Phone Number"
+                placeholder={labels.phoneNumber}
                 value={phone}
                 onChangeText={setPhone}
                 firstLogo
                 img={imageIndex.Textphone}
+                keyboardType="phone-pad"
               />
 
               <TextInputField
-                placeholder="Address"
+                placeholder={labels.address}
                 value={address}
                 onChangeText={setAddress}
                 firstLogo
@@ -270,22 +256,21 @@ const EditProfile = () => {
 
               {savedRole === "Substitute" && (
                 <>
-                  <Text style={styles.sectionTitle}>Education Details</Text>
-
+                  <Text style={styles.sectionTitle}>{labels.educationDetails}</Text>
                   <TouchableOpacity
                     style={styles.dropdown}
                     onPress={() => setDropdownVisible(true)}
                   >
                     <View style={styles.dropdownContent}>
                       <Image source={imageIndex.Level} style={styles.dropdownIcon} tintColor={color.primary} />
-
-                      <Text style={{ marginLeft: 8, color: education ? "#000" : "#999" }} >{education || "Level of Education"}</Text>
+                      <Text style={{ marginLeft: 8, color: education ? "#000" : "#999" }}>
+                        {education || labels.levelOfEducation}
+                      </Text>
                     </View>
                   </TouchableOpacity>
 
                   <TextInputField
-
-                    placeholder="Degree"
+                    placeholder={labels.degree}
                     value={degree}
                     onChangeText={setDegree}
                     img={imageIndex.heart}
@@ -293,7 +278,7 @@ const EditProfile = () => {
                   />
 
                   <TextInputField
-                    placeholder="School Name"
+                    placeholder={labels.schoolName}
                     value={schoolName}
                     onChangeText={setSchoolName}
                     firstLogo
@@ -301,33 +286,22 @@ const EditProfile = () => {
                   />
 
                   <TextInputField
-                    placeholder="Year of Graduation"
+                    placeholder={labels.yearOfGraduation}
                     value={graduationYear}
                     onChangeText={setGraduationYear}
                     firstLogo
                     img={imageIndex.yerar}
+                    keyboardType="numeric"
                   />
                 </>
               )}
 
-              {/* {savedRole == "Substitute" && (
-                              <>
-                                <Text style={styles.sectionTitle}>Worker Experience</Text>
-              
-                                <TextInputField
-              
-                                  placeholder="Write here "
-                                />
-                              </>
-              
-              
-                            )} */}
-
-              <CustomButton
-                title="Update Profile"
-                // loading={loading}
-                onPress={handleUpdateProfile}
-              />
+              <View style={{ marginTop: 20, marginBottom: 40 }}>
+                <CustomButton
+                  title={labels.updateProfile}
+                  onPress={handleUpdateProfile}
+                />
+              </View>
             </View>
           </View>
         </ScrollView>
@@ -340,8 +314,7 @@ const EditProfile = () => {
         takePhotoFromCamera={takePhotoFromCamera}
       />
 
-      {/* EDUCATION DROPDOWN */}
-      <Modal visible={dropdownVisible} transparent>
+      <Modal visible={dropdownVisible} transparent animationType="slide">
         <TouchableOpacity
           style={styles.modalOverlay}
           onPress={() => setDropdownVisible(false)}
@@ -358,7 +331,7 @@ const EditProfile = () => {
                     setDropdownVisible(false);
                   }}
                 >
-                  <Text>{item}</Text>
+                  <Text style={styles.modalItemText}>{item}</Text>
                 </TouchableOpacity>
               )}
             />
@@ -370,8 +343,6 @@ const EditProfile = () => {
 };
 
 export default EditProfile;
-
-
 
 const styles = StyleSheet.create({
   safeArea: { flex: 1, backgroundColor: "#FFF" },

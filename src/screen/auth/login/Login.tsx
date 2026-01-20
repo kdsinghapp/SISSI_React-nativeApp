@@ -5,7 +5,6 @@ import {
   Image,
   TouchableOpacity,
   ScrollView,
-  SafeAreaView,
   StyleSheet,
 } from 'react-native';
 import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
@@ -17,6 +16,7 @@ import LoadingModal from '../../../utils/Loader';
 import useLogin from './useLogin';
 import TextInputField from '../../../compoent/TextInputField';
 import { color } from '../../../constant';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function Login() {
   const {
@@ -26,6 +26,7 @@ export default function Login() {
     navigation,
     handleChange,
     handleLogin,
+    labels
   } = useLogin();
 
   return (
@@ -43,15 +44,15 @@ export default function Login() {
           />
 
           {/* Login Title */}
-          <Text style={styles.title}>Login</Text>
+          <Text style={styles.title}>{labels.login}</Text>
           <Text style={styles.subtitle}>
-            Enter your Email and password
+            {labels.enterDetails}
           </Text>
 
           {/* Input Fields */}
           <View style={styles.inputContainer}>
             <TextInputField
-              placeholder="Email"
+              placeholder={labels.email}
               text={credentials.email}
               img={imageIndex.userLogo}
               firstLogo={true}
@@ -62,7 +63,7 @@ export default function Login() {
             )}
 
             <TextInputField
-              placeholder="Password"
+              placeholder={labels.password}
               text={credentials.password}
               img={imageIndex.lock}
               firstLogo={true}
@@ -78,7 +79,7 @@ export default function Login() {
           <TouchableOpacity
             onPress={() => navigation.navigate(ScreenNameEnum.PasswordReset)}
           >
-            <Text style={styles.forgotText}>Forgot your password?</Text>
+            <Text style={styles.forgotText}>{labels.forgotPassword}</Text>
           </TouchableOpacity>
 
           <View style={{
@@ -86,25 +87,22 @@ export default function Login() {
             marginBottom: 15,
             marginHorizontal: 15
           }}>
-            {/* onPress={handleLogin}  */}
-            <CustomButton title="Login"
+            <CustomButton
+              title={labels.login}
               onPress={handleLogin}
-              style={styles.loginBtn} />
+              style={styles.loginBtn}
+            />
           </View>
-
-
-
         </View>
-
       </ScrollView>
+
+      {/* Footer / Sign Up */}
       <View style={styles.signUpContainer}>
-        <Text style={styles.signUpText}>Don’t have an account? </Text>
+        <Text style={styles.signUpText}>{labels.noAccount}</Text>
         <TouchableOpacity
-
           onPress={() => navigation.navigate(ScreenNameEnum.Sinup)}
-
         >
-          <Text style={styles.signUpLink}>Sign Up</Text>
+          <Text style={styles.signUpLink}>{labels.signUp}</Text>
         </TouchableOpacity>
       </View>
     </SafeAreaView>
@@ -115,12 +113,12 @@ const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: 'white' },
   innerContainer: {
     flex: 1,
-    backgroundColor: '#FFF',        // White background
-    marginTop: hp(10),               // Responsive top margin
-    marginHorizontal: 15,           // Horizontal margin
-    borderColor: '#ccc',            // Add border color for better visibility
-    borderRadius: 20,               // Rounded corners (optional but recommended)
-    shadowColor: '#000',            // iOS shadow
+    backgroundColor: '#FFF',
+    marginTop: hp(10),
+    marginHorizontal: 15,
+    borderColor: '#ccc',
+    borderRadius: 20,
+    shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.12,
     shadowRadius: 3.84,

@@ -6,7 +6,6 @@ import {
   TouchableOpacity,
   FlatList,
   Image,
-  TextInput,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import imageIndex from "../../../assets/imageIndex";
@@ -14,49 +13,37 @@ import { color } from "../../../constant";
 import { GetApi } from "../../../api/apiRequest";
 import { useSelector } from "react-redux";
 import moment from "moment";
+import 'moment/locale/fi';
 import LoadingModal from "../../../utils/Loader";
 import { useNavigation } from "@react-navigation/native";
 import ScreenNameEnum from "../../../routes/screenName.enum";
-
-const TABS = ["In Progress", "Completed",];
+import { useLanguage } from "../../../LanguageContext";
 
 const ShiftsScreen = () => {
-  const [activeTab, setActiveTab] = useState("In Progress");
-  const [search, setSearch] = useState("");
+  const { labels } = useLanguage();
+  moment.locale('fi');
+  const TABS = [labels.tabInProgress, labels.tabCompleted];
+  const [activeTab, setActiveTab] = useState(labels.tabInProgress);
+
   const [data, setData] = useState([]);
   const isLogin = useSelector((state: any) => state.auth);
   const [loading, setLoading] = useState(false);
-  // useEffect(() => {
-  //   // Code to run on component mount
-  //   (async () => {
-  //     console.log("PostedShifts component mounted");
-  //     const param = {
-  //       url: "shift/myShiftListUser",
-  //       token: isLogin?.token,
-  //       method: 'POST'
-  //     }
-
-
-  //     const dd = await GetApi(param, setLoading);
-  //     setData(dd?.data || []);
-  //     console.log(dd?.data, 'this is data')
-  //   })()
-  // }, [])
+  const navigation = useNavigation<any>();
 
   const getApiConfigByTab = (tab: string) => {
-    if (tab === "Completed") {
+    if (tab === labels.tabCompleted) {
       return {
         url: "shift/myShiftListUser",
         body: { status: "Complete" },
       };
-    } else if (tab === "In Progress") {
+    } else {
       return {
         url: "shift/myShiftRequestListUser",
-        body: { request_status: "pending" },
+        body: { request_status: "Pending" },
       };
-
     }
   };
+
   useEffect(() => {
     fetchShifts();
   }, [activeTab]);
@@ -64,19 +51,25 @@ const ShiftsScreen = () => {
   const fetchShifts = async () => {
     try {
       setLoading(true);
-
       const { url, body } = getApiConfigByTab(activeTab);
 
       const param = {
         url,
         token: isLogin?.token,
         method: "POST",
-        data: body, // 👈 POST BODY
+        data: body,
       };
 
       const res = await GetApi(param, setLoading);
-
-      setData(res?.data || []);
+      console.log(res)
+      if (activeTab === labels.tabCompleted) {
+        const completedOnly = (res?.data || []).filter(item => item.status === "Complete");
+        setData(completedOnly);
+      } else {
+        const removeRejected = (res?.data || []).filter(item => item.request_status != "rejected");
+        setData(removeRejected || []);
+        // console.log(removeRejected)
+      }
     } catch (error) {
       console.log("Shift API error:", error);
     } finally {
@@ -84,23 +77,10 @@ const ShiftsScreen = () => {
     }
   };
 
-  //   const filteredData = data.filter(item => {
-  //   if (activeTab === "Completed") {
-  //     return item?.status === "Complete";
-  //   }
-  //   if (activeTab === "In Progress") {
-  //     return item?.status === "Accept";
-  //   }
-  //   return true;
-  //   // return item
-  // });
-  const navigation = useNavigation()
-
   const ShiftCard = ({ item }) => {
     return (
       <View style={styles.card}>
         <View style={styles.cardInner}>
-          {/* Icon */}
           <View style={styles.iconCircle}>
             <Image
               source={imageIndex.calneder}
@@ -108,41 +88,49 @@ const ShiftsScreen = () => {
             />
           </View>
 
-          {/* Info */}
           <View style={{ flex: 1, marginLeft: 12 }}>
-            <Text style={styles.cardDate}>{moment(item.shift_date).format('dddd, DD MMMM YYYY')} </Text>
-            <Text style={styles.cardTitle}>{item.user_name} - {item.unit_name} </Text>
+            <Text style={styles.cardDate}>
+              {moment(item.shift_date).format('dddd, DD MMMM YYYY')}
+            </Text>
+            <Text style={styles.cardTitle}>
+              {item.user_name} - {item.unit_name}
+            </Text>
 
-            {item.user_name && <Text style={styles.cardTime}>{moment(item.time_start, "HH:mm:ss").format("hh:mm A")} – {moment(item.time_end, "HH:mm:ss").format("hh:mm A")}</Text>
-            }
-            {activeTab == "Completed" ?
+            {item.user_name && (
+              <Text style={styles.cardTime}>
+                {moment(item.time_start, "HH:mm:ss").format("HH:mm")} – {moment(item.time_end, "HH:mm:ss").format("HH:mm")}
+              </Text>
+            )}
+
+            {activeTab === labels.tabCompleted ? (
               <View style={styles.statusBadge}>
-                <Text style={styles.statusText}>{item?.status}</Text>
+                <Text style={styles.statusText}>
+                  {item?.status === "Complete" ? labels.statusComplete : item?.status}
+                </Text>
               </View>
-              :
-              <TouchableOpacity onPress={() => navigation.navigate(ScreenNameEnum.ChatScreen, 
-                { 
-                item: {
-                 user_name: item?.user_name, 
-                 id: item?.shift_user_id, 
-                 image: item?.manager_image 
-                } 
-              })} style={[styles.statusBadge, {
-                backgroundColor: color.primary,
-                flexDirection: "row",
-                alignItems: "center"
-              }]}>
-                <Text style={styles.statusText}>Open Chat</Text>
-                <Image style={{
-                  height: 18,
-                  width: 18,
-                  resizeMode: "contain",
-                  marginTop: 5,
-                  marginLeft: 5
-                }} source={imageIndex.mess1} />
+            ) : (
+              <View style={{flexDirection:'row', }}>
+              <TouchableOpacity
+                onPress={() => navigation.navigate(ScreenNameEnum.ChatScreen, {
+                  item: {
+                    user_name: item?.user_name,
+                    id: item?.shift_user_id,
+                    image: item?.manager_image
+                  }
+                })}
+                style={[styles.statusBadge, styles.chatBadge]}
+              >
+                <Text style={styles.statusText}>{labels.openChat}</Text>
+                <Image style={styles.chatIcon} source={imageIndex.mess1} />
               </TouchableOpacity>
-            }
 
+               <View style={[styles.statusBadge, {height:35, alignItems:'center', justifyContent:'center', marginLeft:20}]}>
+                <Text style={styles.statusText}>
+                  {item?.request_status === "Complete" ? labels.statusComplete : item?.request_status == "pending" ? labels.statusPending:item?.request_status == "approved" ? labels.aproved:item?.request_status}
+                </Text>
+              </View>
+              </View>
+            )}
           </View>
         </View>
       </View>
@@ -152,9 +140,8 @@ const ShiftsScreen = () => {
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "white", padding: 16 }}>
       {loading && <LoadingModal />}
-      <Text style={styles.header}>Shifts</Text>
+      <Text style={styles.header}>{labels.shiftsHeader}</Text>
 
-      {/* Tabs */}
       <View style={styles.tabWrapper}>
         <View style={styles.tabContainer}>
           {TABS.map((tab) => (
@@ -176,29 +163,17 @@ const ShiftsScreen = () => {
         </View>
       </View>
 
-
-
-
-      {/* <View style={{
-        marginTop: 15,
-      }}> */}
       <FlatList
         showsVerticalScrollIndicator={false}
         style={{ marginTop: 15 }}
         data={data}
-        keyExtractor={(item) => item.id}
+        keyExtractor={(item) => item?.id}
         renderItem={({ item }) => <ShiftCard item={item} />}
         contentContainerStyle={{ paddingBottom: 100 }}
       />
-      {/* </View> */}
     </SafeAreaView>
   );
-};
-
-// ---------------- CARD COMPONENT ------------------
-
-
-// ---------------- STYLES --------------------
+};;
 
 const styles = StyleSheet.create({
   header: {
@@ -306,6 +281,18 @@ const styles = StyleSheet.create({
     fontWeight: "600",
     fontSize: 12,
   },
+  chatBadge: {
+    backgroundColor: color.primary,
+    flexDirection: "row",
+    alignItems: "center"
+  },
+  chatIcon: {
+    height: 18,
+    width: 18,
+    resizeMode: "contain",
+    marginTop: 5,
+    marginLeft: 5
+  }
 });
 
 export default ShiftsScreen;

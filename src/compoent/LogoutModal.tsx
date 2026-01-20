@@ -1,10 +1,14 @@
 import React, { memo } from 'react';
-import { View, Text, Modal, TouchableOpacity, StyleSheet, Dimensions, Image } from 'react-native';
-import font from '../theme/font';
+import { View, Text, Modal, TouchableOpacity, StyleSheet, Image, Dimensions } from 'react-native';
 import imageIndex from '../assets/imageIndex';
 import { color } from '../constant';
+import { language } from '../constant/Language'; // Import your language file
+import font from '../theme/font';
 
 const LogoutModal = ({ visible, onLogout, onCancel }: any) => {
+  // Reference Finnish labels
+  const labels = language.fi;
+
   return (
     <Modal
       visible={visible}
@@ -16,26 +20,32 @@ const LogoutModal = ({ visible, onLogout, onCancel }: any) => {
           <TouchableOpacity style={styles.closeButton} onPress={onCancel}>
             <Text style={styles.closeText}>×</Text>
           </TouchableOpacity>
-          <Image source={imageIndex.logoutImg} 
-          style={styles.imageStyle} 
-          resizeMode='contain'
+          
+          <Image 
+            source={imageIndex.logoutImg} 
+            style={styles.imageStyle} 
+            resizeMode='contain'
           />
+
           <Text allowFontScaling={false} style={styles.title}>
-            Log Out
+            {labels.logoutTitle}
           </Text>
+          
           <Text allowFontScaling={false} style={styles.message}>
-           Are you sure want to log out?
+            {labels.logoutMessage}
           </Text>
 
           <View style={styles.buttonContainer}>
-          
-
             <TouchableOpacity style={styles.logoutButton} onPress={onLogout}>
-              <Text allowFontScaling={false} style={styles.logoutText}>Yes</Text>
+              <Text allowFontScaling={false} style={styles.logoutText}>
+                {labels.yes}
+              </Text>
             </TouchableOpacity>
 
-              <TouchableOpacity style={styles.cancelButton} onPress={onCancel}>
-              <Text allowFontScaling={false} style={styles.cancelText}>No</Text>
+            <TouchableOpacity style={styles.cancelButton} onPress={onCancel}>
+              <Text allowFontScaling={false} style={styles.cancelText}>
+                {labels.no}
+              </Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -43,7 +53,7 @@ const LogoutModal = ({ visible, onLogout, onCancel }: any) => {
     </Modal>
   );
 };
-
+  
 const { width } = Dimensions.get('window');
 
 const styles = StyleSheet.create({

@@ -277,6 +277,7 @@ import useMessageList from "./useMessageList";
 import moment from "moment";
 import LoadingModal from "../../../utils/Loader";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { useLanguage } from "../../../LanguageContext";
 // import localizationStrings from "../../../compoent/Localization/Localization";
 
 
@@ -288,7 +289,7 @@ const Messages = () => {
         searchData,
         setSearchData,
     } = useMessageList()
-
+const { labels} = useLanguage();
     return (
         <SafeAreaView style={{
             flex: 1,
@@ -300,13 +301,15 @@ const Messages = () => {
                 marginTop: 15,
                 marginHorizontal: 12
             }}>
-                <CustomHeader leftIcon={imageIndex.back} label="Message" />
+                <CustomHeader leftIcon={imageIndex.back} label={labels.inbox} />
             </View>
-            <View style={styles.container}>
-                <SearchBar
+             <SearchBar
+                placeholder={labels.search}
                     value={searchData}
                     onSearchChange={setSearchData}
                 />
+            <View style={styles.container}>
+               
                 <FlatList
                     showsVerticalScrollIndicator={false}
                     data={filteredMessages}

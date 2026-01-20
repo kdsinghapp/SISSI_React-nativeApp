@@ -13,11 +13,14 @@ import { AcceptRequest, CompleteBooking, GetApi } from "../../../api/apiRequest"
 import moment from "moment";
 import { color } from "../../../constant";
 import LoadingModal from "../../../utils/Loader";
+import { language } from "../../../constant/Language";
+import { useLanguage } from "../../../LanguageContext";
 
 const BookedShifts = () => {
+  const { labels} = useLanguage(); // Reference Finnish strings
   const [visible, setvisible] = useState(false)
   const [Decline, setDecline] = useState(false)
-  const isLogin = useSelector((state: any) => state.auth);
+  const isLogin = useSelector((state: any) => state.auth); 
   const [data, setData] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
   const [searchText, setSearchText] = useState('');
@@ -134,7 +137,7 @@ const BookedShifts = () => {
       <View style={styles.btnRow}>
         <TouchableOpacity style={styles.approveBtn} onPress={() => handleAcceptRequest(item?.shift_id)}
         >
-          <Text style={styles.btnTextWhite}>Complete </Text>
+          <Text style={styles.btnTextWhite}>{labels.tabCompleted} </Text>
           <Image
             style={{
               height: 22,
@@ -158,7 +161,7 @@ const BookedShifts = () => {
           })
           }}
         >
-          <Text style={styles.btnTextWhite}>Open Chat</Text>
+          <Text style={styles.btnTextWhite}>{labels.openChat}</Text>
           <Image
             style={{
               height: 22,
@@ -176,11 +179,11 @@ const BookedShifts = () => {
     <SafeAreaView style={styles.container}>
       {loading && <LoadingModal/>}
       <StatusBarComponent />
-      <CustomHeader label="Booked Shifts" />
+      <CustomHeader label={labels.bookedShifts} />
       <SearchBar
         value={searchText}
         onSearchChange={text => setSearchText(text)}
-        placeholder="Search by name, mobile, date..."
+        placeholder={labels.searchPlace}
       />
       <FlatList data={filteredData}
 

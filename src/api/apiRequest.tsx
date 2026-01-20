@@ -45,74 +45,74 @@ import axios from 'axios';
 // };
 
 const GetApi = async (param: any, setLoading: (loading: boolean) => void) => {
-  console.log("API PARAM:", param);
+    console.log("API PARAM:", param);
 
-  try {
-    setLoading(true);
+    try {
+        setLoading(true);
 
-    const myHeaders = new Headers();
-    myHeaders.append("Accept", "application/json");
-    myHeaders.append("Content-Type", "application/json");
-    myHeaders.append("Authorization", `Bearer ${param.token}`);
+        const myHeaders = new Headers();
+        myHeaders.append("Accept", "application/json");
+        myHeaders.append("Content-Type", "application/json");
+        myHeaders.append("Authorization", `Bearer ${param.token}`);
 
-    const requestOptions: any = {
-      method: param.method || "POST",
-      headers: myHeaders,
-    };
+        const requestOptions: any = {
+            method: param.method || "POST",
+            headers: myHeaders,
+        };
 
-    // ✅ ADD BODY ONLY IF EXISTS
-    if (param.data && Object.keys(param.data).length > 0) {
-      requestOptions.body = JSON.stringify(param.data);
+        // ✅ ADD BODY ONLY IF EXISTS
+        if (param.data && Object.keys(param.data).length > 0) {
+            requestOptions.body = JSON.stringify(param.data);
+        }
+
+        const response = await fetch(base_url + param.url, requestOptions);
+        const resText = await response.text();
+        const result = JSON.parse(resText);
+
+        console.log("API RESPONSE:", result);
+
+        setLoading(false);
+        return result;
+
+    } catch (error) {
+        console.log("API ERROR:", error);
+        setLoading(false);
+        errorToast("Network error");
+        return null;
     }
-
-    const response = await fetch(base_url + param.url, requestOptions);
-    const resText = await response.text();
-    const result = JSON.parse(resText);
-
-    console.log("API RESPONSE:", result);
-
-    setLoading(false);
-    return result;
-
-  } catch (error) {
-    console.log("API ERROR:", error);
-    setLoading(false);
-    errorToast("Network error");
-    return null;
-  }
 };
 
 export const PostApi = async (param, setLoading) => {
-  try {
-    setLoading && setLoading(true);
+    try {
+        setLoading && setLoading(true);
 
-    const headers = {
-      Accept: "application/json",
-      ...(param?.isFormData
-        ? { "Content-Type": "multipart/form-data" }
-        : { "Content-Type": "application/json" }),
-      ...(param?.token && { Authorization: `Bearer ${param.token}` }),
-    };
+        const headers = {
+            Accept: "application/json",
+            ...(param?.isFormData
+                ? { "Content-Type": "multipart/form-data" }
+                : { "Content-Type": "application/json" }),
+            ...(param?.token && { Authorization: `Bearer ${param.token}` }),
+        };
 
-    const response = await axios.post(
-      base_url + param.url,
-      param.data,
-      { headers }
-    );
-console.log(response)
-    return response.data;
-  } catch (error) {
-    console.log("POST API ERROR 👉", error?.response || error);
+        const response = await axios.post(
+            base_url + param.url,
+            param.data,
+            { headers }
+        );
+        console.log(response)
+        return response.data;
+    } catch (error) {
+        console.log("POST API ERROR 👉", error?.response || error);
 
-    return {
-      status: false,
-      message:
-        error?.response?.data?.message ||
-        "Something went wrong. Please try again.",
-    };
-  } finally {
-    setLoading && setLoading(false);
-  }
+        return {
+            status: false,
+            message:
+                error?.response?.data?.message ||
+                "Something went wrong. Please try again.",
+        };
+    } finally {
+        setLoading && setLoading(false);
+    }
 };
 
 
@@ -157,7 +157,7 @@ const LoginCustomer = (
                     return response
                 } else {
                     console.log(response)
-                    if(response?.message == 'Your account is inactive. Please connect admin.'){
+                    if (response?.message == 'Your account is inactive. Please connect admin.') {
                         param?.navigation.navigate(ScreenNameEnum.UnderVerification)
                     }
                     setLoading(false)
@@ -214,14 +214,22 @@ const SinupCustomer = (params: any,
                     successToast(
                         response?.message
                     );
+                    setLoading(false)
                     console.log(response)
-                    params.navigation.navigate(ScreenNameEnum.Login);
+                    params.navigation.navigate(ScreenNameEnum.OtpScreen, {
+                        id: response?.result?.id,
+                        email: params?.email,
+                        type: "register"
+                    })
+                    // params.navigation.navigate(ScreenNameEnum.OtpScreen,);
+                    // params.navigation.navigate(ScreenNameEnum.Login);
                     return response
                 } else {
                     errorToast(
                         response.message,
                     );
                     console.log(response)
+                    setLoading(false)
 
                     return response
                 }
@@ -229,6 +237,8 @@ const SinupCustomer = (params: any,
             .catch((error) => console.error(error));
         return respons
     } catch (error) {
+                    setLoading(false)
+
         errorToast(
             'Network error',
         );
@@ -303,6 +313,7 @@ const otp_Verify = (
             headers: myHeaders,
             body: formdata,
         };
+        console.log(formdata)
         const respons = fetch(`${base_url}auth/verify-otp`, requestOptions)
             .then((response) => response.text())
             .then((res) => {
@@ -313,9 +324,14 @@ const otp_Verify = (
                         response?.message
                     );
                     console.log(response)
-                    param.navigation.navigate(ScreenNameEnum.CreateNewPassword, {
-                        userId: response?.data?.user_id
-                    })
+                    setLoading(false)
+                    if (param?.type) {
+                        param.navigation.navigate(ScreenNameEnum.CreateNewPassword)
+                    } else {
+                        param.navigation.navigate(ScreenNameEnum.CreateNewPassword, {
+                            userId: response?.data?.user_id
+                        })
+                    }
                     return response
                 } else {
                     setLoading(false)

@@ -4,27 +4,28 @@ import { View, Text, Image, TouchableOpacity, StyleSheet } from "react-native";
 import CustomButton from "../../../compoent/CustomButton";
 import { SafeAreaView } from "react-native-safe-area-context";
 import StatusBarComponent from "../../../compoent/StatusBarCompoent";
-import { useNavigation } from "@react-navigation/native";
-import { onNavgation } from "../../../api/authApi/BaseUrl";
+import { useNavigation } from "@react-navigation/native"; 
 import ScreenNameEnum from "../../../routes/screenName.enum";
-import { color } from "../../../constant";
+import { color } from "../../../constant";  
+import { language } from "../../../constant/Language";
+import { useLanguage } from "../../../LanguageContext";
 
 export default function OnboardingScreen() { 
   const navigation = useNavigation();
+  
+  // Accessing Finnish translations
+  const { labels} = useLanguage();
 
-   return (
-    <SafeAreaView
-    
-    edges={["top"]}
-    style={styles.container}>
-      <StatusBarComponent/>
-   
+  return (
+    <SafeAreaView edges={["top"]} style={styles.container}>
+      <StatusBarComponent />
+
+      {/* Skip Button */}
       <TouchableOpacity  
-      onPress={()=>navigation.navigate(ScreenNameEnum.ChooseRole)}
-
-      
-      style={styles.skipContainer}>
-        <Text style={styles.skipText}>Skip</Text>
+        onPress={() => navigation.navigate(ScreenNameEnum.ChooseRole)}
+        style={styles.skipContainer}
+      >
+        <Text style={styles.skipText}>{labels.skip}</Text>
       </TouchableOpacity>
 
       {/* Illustration */}
@@ -37,15 +38,12 @@ export default function OnboardingScreen() {
       </View>
 
       {/* Bottom Card */}
-      <View
-        
-        style={styles.bottomCard}
-      >
-        <Text style={styles.title}>Welcome to</Text>
-        <Text style={styles.titleBold}>SISSI</Text>
+      <View style={styles.bottomCard}>
+        <Text style={styles.title}>{labels.welcomeTo}</Text>
+        <Text style={styles.titleBold}>{labels.appName}</Text>
 
         <Text style={styles.subtitle}>
-          Screen Building for Institutions & Stakeholders systems
+          {labels.description}
         </Text>
 
         {/* Dots */}
@@ -56,14 +54,12 @@ export default function OnboardingScreen() {
         </View>
 
         {/* Next Button */}
-        <View style={{
-          marginTop:30
-        }}>
-<CustomButton  title="Next"  
-
-onPress={()=>navigation.navigate(ScreenNameEnum.ChooseRole)}
-/>
-</View>
+        <View style={{ marginTop: 30 }}>
+          <CustomButton 
+            title={labels.next}
+            onPress={() => navigation.navigate(ScreenNameEnum.ChooseRole)}
+          />
+        </View>
       </View>
     </SafeAreaView>
   );

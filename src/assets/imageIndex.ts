@@ -15,6 +15,7 @@
         Inbox: require('./images/Inbox.png'),
         Notification2: require('./images/Notification2.png'),
         favort: require('./images/favort.png'),
+        institute: require('./image/institute.jpg'),
 
     Beauty: require('./images/Beauty.png'),
     editp: require('./images/editp.png'),

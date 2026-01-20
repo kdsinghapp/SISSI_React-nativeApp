@@ -16,7 +16,7 @@
 // import { useNavigation } from "@react-navigation/native"; 
 // import font from "../../../theme/font";
 // import { color } from "../../../constant";
- 
+
 // interface Message {
 //   id: string;
 //   text: string;
@@ -101,7 +101,7 @@
 //       </View>
 
 //       {/* Chat messages */}
-      
+
 //       <FlatList
 //         data={messages}
 //         renderItem={renderMessage}
@@ -131,7 +131,7 @@
 //           />
 //           <TouchableOpacity onPress={sendMessage} style={styles.sendButton}>
 //             <Image source={imageIndex.send} 
-            
+
 //             style={{
 //                 height:30,
 //                 width:30,
@@ -211,7 +211,7 @@
 //     marginTop:15
 
 // //  marginTop:30
-   
+
 //   },
 // });
 import React from "react";
@@ -233,6 +233,7 @@ import imageIndex from "../../../assets/imageIndex";
 import useChatScreen from "./useChatScreen";
 import StatusBarComponent from "../../../compoent/StatusBarCompoent";
 import { color } from "../../../constant";
+import { useLanguage } from "../../../LanguageContext";
 
 const ChatScreen = () => {
   const {
@@ -244,7 +245,7 @@ const ChatScreen = () => {
     messages,
     sendMessage,
   } = useChatScreen();
-
+const { labels} = useLanguage();
   const currentUserId = userName?.id;
 
   const renderMessage = ({ item }: any) => {
@@ -261,7 +262,7 @@ const ChatScreen = () => {
           {item.chat_message}
         </Text>
 
-        <Text style={[styles.timeText, {color:isMe ? '#f2f2f2':'#666'}]}>
+        <Text style={[styles.timeText, { color: isMe ? '#f2f2f2' : '#666' }]}>
           {item?.chat_created_at
             ? moment(item.chat_created_at).fromNow()
             : ""}
@@ -272,63 +273,64 @@ const ChatScreen = () => {
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "#000" }}>
-  <StatusBarComponent barStyle="light-content" />
+      <StatusBarComponent barStyle="light-content" />
 
-  <KeyboardAvoidingView
-    style={{ flex: 1 }}
-    behavior={Platform.OS === "ios" ? "padding" : "height"}
-    keyboardVerticalOffset={Platform.OS === "android" ? 0 : 0}
-  >
-    {/* HEADER */}
-   <View style={styles.header}>
-        <TouchableOpacity onPress={() => navigation.goBack()}>
-          <Image source={imageIndex.back} style={styles.backIcon} />
-        </TouchableOpacity>
+      <KeyboardAvoidingView
+        style={{ flex: 1 }}
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        keyboardVerticalOffset={Platform.OS === "android" ? 0 : 0}
+      >
+        {/* HEADER */}
+        <View style={styles.header}>
+          <TouchableOpacity onPress={() => navigation.goBack()}>
+            <Image source={imageIndex.back} style={styles.backIcon} />
+          </TouchableOpacity>
 
-        <Image
-          source={{
-            uri:
-              userName?.image ===
-              "https://server-php-8-3.technorizen.com/sissi/public/uploads/users/default.png"
-                ? "https://server-php-8-3.technorizen.com/sissi/public/uploads/users/1765357766_logo.jpg"
-                : userName?.image,
-          }}
-          style={styles.avatar}
-        />
+          <Image
+            source={{
+              uri:
+                userName?.image ===
+                  "https://server-php-8-3.technorizen.com/sissi/public/uploads/users/default.png"
+                  ? "https://server-php-8-3.technorizen.com/sissi/public/uploads/users/1765357766_logo.jpg"
+                  : userName?.image,
+            }}
+            style={styles.avatar}
+          />
 
-        <View>
-          <Text style={styles.name}>{userName?.user_name}</Text>
-          <Text style={styles.status}>Online</Text>
+          <View>
+            <Text style={styles.name}>{userName?.user_name}</Text>
+            <Text style={styles.status}>{labels.online}</Text>
+          </View>
         </View>
-      </View>
 
-    {/* CHAT */}
-    <View style={styles.chatWrapper}>
-      <FlatList
-        data={messages}
-        renderItem={renderMessage}
-        inverted
-        keyboardDismissMode="interactive"
-        keyboardShouldPersistTaps="handled"
-        contentContainerStyle={{ padding: 15 }}
-      />
-    </View>
+        {/* CHAT */}
+        <View style={styles.chatWrapper}>
+          <FlatList
+            data={messages}
+            renderItem={renderMessage}
+            inverted
+            keyboardDismissMode="interactive"
+            keyboardShouldPersistTaps="handled"
+            contentContainerStyle={{ padding: 15 }}
+          />
+        </View>
 
-    {/* INPUT */}
-    <View style={styles.inputContainer}>
-      <TextInput
-        style={styles.input}
-        placeholder="Type a message..."
-        value={messageText}
-        onChangeText={setMessageText}
-      />
+        {/* INPUT */}
+        <View style={styles.inputContainer}>
+          <TextInput
+            style={styles.input}
+            placeholder={labels.typemsg}
+            value={messageText}
+            onChangeText={setMessageText}
+            placeholderTextColor={'grey'}
+          />
 
-      <TouchableOpacity onPress={sendMessage}>
-        <Image source={imageIndex.send} style={styles.sendIcon} />
-      </TouchableOpacity>
-    </View>
-  </KeyboardAvoidingView>
-</SafeAreaView>
+          <TouchableOpacity onPress={sendMessage}>
+            <Image source={imageIndex.send} style={styles.sendIcon} />
+          </TouchableOpacity>
+        </View>
+      </KeyboardAvoidingView>
+    </SafeAreaView>
 
   );
 };

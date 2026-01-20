@@ -10,6 +10,8 @@ import { useSelector } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
 import moment from 'moment';
 import LoadingModal from '../../../utils/Loader';
+import { language } from '../../../constant/Language';
+import { useLanguage } from '../../../LanguageContext';
 
 const DATA = [
   {
@@ -25,6 +27,7 @@ const DATA = [
 
 export default function PastShifts() {
   const isLogin = useSelector((state: any) => state.auth);
+  const { labels} = useLanguage(); // Reference Finnish strings
   console.log(isLogin)
   const navigatorv = useNavigation()
   const [loading, setLoading] = useState(false);
@@ -96,7 +99,7 @@ export default function PastShifts() {
 
         {/* STATUS */}
         <View style={styles.statusBadge}>
-          <Text style={styles.statusText}>Complete</Text>
+          <Text style={styles.statusText}>{labels.tabCompleted}</Text>
         </View>
       </View>
 
@@ -118,11 +121,11 @@ export default function PastShifts() {
     <SafeAreaView style={styles.container}>
       <StatusBarComponent />
 {loading && <LoadingModal />}
-      <CustomHeader label='Past Shifts' />
+      <CustomHeader label={labels.pastShifts} />
       <SearchBar
         value={searchText}
         onSearchChange={onSearch}
-        placeholder="Search by date, time or description"
+        placeholder={labels.searchPlaceholder}
       />
       <FlatList
         data={filteredData}

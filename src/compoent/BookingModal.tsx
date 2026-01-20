@@ -10,8 +10,13 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context';
 import StatusBarComponent from './StatusBarCompoent';
 import CustomButton from './CustomButton';
-  
-const BookingSuccessModal = ({ visible, onClose, userName, userImage, onOpenChat }:any) => {
+import imageIndex from '../assets/imageIndex';
+import { language } from '../constant/Language'; // Import your language file
+
+const BookingSuccessModal = ({ visible, onClose, userName, userImage, onOpenChat }: any) => {
+  // Reference Finnish labels
+  const labels = language.fi;
+
   return (
     <Modal
       animationType="fade"
@@ -19,35 +24,35 @@ const BookingSuccessModal = ({ visible, onClose, userName, userImage, onOpenChat
       visible={visible}
       onRequestClose={onClose}
     >
-      <TouchableWithoutFeedback onPress={()=>onClose()} >
-      <SafeAreaView style={styles.container}>
-        <StatusBarComponent />
-        
+      <TouchableWithoutFeedback onPress={() => onClose()} >
+        <SafeAreaView style={styles.container}>
+          <StatusBarComponent />
+          
           <View style={styles.modalView}>
             
-          {/* User Image */}
-          <Image 
-        //   source={{ uri: userImage }} 
-          
-            source={{ uri:userImage ?? "https://i.pravatar.cc/300" }}
-          style={styles.userImage} />
+            {/* User Image */}
+            <Image 
+              source={userImage ? { uri: userImage } : imageIndex.institute}
+              style={styles.userImage} 
+            />
 
-          {/* User Name */}
-          <Text style={styles.userName}>{userName}</Text>
+            {/* User Name */}
+            <Text style={styles.userName}>{userName}</Text>
 
-          {/* Booking Text */}
-          <Text style={styles.title}>Booking Successful!</Text>
-          <Text style={styles.subTitle}>
-            Your session with <Text style={{ fontWeight: '600' }}>[Institution Name]</Text> has been confirmed
-          </Text>
+            {/* Booking Text */}
+            <Text style={styles.title}>{labels.bookingSuccessful}</Text>
+            
+            <Text style={styles.subTitle}>
+              {labels.sessionConfirmed} <Text style={{ fontWeight: '600' }}>{userName}</Text> {labels.withHasBeenConfirmed}
+            </Text>
 
-          {/* Open Chat Button */}
-           <CustomButton title="Open Chat With Institution 💬"  
-          onPress={onOpenChat}
-         />
-      </View>
-        
-      </SafeAreaView>
+            {/* Open Chat Button */}
+            <CustomButton 
+              title={labels.openChatWithInstitution}  
+              onPress={onOpenChat}
+            />
+          </View>
+        </SafeAreaView>
       </TouchableWithoutFeedback>
     </Modal>
   );

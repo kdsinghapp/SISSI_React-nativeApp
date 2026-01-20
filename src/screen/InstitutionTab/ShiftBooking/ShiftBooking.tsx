@@ -13,12 +13,15 @@ import LoadingModal from "../../../utils/Loader";
 import moment from "moment";
 import CustomHeader from "../../../compoent/CustomHeader";
 import SearchBar from "../../../compoent/SearchBar";
+import { language } from "../../../constant/Language";
+import { useLanguage } from "../../../LanguageContext";
 
 
 const ShiftBooking = () => {
   const [visible, setvisible] = useState(false)
   const [Decline, setDecline] = useState(false)
   const isLogin = useSelector((state: any) => state.auth);
+  const { labels} = useLanguage(); // Reference Finnish strings
   console.log(isLogin)
   const navigatorv = useNavigation()
   const [loading, setLoading] = useState(false);
@@ -147,7 +150,7 @@ const ShiftBooking = () => {
       <View style={styles.headerRow}>
         <Text style={styles.name}>{item.user_name}</Text>
         <View style={styles.statusChip}>
-          <Text style={styles.statusText}>Waiting For Approval</Text>
+          <Text style={styles.statusText}>{labels.waiting}</Text>
         </View>
       </View>
 
@@ -190,7 +193,7 @@ const ShiftBooking = () => {
             handleAcceptRequest(item?.request_id)
           }}
         >
-          <Text style={styles.btnTextWhite}>Approve</Text>
+          <Text style={styles.btnTextWhite}>{labels.approve}</Text>
         </TouchableOpacity>
 
         <TouchableOpacity style={styles.declineBtn}
@@ -201,7 +204,7 @@ const ShiftBooking = () => {
           }}
 
         >
-          <Text style={styles.btnTextWhite}>Decline</Text>
+          <Text style={styles.btnTextWhite}>{labels.decline}</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -210,13 +213,13 @@ const ShiftBooking = () => {
   return (
     <SafeAreaView style={styles.container}>
       <StatusBarComponent />
-        <CustomHeader label="Shift Booking Request" />
+        <CustomHeader label={labels.shiftBookingRequest} />
       {loading && <LoadingModal />}
 
       <SearchBar
         value={searchText}
         onSearchChange={onSearch}
-        placeholder="Search by date, time or description"
+        placeholder={labels.searchPlaceholder}
       />
       {/* <Text style={{
         fontWeight: "600",
@@ -233,9 +236,9 @@ const ShiftBooking = () => {
       <PostSuccessfull
         userImage={imageIndex.post1}
         visible={visible}
-        title={"Shift Approved Successfully"}
-        subTitle={"Worker has been notified and the shift is confirmed."}
-        butt={"Done"}
+        title={labels.shiftApprovedSuccessfully}
+        subTitle={labels.workerHasBeenNotified}
+        butt={labels.done}
         onOpenChat={() => {
           setvisible(false);
           // navgation.navigate(ScreenNameEnum.Tab2Navigator);
@@ -248,9 +251,9 @@ const ShiftBooking = () => {
       <PostSuccessfull
         userImage={imageIndex.Decline}
         visible={Decline}
-        title={"Shift Request Declined"}
-        subTitle={"Worker will see the decline reason and can apply for other shifts."}
-        butt={"Done"}
+        title={labels.shiftRequestDeclined}
+        subTitle={labels.workerWillSeeDeclineReason}
+        butt={labels.done}
         onOpenChat={() => {
           setDecline(false);
           // navgation.navigate(ScreenNameEnum.Tab2Navigator);

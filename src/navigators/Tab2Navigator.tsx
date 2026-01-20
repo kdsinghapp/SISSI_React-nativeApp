@@ -10,28 +10,30 @@ import InstistionHome from '../screen/InstitutionTab/HomeInstiustion/Home/Instit
 import UserProfile from '../screen/BottomTab/Profile/UserProfile';
 import ShiftBooking from '../screen/InstitutionTab/ShiftBooking/ShiftBooking';
 import { color } from '../constant';
+import { language } from '../constant/Language';
 
 const Tab = createBottomTabNavigator();
+const labels = language.fi;
 
 // ---------------- CONFIG ----------------
 const TAB_CONFIG = {
   Orders: {
-    label: 'Home',
+    label: labels.home,
     iconActive: SvgIndex.HomeAtive,
     iconInactive: SvgIndex.Home,
   },
   Booking: {
-    label: 'Booking',
+    label: labels.booking,
     iconActive: SvgIndex.Box,
     iconInactive: SvgIndex.Box1,
   },
   Inbox: {
-    label: 'Inbox',
+    label: labels.inbox,
     iconActive: SvgIndex.MessageActive,
     iconInactive: SvgIndex.Message,
   },
   Profile: {
-    label: 'Profile',
+    label: labels.profile,
     iconActive: SvgIndex.UserActive,
     iconInactive: SvgIndex.User,
   },

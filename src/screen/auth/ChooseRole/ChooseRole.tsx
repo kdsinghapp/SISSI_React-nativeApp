@@ -13,6 +13,8 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { useNavigation } from "@react-navigation/native";
 import ScreenNameEnum from "../../../routes/screenName.enum";
 import { color } from "../../../constant";
+import {useLanguage} from './../../../LanguageContext'
+// import { language } from "../../../constant/Language";
 
 const RoleButton = ({ title, subtitle, icon, selected, onPress }) => {
   const scale = new Animated.Value(1);
@@ -35,9 +37,9 @@ const RoleButton = ({ title, subtitle, icon, selected, onPress }) => {
           ]}
         >
           <View style={styles.iconView}>
-          <Image source={icon} style={styles.icon} />
+            <Image source={icon} style={styles.icon} />
           </View>
-          <View>
+          <View style={{ flex: 1 }}>
             <Text
               style={[
                 styles.inactiveTitle,
@@ -49,7 +51,7 @@ const RoleButton = ({ title, subtitle, icon, selected, onPress }) => {
             <Text
               style={[
                 styles.inactiveSubtitle,
-                { color: selected ? "white" : "black" },
+                { color: selected ? "white" : "rgba(0,0,0,0.6)" },
               ]}
             >
               {subtitle}
@@ -64,15 +66,15 @@ const RoleButton = ({ title, subtitle, icon, selected, onPress }) => {
 export default function ChooseRoleScreen() {
   const [selected, setSelected] = useState(null);
   const navigation = useNavigation();
-
+  // const { labels} = useLanguage(); // Using Finnish labels
+const { labels} = useLanguage();
   useEffect(() => {
-    // Load saved role on mount
     const loadRole = async () => {
       try {
         const savedRole = await AsyncStorage.getItem("userRole");
-        if (savedRole) setSelected(Number(savedRole));
+        if (savedRole) setSelected(savedRole);
       } catch (error) {
-        console.log("Failed to load role from storage", error);
+        console.log("Failed to load role", error);
       }
     };
     loadRole();
@@ -81,7 +83,7 @@ export default function ChooseRoleScreen() {
   const handleSelectRole = async (role) => {
     try {
       setSelected(role);
-      await AsyncStorage.setItem("userRole", role.toString());
+      await AsyncStorage.setItem("userRole", role);
       navigation.navigate(ScreenNameEnum.Login);
     } catch (error) {
       console.log("Failed to save role", error);
@@ -90,25 +92,27 @@ export default function ChooseRoleScreen() {
 
   return (
     <SafeAreaView style={styles.container}>
-      <Text style={styles.title}>Choose Your Role</Text>
-      <Text style={styles.subtitle}>Select how you want to use the app</Text>
+      <Text style={styles.title}>{labels.chooseRoleTitle}</Text>
+      <Text style={styles.subtitle}>{labels.chooseRoleSubtitle}</Text>
+      
       <View style={{ marginTop: 30 }}>
         <RoleButton
-          title="I am a Substitute Worker"
-          subtitle="Find jobs, manage shifts, get hired easily."
+          title={labels.roleWorkerTitle}
+          subtitle={labels.roleWorkerSub}
           icon={imageIndex.category1}
-          selected={selected === 1}
+          selected={selected === "Substitute"}
           onPress={() => handleSelectRole("Substitute")}
         />
 
         <RoleButton
-          title="I am an Institution"
-          subtitle="Post jobs, manage workers, track attendance."
+          title={labels.roleInstTitle}
+          subtitle={labels.roleInstSub}
           icon={imageIndex.Beauty}
-          selected={selected === 2}
+          selected={selected === "Institution"}
           onPress={() => handleSelectRole("Institution")}
         />
       </View>
+
       <Image
         source={imageIndex.first1}
         style={styles.bottomImage}
@@ -117,7 +121,6 @@ export default function ChooseRoleScreen() {
     </SafeAreaView>
   );
 }
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,

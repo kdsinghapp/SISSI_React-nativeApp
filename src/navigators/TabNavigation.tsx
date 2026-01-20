@@ -1,37 +1,39 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { Text, Platform,   Image } from 'react-native';
- import ScreenNameEnum from '../routes/screenName.enum';
+import { Text, Platform, Image } from 'react-native';
+import ScreenNameEnum from '../routes/screenName.enum';
 import HomeStack from './HomeStack';
- import SvgIndex from '../assets/svgIndex';
- import { useSafeAreaInsets } from 'react-native-safe-area-context';
- import UserProfile from '../screen/BottomTab/Profile/UserProfile';
- import ChatInboxScreen from '../screen/BottomTab/Inbox/Inbox';
+import SvgIndex from '../assets/svgIndex';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import UserProfile from '../screen/BottomTab/Profile/UserProfile';
+import ChatInboxScreen from '../screen/BottomTab/Inbox/Inbox';
 import ShiftsScreen from '../screen/BottomTab/Shifts/ShiftsScreen';
 import { color } from '../constant';
-  
-const Tab = createBottomTabNavigator();
+import { language } from '../constant/Language';
 
-const TAB_CONFIG:any = {
+const Tab = createBottomTabNavigator();
+const labels = language.fi;
+
+const TAB_CONFIG: any = {
   [ScreenNameEnum.HomeStack]: {
-    label: 'Home',
-    iconActive: SvgIndex.HomeAtive, 
-    iconInactive: SvgIndex.Home, 
+    label: labels.home,
+    iconActive: SvgIndex.HomeAtive,
+    iconInactive: SvgIndex.Home,
   },
- 
+
   Booking: {
-    label: 'Shifts',
-    iconActive: SvgIndex.Box, 
-    iconInactive: SvgIndex.Box1,  
+    label: labels.shiftsHeader,
+    iconActive: SvgIndex.Box,
+    iconInactive: SvgIndex.Box1,
   },
   Chat: {
-    label: 'Inbox',
-    iconActive: SvgIndex.MessageActive, 
+    label: labels.inbox,
+    iconActive: SvgIndex.MessageActive,
     iconInactive: SvgIndex.Message,
   },
   Profile: {
-    label: 'Profile',
-    iconActive: SvgIndex.UserActive, 
+    label: labels.profile,
+    iconActive: SvgIndex.UserActive,
     iconInactive: SvgIndex.User,
   },
 };
@@ -54,8 +56,8 @@ export default function TabNavigator() {
                 fontSize: 13,
                 color: focused ? color.primary : '#2F4858',
                 marginTop: 4,
-                fontWeight:"500"
-               }}
+                fontWeight: "500"
+              }}
             >
               {tab?.label ?? route.name}
             </Text>
@@ -63,7 +65,7 @@ export default function TabNavigator() {
           tabBarIcon: ({ focused }) => {
             const Icon = focused ? tab.iconActive : tab.iconInactive;
             if (typeof Icon === 'function') {
-              return <Icon width={ICON_SIZE} height={ICON_SIZE}  />;
+              return <Icon width={ICON_SIZE} height={ICON_SIZE} />;
             } else {
               return (
                 <Image
@@ -81,40 +83,40 @@ export default function TabNavigator() {
             position: 'absolute',
             left: 20,
             right: 20,
-             backgroundColor: 'white', // your desired background
+            backgroundColor: 'white', // your desired background
             height: TAB_BAR_HEIGHT + insets.bottom, // safe height including bottom inset
             paddingBottom: insets.bottom,
             paddingTop: 8,
-          
+
             // Rounded corners
             borderTopLeftRadius: 10,
             borderTopRightRadius: 10,
-          
+
             // Borders
-        
+
             borderTopColor: 'rgba(125, 154, 155, 0.15)',
             borderLeftColor: 'rgba(125, 154, 155, 0.15)',
             borderRightColor: 'rgba(125, 154, 155, 0.15)',
-          
+
             // Optional shadow for iOS
             shadowColor: '#000',
             shadowOffset: { width: 0, height: 2 },
             shadowOpacity: 0.05,
             shadowRadius: 4,
-          
+
             // Optional elevation for Android
             elevation: 4,
-          
-       
+
+
           },
         };
       }}
     >
       <Tab.Screen name={ScreenNameEnum.HomeStack} component={HomeStack} />
       {/* <Tab.Screen name="MyTrack" component={MyTrack} /> */}
-       <Tab.Screen name="Booking" component={ShiftsScreen} />
-       <Tab.Screen name="Chat" component={ChatInboxScreen}/>
-       <Tab.Screen name="Profile" component={UserProfile} />
-     </Tab.Navigator>
+      <Tab.Screen name="Booking" component={ShiftsScreen} />
+      <Tab.Screen name="Chat" component={ChatInboxScreen} />
+      <Tab.Screen name="Profile" component={UserProfile} />
+    </Tab.Navigator>
   );
 }

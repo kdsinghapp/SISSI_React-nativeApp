@@ -1,15 +1,16 @@
 import React, { useState } from 'react';
-import { View, Text, Switch, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, Switch, StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import StatusBarComponent from '../../../compoent/StatusBarCompoent';
 import CustomHeader from '../../../compoent/CustomHeader';
 import { color } from '../../../constant';
-import font from '../../../theme/font';
- 
-// If you want icons, install react-native-vector-icons, or use any icon library you prefer
-// import Icon from 'react-native-vector-icons/Ionicons';
+import { language } from '../../../constant/Language'; // Import your language file
+import { useLanguage } from '../../../LanguageContext';
 
 const NotificationsSetting = () => {
+  // Reference Finnish labels
+  const { labels} = useLanguage();
+
   // State for toggles
   const [generalNotification, setGeneralNotification] = useState(true);
   const [sound, setSound] = useState(false);
@@ -19,67 +20,48 @@ const NotificationsSetting = () => {
   return (
     <SafeAreaView style={styles.container}>
       <StatusBarComponent />
-      <View   >
-        <CustomHeader
-        
-          label="Notifications" />
+      <View>
+        <CustomHeader label={labels.notifications} />
 
         {/* Body */}
-        <View style={{   marginTop: 40,
-    marginHorizontal: 15,
-     padding: 20,
-
-    backgroundColor: "#FFF",
-
-    // ANDROID shadow
-    elevation: 8,
-
-    // iOS shadow
-    shadowColor: "#000",
-    shadowOpacity: 0.15,
-    shadowOffset: { width: 0, height: 2 },
-    shadowRadius: 4,
-
-    borderRadius: 10,
- 
-         }}>
-
+        <View style={styles.settingsCard}>
           <View style={styles.notificationOption}>
-            <Text style={styles.optionText}>General Notification</Text>
+            <Text style={styles.optionText}>{labels.generalNotification}</Text>
             <Switch
               value={generalNotification}
               onValueChange={val => setGeneralNotification(val)}
-              trackColor={{ false: '#767577', true: color.primary }}
-              thumbColor={generalNotification ? '#fff' : '#fff'}
+              trackColor={{ false: '#767577', true: '#000' }}
+              thumbColor={'#fff'}
             />
           </View>
+
           <View style={styles.notificationOption}>
-            <Text style={styles.optionText}>Sound</Text>
+            <Text style={styles.optionText}>{labels.sound}</Text>
             <Switch
               value={sound}
               onValueChange={val => setSound(val)}
-              trackColor={{ false: '#767577', true: color.primary }}
-              thumbColor={sound ? '#fff' : '#fff'}
+              trackColor={{ false: '#767577', true: '#000' }}
+              thumbColor={'#fff'}
             />
           </View>
 
           <View style={styles.notificationOption}>
-            <Text style={styles.optionText}>Vibrate</Text>
+            <Text style={styles.optionText}>{labels.vibrate}</Text>
             <Switch
               value={vibrate}
               onValueChange={val => setVibrate(val)}
-              trackColor={{ false: '#767577', true: color.primary }}
-              thumbColor={vibrate ? '#fff' : '#fff'}
+              trackColor={{ false: '#767577', true: '#000' }}
+              thumbColor={'#fff'}
             />
           </View>
 
           <View style={styles.notificationOption}>
-            <Text style={styles.optionText}>New Tips Available</Text>
+            <Text style={styles.optionText}>{labels.newTipsAvailable}</Text>
             <Switch
               value={appUpdates}
               onValueChange={val => setAppUpdates(val)}
-              trackColor={{ false: '#767577', true: color.primary }}
-              thumbColor={appUpdates ? '#fff' : '#fff'}
+              trackColor={{ false: '#767577', true: '#000'}}
+              thumbColor={'#fff'}
             />
           </View>
         </View>
@@ -87,6 +69,8 @@ const NotificationsSetting = () => {
     </SafeAreaView>
   );
 };
+
+ 
 
 export default NotificationsSetting;
 
@@ -122,5 +106,17 @@ const styles = StyleSheet.create({
     color: "#000000",
      lineHeight:15 ,
      fontWeight:"600",
+  },
+   settingsCard: {
+    marginTop: 40,
+    marginHorizontal: 15,
+    padding: 20,
+    backgroundColor: "#FFF",
+    elevation: 8,
+    shadowColor: "#000",
+    shadowOpacity: 0.15,
+    shadowOffset: { width: 0, height: 2 },
+    shadowRadius: 4,
+    borderRadius: 10,
   },
 });

@@ -8,8 +8,6 @@ import {
   StyleSheet,
   Alert,
   TouchableOpacity,
-  Modal,
-  TextInput
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import TextInputField from '../../../compoent/TextInputField';
@@ -27,145 +25,59 @@ import { useSelector } from 'react-redux';
 import DatePicker from 'react-native-date-picker'
 import LoadingModal from '../../../utils/Loader';
 import { color } from '../../../constant';
+import { language } from '../../../constant/Language'; // Import labels
+import { useLanguage } from '../../../LanguageContext';
 
 export default function CreateNewShift() {
+  const { labels} = useLanguage(); // Reference Finnish strings
   const route = useRoute();
-  const { type } = route?.params || "";
-  const shiftData = route?.params?.shiftData || {};
-  console.log(shiftData, 'this is shift data')
+  const { type }: any = route?.params || "";
+  const shiftData: any = route?.params?.shiftData || {};
+  
   const [visible, setvisible] = useState(false);
-  const navgation = useNavigation()
-
+  const navigation = useNavigation<any>();
   const isLogin = useSelector((state: any) => state.auth);
 
-  const [showPicker, setShowPicker] = useState(false);
   const [location, setLocation] = useState(shiftData?.location || '');
   const [unit, setUnit] = useState(shiftData?.unit || '');
   const [description, setDescription] = useState(shiftData?.description || '');
   const [date, setDate] = useState(new Date(shiftData?.shift_date || new Date()));
-  // const [startTime, setStartTime] = useState(new Date(shiftData?.time_start || new Date()));
-  // const [endTime, setEndTime] = useState(new Date(shiftData?.time_end || new Date()));
+  
   const [open, setOpen] = useState(false);
-  const [mode, setMode] = useState('date');
+  const [mode, setMode] = useState<any>('date');
   const [activeField, setActiveField] = useState(null);
   const [loading, setLoading] = useState(false);
+
   const timeStringToDate = (timeStr, baseDate = new Date()) => {
     if (!timeStr) return baseDate;
-
     const [hours, minutes, seconds] = timeStr.split(':').map(Number);
-
     const date = new Date(baseDate);
     date.setHours(hours);
     date.setMinutes(minutes);
     date.setSeconds(seconds || 0);
     date.setMilliseconds(0);
-
     return date;
   };
-  const [startTime, setStartTime] = useState(
-    timeStringToDate(shiftData?.time_start, new Date())
-  );
 
-  const [endTime, setEndTime] = useState(
-    timeStringToDate(shiftData?.time_end, new Date())
-  );
-  const onChange = (event, selectedDate) => {
-    setShowPicker(false);
+  const [startTime, setStartTime] = useState(timeStringToDate(shiftData?.time_start, new Date()));
+  const [endTime, setEndTime] = useState(timeStringToDate(shiftData?.time_end, new Date()));
 
-    if (event.type === 'dismissed') return;
-
-    if (activeField === 'date') {
-      setDate(selectedDate);
-    } else if (activeField === 'start') {
-      setStartTime(selectedDate);
-    } else if (activeField === 'end') {
-      setEndTime(selectedDate);
-    }
-  };
   const openPicker = (field, pickerMode) => {
     setActiveField(field);
     setMode(pickerMode);
     setOpen(true);
   };
 
-
-
-  const resetForm = () => {
-    setDate('');
-    setStartTime('');
-    setEndTime('');
-    setLocation('');
-    setUnit('');
-    setDescription('');
-  };
   const validate = () => {
-    if (!date) {
-      Alert.alert('Validation', 'Please select date');
-      return false;
-    }
-    if (!startTime) {
-      Alert.alert('Validation', 'Please select start time');
-      return false;
-    }
-    if (!endTime) {
-      Alert.alert('Validation', 'Please select end time');
-      return false;
-    }
-
-    // Check if end time is after start time
-    // const start = new Date(startTime);
-    // const end = new Date(endTime);
-    // if (end <= start) {
-    //   Alert.alert('Validation', 'End time must be after start time');
-    //   return false;
-    // }
-
-    if (!location.trim()) {
-      Alert.alert('Validation', 'Enter location');
-      return false;
-    }
-    if (!unit.trim()) {
-      Alert.alert('Validation', 'Enter unit');
-      return false;
-    }
-    if (!description.trim()) {
-      Alert.alert('Validation', 'Enter description');
-      return false;
-    }
+    if (!date) { Alert.alert(labels.valTitle, labels.valDate); return false; }
+    if (!startTime) { Alert.alert(labels.valTitle, labels.valStart); return false; }
+    if (!endTime) { Alert.alert(labels.valTitle, labels.valEnd); return false; }
+    if (!location.trim()) { Alert.alert(labels.valTitle, labels.valLoc); return false; }
+    if (!unit.trim()) { Alert.alert(labels.valTitle, labels.valUnit); return false; }
+    if (!description.trim()) { Alert.alert(labels.valTitle, labels.valDesc); return false; }
     return true;
   };
 
-  // const submitShift = async () => {
-  //   if (!validate()) return;
-
-  //   setLoading(true);
-
-  //   const payload = {
-  //     // date: date,
-  //     // startTime: startTime,
-  //     // endTime: endTime,
-  //     date: formatDate(date),
-  //     startTime: formatTime(startTime),
-  //     endTime: formatTime(endTime),
-  //     location,
-  //     unit,
-  //     description,
-  //     token: isLogin?.token
-  //   };
-  //   console.log('Submitting shift:', payload);
-  //   // add_shift_API(payload, setLoading)
-  //   const dd = await add_shift_API(payload, setLoading)
-  //   // if (success) {
-  //   //   resetForm();       // ✅ clear form
-  //   //   setvisible(true);  // ✅ show success modal
-  //   // }
-  //   if (dd?.success) {
-  //     resetForm();
-  //     setvisible(true);
-  //   };
-  // }
-
-  // For Android, we can use the DateTimePicker as a modal
   const submitShift = async () => {
     if (!validate()) return;
 
@@ -181,10 +93,9 @@ export default function CreateNewShift() {
     };
 
     setLoading(true);
-
     let res;
     if (type === "Edit") {
-      res = await update_shift_API( payload, setLoading);
+      res = await update_shift_API(payload, setLoading);
     } else {
       res = await add_shift_API(payload, setLoading);
     }
@@ -193,27 +104,26 @@ export default function CreateNewShift() {
       setvisible(true);
     }
   };
+
   const formatDate = (d) => {
     const y = d.getFullYear();
     const m = String(d.getMonth() + 1).padStart(2, '0');
     const day = String(d.getDate()).padStart(2, '0');
-    console.log(`${y}-${m}-${day}`)
-    return `${y}-${m}-${day}`; // 2025-02-12
+    return `${y}-${m}-${day}`;
   };
 
   const formatTime = (d) => {
     const h = String(d.getHours()).padStart(2, '0');
     const m = String(d.getMinutes()).padStart(2, '0');
-    return `${h}:${m}`; // 09:30
+    return `${h}:${m}`;
   };
-  console.log('DATE:', date);
-  console.log('START:', formatTime(startTime));
-  console.log('END:', endTime);
+
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#fff' }}>
       {loading && <LoadingModal />}
       <StatusBarComponent />
-      <CustomHeader label={type ? "Edit Shift" : 'Create New Shift'} />
+      <CustomHeader label={type === "Edit" ? labels.editShift : labels.createNewShift} />
+      
       <KeyboardAvoidingView
         style={{ flex: 1 }}
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
@@ -222,31 +132,13 @@ export default function CreateNewShift() {
         <ScrollView
           showsVerticalScrollIndicator={false}
           contentContainerStyle={{ paddingBottom: 30 }}
-          style={{
-            marginHorizontal: 20,
-            marginTop: hp(3),
-            backgroundColor: "white",
-          }} >
-          <View style={{
-            backgroundColor: '#FFF',
-            marginHorizontal: 5,
-            borderColor: '#ccc',
-            borderRadius: 10,
-            shadowColor: '#000',
-            shadowOffset: { width: 0, height: 2 },
-            shadowOpacity: 0.12,
-            shadowRadius: 3.84,
-            elevation: 5,
-            padding: 15,
-            marginTop: 11,
-            marginBottom: 60
-          }}>
+          style={styles.scrollView} 
+        >
+          <View style={styles.card}>
             <View style={styles.formContainer}>
-
-
               <TouchableOpacity onPress={() => openPicker('date', 'date')}>
                 <TextInputField
-                  placeholder="Select Date"
+                  placeholder={labels.selectDate}
                   text={formatDate(date)}
                   editable={false}
                   firstLogo
@@ -256,24 +148,26 @@ export default function CreateNewShift() {
 
               <TouchableOpacity onPress={() => openPicker('start', 'time')}>
                 <TextInputField
-                  placeholder="Start Time"
+                  placeholder={labels.startTime}
                   text={formatTime(startTime)}
                   editable={false}
                   firstLogo
                   img={imageIndex.time2}
                 />
               </TouchableOpacity>
+
               <TouchableOpacity onPress={() => openPicker('end', 'time')}>
                 <TextInputField
-                  placeholder="End Time"
+                  placeholder={labels.endTime}
                   text={formatTime(endTime)}
                   editable={false}
                   firstLogo
                   img={imageIndex.time2}
                 />
               </TouchableOpacity>
+
               <TextInputField
-                placeholder="Location"
+                placeholder={labels.location}
                 text={location}
                 onChangeText={setLocation}
                 firstLogo
@@ -281,16 +175,15 @@ export default function CreateNewShift() {
               />
 
               <TextInputField
-                placeholder="Unit"
+                placeholder={labels.unit}
                 text={unit}
                 onChangeText={setUnit}
                 firstLogo
                 img={imageIndex.Level}
-                keyboardType="numeric"
               />
 
               <TextInputField
-                placeholder="Description"
+                placeholder={labels.description}
                 text={description}
                 onChangeText={setDescription}
                 firstLogo
@@ -301,55 +194,36 @@ export default function CreateNewShift() {
             </View>
           </View>
 
-          {/* <CustomButton
-            title={loading ? 'Posting...' : 'Post Shift'}
-            disabled={loading}
-            onPress={submitShift}
-          /> */}
           <CustomButton
-            title={type === "Edit" ? "Update Shift" : "Post Shift"}
+            title={type === "Edit" ? labels.updateShift : labels.postShift}
             disabled={loading}
             onPress={submitShift}
           />
+
           <PostSuccessfull
             userImage={imageIndex.post1}
             visible={visible}
-            title={`${type === "Edit" ? "Update Successfully" : "Post Successfully"}`}
-            subTitle={`Shift successfully ${type === "Edit" ? "updated" : "posted"}. Workers notified automatically.`}
+            title={type === "Edit" ? labels.updateSuccess : labels.postSuccess}
+            subTitle={type === "Edit" ? labels.updateSub : labels.postSub}
             onOpenChat={() => {
               setvisible(false);
-              navgation.navigate(ScreenNameEnum.Tab2Navigator);
+              navigation.navigate(ScreenNameEnum.Tab2Navigator);
             }}
-            onClose={() => {
-              setvisible(false)
-            }}
+            onClose={() => setvisible(false)}
           />
+
           <DatePicker
             modal
             open={open}
-            // is24hourSource='locale'
             mode={mode}
             date={
-              activeField === 'date'
-                ? date
-                : activeField === 'start'
-                  ? startTime
-                  : endTime
+              activeField === 'date' ? date : activeField === 'start' ? startTime : endTime
             }
             onConfirm={(selectedDate) => {
               setOpen(false);
-
-              if (activeField === 'date') {
-                setDate(selectedDate);
-              }
-
-              if (activeField === 'start') {
-                setStartTime(selectedDate);
-              }
-
-              if (activeField === 'end') {
-                setEndTime(selectedDate);
-              }
+              if (activeField === 'date') setDate(selectedDate);
+              if (activeField === 'start') setStartTime(selectedDate);
+              if (activeField === 'end') setEndTime(selectedDate);
             }}
             onCancel={() => setOpen(false)}
           />
@@ -405,4 +279,26 @@ const styles = StyleSheet.create({
   doneButtonText: {
     color: '#fff',
   },
+  scrollView: {
+    marginHorizontal: 20,
+    marginTop: hp(3),
+    backgroundColor: "white",
+  },
+  card: {
+    backgroundColor: '#FFF',
+    marginHorizontal: 5,
+    borderColor: '#ccc',
+    borderRadius: 10,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.12,
+    shadowRadius: 3.84,
+    elevation: 5,
+    padding: 15,
+    marginTop: 11,
+    marginBottom: 60
+  },
+  // formContainer: {
+  //   marginBottom: 20,
+  // },
 });
