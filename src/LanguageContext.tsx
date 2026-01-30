@@ -24,7 +24,7 @@ export const LanguageProvider = ({ children }: any) => {
   };
 
    // const labels = translations[locale] || translations['en'];
-  const labels =  translations['en'];
+  const labels =  translations['fi'];
 
   return (
     <LanguageContext.Provider value={{ labels, locale, changeLanguage }}>

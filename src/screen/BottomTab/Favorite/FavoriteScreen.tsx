@@ -16,8 +16,7 @@ import { GetApi, onFavoriteShift } from "../../../api/apiRequest";
 import LoadingModal from "../../../utils/Loader";
 import moment from "moment";
 import ScreenNameEnum from "../../../routes/screenName.enum";
-import { useNavigation } from "@react-navigation/native";
-import { language } from "../../../constant/Language";
+import { useNavigation } from "@react-navigation/native"; 
 import { useLanguage } from "../../../LanguageContext";
 
 export default function FavoriteScreen() {

@@ -6,7 +6,8 @@ import ScreenNameEnum from '../../../routes/screenName.enum';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { LoginCustomer } from '../../../api/apiRequest';
 import messaging from '@react-native-firebase/messaging';
-import { language } from '../../../constant/Language';
+import { useLanguage } from '../../../LanguageContext';
+// import { language } from '../../../constant/Language';
 
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -15,8 +16,8 @@ const useLogin = () => {
   const navigation = useNavigation<RootStackParamList>();
   
   // Access Finnish labels
-  const labels = language.fi;
-  
+  // const labels = language.fi;
+   const { labels} = useLanguage(); 
   const [isLoading, setisLoading] = useState(false);
   
   interface Credentials {
