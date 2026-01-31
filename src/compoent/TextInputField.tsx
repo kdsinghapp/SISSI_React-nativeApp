@@ -30,14 +30,14 @@ export default function TextInputField({ ...props }) {
         style={[
           {
             flexDirection: 'row',
-            backgroundColor: '#F7F8F8',
+            backgroundColor:color.thirdColor,
             borderColor: '#F7F8F8',
             height: 58,
             borderRadius: 15,
             paddingHorizontal: 5,
             alignItems: 'center',
             justifyContent: 'space-between',
-            borderWidth: 1.8,
+            borderWidth: 1,
             marginTop: 5
           },
           props.style,
@@ -74,7 +74,7 @@ export default function TextInputField({ ...props }) {
               placeholderTextColor={props.placeholderTextColor || "#ADA4A5"}
               style={[
                 {
-                  color: 'black',
+                  color: color.textPrimary,
                   fontWeight: '500',
                   fontSize: 14,
                   flex: 1,

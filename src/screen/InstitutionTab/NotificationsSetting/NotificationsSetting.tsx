@@ -30,7 +30,7 @@ const NotificationsSetting = () => {
             <Switch
               value={generalNotification}
               onValueChange={val => setGeneralNotification(val)}
-              trackColor={{ false: '#767577', true: '#000' }}
+              trackColor={{ false: '#767577', true: color.primary }}
               thumbColor={'#fff'}
             />
           </View>
@@ -40,7 +40,7 @@ const NotificationsSetting = () => {
             <Switch
               value={sound}
               onValueChange={val => setSound(val)}
-              trackColor={{ false: '#767577', true: '#000' }}
+              trackColor={{ false: '#767577', true: color.primary}}
               thumbColor={'#fff'}
             />
           </View>
@@ -50,7 +50,7 @@ const NotificationsSetting = () => {
             <Switch
               value={vibrate}
               onValueChange={val => setVibrate(val)}
-              trackColor={{ false: '#767577', true: '#000' }}
+              trackColor={{ false: '#767577', true: color.primary }}
               thumbColor={'#fff'}
             />
           </View>
@@ -60,7 +60,7 @@ const NotificationsSetting = () => {
             <Switch
               value={appUpdates}
               onValueChange={val => setAppUpdates(val)}
-              trackColor={{ false: '#767577', true: '#000'}}
+              trackColor={{ false: '#767577', true: color.primary}}
               thumbColor={'#fff'}
             />
           </View>
@@ -77,7 +77,7 @@ export default NotificationsSetting;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: color.background,
   },
   header: {
     flexDirection: 'row',
@@ -103,7 +103,7 @@ const styles = StyleSheet.create({
    },
   optionText: {
     fontSize: 16,
-    color: "#000000",
+    color: color.textPrimary,
      lineHeight:15 ,
      fontWeight:"600",
   },
@@ -111,7 +111,7 @@ const styles = StyleSheet.create({
     marginTop: 40,
     marginHorizontal: 15,
     padding: 20,
-    backgroundColor: "#FFF",
+    backgroundColor: color.thirdColor,
     elevation: 8,
     shadowColor: "#000",
     shadowOpacity: 0.15,

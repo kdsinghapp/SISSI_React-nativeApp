@@ -4,6 +4,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import moment from "moment";
 import CustomHeader from "../../../compoent/CustomHeader"; 
 import { useLanguage } from "../../../LanguageContext";
+import { color } from "../../../constant";
 
 export default function ShiftDetailScreen({ route }) {
   const { item } = route.params; // 👈 single item
@@ -42,18 +43,18 @@ export default function ShiftDetailScreen({ route }) {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: "#fff" },
+  container: { flex: 1, backgroundColor:color.background},
   content: { padding: 16 },
   label: {
     fontSize: 14,
-    color: "#0056B3",
+    color: color.primary,
     fontWeight: "500",
     marginTop: 16,
   },
   value: {
     fontSize: 15,
     fontWeight: "600",
-    color: "#000",
+    color: color.textPrimary,
     marginTop: 4,
   },
 });

@@ -611,7 +611,7 @@ export default function SignUpUI() {
   );
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: '#fff' }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: color.background }}>
       <StatusBarComponent />
       <CustomHeader label={labels.back} />
       <KeyboardAvoidingView
@@ -878,29 +878,30 @@ const styles = StyleSheet.create({
   scrollView: {
     marginHorizontal: 20,
     marginTop: hp(3),
-    backgroundColor: 'white',
+    backgroundColor: color.thirdColor,
+    borderRadius: 20,
   },
   formWrapper: {
-    backgroundColor: '#FFF',
+    // backgroundColor: '#FFF',
     marginHorizontal: 5,
     borderRadius: 10,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.12,
-    shadowRadius: 3.84,
-    elevation: 5,
+    // shadowColor: '#000',
+    // shadowOffset: { width: 0, height: 2 },
+    // shadowOpacity: 0.12,
+    // shadowRadius: 3.84,
+    // elevation: 5,
     padding: 15,
     marginTop: 11,
     marginBottom: 20,
   },
-  logo: { height: 44, width: 120, alignSelf: 'center' },
-  title: { fontSize: 22, fontWeight: '600', textAlign: 'center', marginBottom: 5, marginTop: 18, color: 'black' },
-  subtitle: { fontSize: 16, color: '#9DB2BF', textAlign: 'center', marginBottom: 20, marginTop: 10 },
+  logo: { height: 80, width: 80, alignSelf: 'center' },
+  title: { fontSize: 22, fontWeight: '600', textAlign: 'center', marginBottom: 5, marginTop: 18, color: color.textPrimary },
+  subtitle: { fontSize: 16, color: color.textPrimary, textAlign: 'center', marginBottom: 20, marginTop: 10 },
   formContainer: { marginBottom: 20 },
-  sectionTitle: { color: 'black', fontSize: 18, fontWeight: '600', marginTop: 15, marginBottom: 10 },
+  sectionTitle: { color: color.textPrimary, fontSize: 18, fontWeight: '600', marginTop: 15, marginBottom: 10 },
   dropdown: {
     borderWidth: 1,
-    backgroundColor: '#F7F8F8',
+    backgroundColor: color.thirdColor,
     borderColor: '#F7F8F8',
     padding: 15,
     borderRadius: 12,
@@ -912,13 +913,13 @@ const styles = StyleSheet.create({
   },
   dropdownContent: { flexDirection: 'row', alignItems: 'center' },
   dropdownIcon: { height: 20, width: 20 },
-  dropdownText: { marginLeft: 10, fontSize: 14, color: 'black' },
+  dropdownText: { marginLeft: 10, fontSize: 14, color: color.textPrimary },
   placeholderText: { color: '#999' },
   dropdownArrow: { height: 18, width: 18 },
-  modalOverlay: { flex: 1, backgroundColor: 'rgba(0,0,0,0.4)', justifyContent: 'center', alignItems: 'center' },
-  modalContent: { backgroundColor: '#fff', width: '80%', borderRadius: 15, maxHeight: '50%', paddingVertical: 10 },
+  modalOverlay: { flex: 1, backgroundColor: color.thirdColor, justifyContent: 'center', alignItems: 'center' },
+  modalContent: { backgroundColor:color.modalColor, width: '80%', borderRadius: 15, maxHeight: '50%', paddingVertical: 10 },
   modalItem: { padding: 18, borderBottomWidth: 1, borderColor: '#f0f0f0' },
-  modalItemText: { fontSize: 16, color: 'black', textAlign: 'center' },
+  modalItemText: { fontSize: 16, color: color.textPrimary, textAlign: 'center' },
   checkboxContainer: { flexDirection: 'row', alignItems: 'flex-start', marginVertical: 12 },
   checkboxOuter: {
     width: 22,
@@ -931,7 +932,7 @@ const styles = StyleSheet.create({
     marginRight: 10,
   },
   checkboxInner: { width: 12, height: 12, borderRadius: 2, backgroundColor: color.primary },
-  checkboxLabel: { fontSize: 14, color: '#333', flex: 1, lineHeight: 20 },
+  checkboxLabel: { fontSize: 14, color: color.textPrimary, flex: 1, lineHeight: 20 },
   signUpContainer: { flexDirection: 'row', justifyContent: 'center', marginBottom: 30 },
   signUpText: { fontSize: 17, color: '#909090', fontWeight: '500' },
   signUpLink: { fontSize: 17, fontWeight: '700', color: color.primary, marginLeft: 5 },

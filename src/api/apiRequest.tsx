@@ -325,8 +325,8 @@ const otp_Verify = (
                     );
                     console.log(response)
                     setLoading(false)
-                    if (param?.type) {
-                        param.navigation.navigate(ScreenNameEnum.CreateNewPassword)
+                    if (param?.type == 'register') {
+                        param.navigation.navigate(ScreenNameEnum.Login)
                     } else {
                         param.navigation.navigate(ScreenNameEnum.CreateNewPassword, {
                             userId: response?.data?.user_id

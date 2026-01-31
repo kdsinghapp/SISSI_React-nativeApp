@@ -110,7 +110,7 @@
 //       </View>
 
 //       <FlatList
-//         data={data} 
+//         data={data}
 //         style={{
 //           marginTop:15
 //         }}
@@ -119,7 +119,7 @@
 //         ItemSeparatorComponent={() => <View style={styles.separator} />}
 //         contentContainerStyle={{ paddingBottom: 16 }}
 //         showsVerticalScrollIndicator={false}
-//       /> 
+//       />
 //  <View style ={{
 //    justifyContent:"center" ,
 //   flex:1,
@@ -170,12 +170,11 @@
 //     shadowOpacity: 0.1,
 //     shadowRadius: 4,
 
-
 //   },
 //   input: {
 //     fontSize: 16,
 //     color: "black",
-//      paddingVertical: 0,   // remove extra padding in Android 
+//      paddingVertical: 0,   // remove extra padding in Android
 //      fontWeight:"500"
 
 //   },
@@ -263,7 +262,6 @@
 //   },
 // });
 
-
 import React from "react";
 import { View, Text, FlatList, Image, TouchableOpacity } from "react-native";
 import imageIndex from "../../../assets/imageIndex";
@@ -278,90 +276,110 @@ import moment from "moment";
 import LoadingModal from "../../../utils/Loader";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useLanguage } from "../../../LanguageContext";
+import { color } from "../../../constant";
 // import localizationStrings from "../../../compoent/Localization/Localization";
 
-
 const Messages = () => {
-    const {
-        isLoading,
-        navigation,
-        filteredMessages,
-        searchData,
-        setSearchData,
-    } = useMessageList()
-const { labels} = useLanguage();
-    return (
-        <SafeAreaView style={{
-            flex: 1,
-            backgroundColor: "white"
-        }}>      {isLoading ? <LoadingModal /> : null}
-
-            <StatusBarComponent />
-            <View style={{
-                marginTop: 15,
-                marginHorizontal: 12
-            }}>
-                <CustomHeader leftIcon={imageIndex.back} label={labels.inbox} />
-            </View>
-             <SearchBar
-                placeholder={labels.search}
-                    value={searchData}
-                    onSearchChange={setSearchData}
-                />
-            <View style={styles.container}>
-               
-                <FlatList
-                    showsVerticalScrollIndicator={false}
-                    data={filteredMessages}
-                    // ListEmptyComponent={<EmptyListComponent message={localizationStrings?.Nochat} />}
-                    keyExtractor={(item: any) => item.id}
-                    renderItem={({ item }: any) => (
-                        <TouchableOpacity style={styles.messageContainer}
-                            onPress={() =>
-                                navigation.navigate(ScreenNameEnum.ChatScreen, {
-                                    item: {
-                                        user_name: item?.conversation_user_name,
-                                        id: item?.conversation_user_id,
-                                        image: item?.conversation_image
-                                    }
-                                }
-                                )
-                            }
-                        >
-                            <Image source={{
-                                uri: item.conversation_image == "https://server-php-8-3.technorizen.com/sissi/public/uploads/users/default.png" ? 'https://server-php-8-3.technorizen.com/sissi/public/uploads/users/1765357766_logo.jpg' : item.conversation_image
-
-                            }}
-                                style={styles.profileImage} />
-                            <View style={styles.textContainer}>
-                                <Text style={styles.name}>{item.conversation_user_name}</Text>
-                                <Text style={{
-                                    color: "#797C7B",
-                                    fontSize: 12,
-                                    lineHeight: 12,
-                                }}>{item?.chat_message}</Text>
-                            </View>
-                            <View style={styles.timeContainer}>
-                                <Text style={styles.time}>
-                                    {item?.time_ago}
-                                      {/* {item?.chat_updated_at
+  const { isLoading, navigation, filteredMessages, searchData, setSearchData } =
+    useMessageList();
+  const { labels } = useLanguage();
+  return (
+    <SafeAreaView
+      style={{
+        flex: 1,
+        backgroundColor: color.background,
+      }}
+    >
+      {" "}
+      {isLoading ? <LoadingModal /> : null}
+      <StatusBarComponent />
+      <View
+        style={{
+          marginTop: 15,
+          marginHorizontal: 12,
+        }}
+      >
+        <CustomHeader leftIcon={imageIndex.back} label={labels.inbox} />
+      </View>
+      <SearchBar
+        placeholder={labels.search}
+        value={searchData}
+        onSearchChange={setSearchData}
+      />
+      <View style={styles.container}>
+        <FlatList
+          showsVerticalScrollIndicator={false}
+          data={filteredMessages}
+          // ListEmptyComponent={<EmptyListComponent message={localizationStrings?.Nochat} />}
+          keyExtractor={(item: any) => item.id}
+          ListEmptyComponent={() => (
+            <Image
+              source={imageIndex.chatEmpty}
+              resizeMode="cover"
+              style={{
+                width: "70%",
+                height: 350,
+                alignSelf: "center",
+                marginTop: 100,
+              }}
+            />
+          )}
+          renderItem={({ item }: any) => (
+            <TouchableOpacity
+              style={styles.messageContainer}
+              onPress={() =>
+                navigation.navigate(ScreenNameEnum.ChatScreen, {
+                  item: {
+                    user_name: item?.conversation_user_name,
+                    id: item?.conversation_user_id,
+                    image: item?.conversation_image,
+                  },
+                })
+              }
+            >
+              <Image
+                source={{
+                  uri:
+                    item.conversation_image ==
+                    "https://server-php-8-3.technorizen.com/sissi/public/uploads/users/default.png"
+                      ? "https://server-php-8-3.technorizen.com/sissi/public/uploads/users/1765357766_logo.jpg"
+                      : item.conversation_image,
+                }}
+                style={styles.profileImage}
+              />
+              <View style={styles.textContainer}>
+                <Text style={styles.name}>{item.conversation_user_name}</Text>
+                <Text
+                  style={{
+                    color: "#797C7B",
+                    fontSize: 12,
+                    lineHeight: 12,
+                  }}
+                >
+                  {item?.chat_message}
+                </Text>
+              </View>
+              <View style={styles.timeContainer}>
+                <Text style={styles.time}>
+                  {item?.time_ago}
+                  {/* {item?.chat_updated_at
                                     ? moment(item.chat_updated_at).isBefore(moment().subtract(24, 'hours'))
                                         ? moment(item.chat_updated_at).format("MMMM Do YYYY")
                                         : moment(item.chat_updated_at).fromNow()
                                     : "N/A"}  */}
-                                    </Text>
-                                {item.unread && <View style={styles.unreadBadge} >
-                                    <Text style={{ color: "white", fontSize: 11 }}>4</Text>
-                                </View>}
-                            </View>
-                        </TouchableOpacity>
-                    )}
-                />
-            </View>
-        </SafeAreaView>
-    );
+                </Text>
+                {item.unread && (
+                  <View style={styles.unreadBadge}>
+                    <Text style={{ color: "white", fontSize: 11 }}>4</Text>
+                  </View>
+                )}
+              </View>
+            </TouchableOpacity>
+          )}
+        />
+      </View>
+    </SafeAreaView>
+  );
 };
-
-
 
 export default Messages;

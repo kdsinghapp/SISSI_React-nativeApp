@@ -51,7 +51,7 @@ export const styles = StyleSheet.create({
     tintColor: "white"
   },
   scrollContent: {
-    backgroundColor: '#F8F9FA',
+    backgroundColor: color.background,
     borderTopLeftRadius: 30,
     borderTopRightRadius: 30,
     padding: 20,

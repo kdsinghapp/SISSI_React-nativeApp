@@ -263,7 +263,7 @@ const EditProfile = () => {
                   >
                     <View style={styles.dropdownContent}>
                       <Image source={imageIndex.Level} style={styles.dropdownIcon} tintColor={color.primary} />
-                      <Text style={{ marginLeft: 8, color: education ? "#000" : "#999" }}>
+                      <Text style={{ marginLeft: 8, color: education ? color.textPrimary : "#999" }}>
                         {education || labels.levelOfEducation}
                       </Text>
                     </View>
@@ -282,7 +282,7 @@ const EditProfile = () => {
                     value={schoolName}
                     onChangeText={setSchoolName}
                     firstLogo
-                    img={imageIndex.Health}
+                    img={imageIndex.health}
                   />
 
                   <TextInputField
@@ -345,7 +345,7 @@ const EditProfile = () => {
 export default EditProfile;
 
 const styles = StyleSheet.create({
-  safeArea: { flex: 1, backgroundColor: "#FFF" },
+  safeArea: { flex: 1, backgroundColor: color.background },
 
   profileContainer: {
     alignItems: "center",
@@ -367,7 +367,7 @@ const styles = StyleSheet.create({
   editIcon: { width: 33, height: 33 },
 
   card: {
-    backgroundColor: "#FFF",
+    backgroundColor:color.background,
     padding: 18,
   },
 
@@ -400,13 +400,13 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: "600",
     marginTop: 15,
-    color: "black",
+    color: color.textPrimary,
   },
 
   dropdown: {
     borderWidth: 1,
     borderColor: "#F7F8F8",
-    backgroundColor: "#F7F8F8",
+    backgroundColor: color.thirdColor,
     padding: 15,
     borderRadius: 12,
     marginVertical: 10,
@@ -446,18 +446,18 @@ const styles = StyleSheet.create({
 
   modalOverlay: {
     flex: 1,
-    backgroundColor: "rgba(0,0,0,0.3)",
+    backgroundColor:color.thirdColor,
     justifyContent: "center",
     alignItems: "center",
   },
 
   modalContent: {
-    backgroundColor: "#FFF",
+    backgroundColor: color.modalColor,
     width: "80%",
     borderRadius: 10,
   },
 
   modalItem: { padding: 15, borderBottomWidth: 1, borderColor: "#EEE" },
 
-  modalItemText: { fontSize: 16 },
+  modalItemText: { fontSize: 16, color: color.textPrimary},
 });

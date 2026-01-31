@@ -9,7 +9,7 @@ const UserActive = (props) => (
     {...props}
   >
     <Path
-      stroke="#FF4762"
+      stroke="#E80389"
       strokeLinecap="round"
       strokeLinejoin="round"
       strokeWidth={1.5}

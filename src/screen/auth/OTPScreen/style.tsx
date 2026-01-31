@@ -1,8 +1,7 @@
 import { StyleSheet } from "react-native";
 import { hp } from "../../../utils/Constant";
-import { color,   } from "../../../constant";
+import { color } from "../../../constant";
 import font from "../../../theme/font";
-
 
 export const styles = StyleSheet.create({
   container: {
@@ -13,100 +12,97 @@ export const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
     padding: 15,
-
   },
   backButton: {
     marginTop: 8,
-    width: '15%',
+    width: "15%",
   },
   backIcon: {
     height: 32,
     width: 32,
   },
-   txtHeading: {
-     fontSize: 24,
+  txtHeading: {
+    fontSize: 24,
     lineHeight: 36,
-    color: 'rgba(0, 0, 0, 1)',
+    color: color.textPrimary,
     marginTop: 10,
-    fontWeight:"500",
-    textAlign:'center'
-   },
-   txtDes:{
-        color:'#9DB2BF',
-        fontSize:16,
-          fontFamily:font.MonolithRegular,
-    textAlign:'center' ,
-    marginTop:5
-
-      },
+    fontWeight: "500",
+    textAlign: "center",
+  },
+  txtDes: {
+    color: color.textPrimary,
+    fontSize: 16,
+    fontFamily: font.MonolithRegular,
+    textAlign: "center",
+    marginTop: 5,
+  },
   headerSection: {
     height: hp(15),
     marginTop: 5,
-   },
+  },
   title: {
     fontSize: 24,
-    fontWeight: '700',
-    color: 'rgba(0, 0, 0, 1)',
+    fontWeight: "700",
+    color: color.textPrimary,
     lineHeight: 36,
     marginTop: 40,
   },
   description: {
     fontSize: 16,
-    fontWeight: '400',
-    color: 'rgba(157, 178, 191, 1)',
+    fontWeight: "400",
+    color: "rgba(157, 178, 191, 1)",
     lineHeight: 24,
     marginTop: 10,
   },
   otpFieldContainer: {
-       justifyContent: 'center',
-      alignSelf:'center' ,
-      bottom:20
+    justifyContent: "center",
+    alignSelf: "center",
+    bottom: 20,
   },
   cellWrapper: {
-     alignItems: 'center',      // center horizontally
-    justifyContent: 'center',  // center vertically
-  marginHorizontal:8
+    alignItems: "center", // center horizontally
+    justifyContent: "center", // center vertically
+    marginHorizontal: 8,
   },
   cell: {
     width: 60,
-    alignItems:"center",
-  height: 60,
-  fontSize: 24,
-  lineHeight: 60,            // match the height for vertical centering
-  borderWidth: 1.5,
-  borderColor: '#E9E9E9',
-  textAlign: 'center',
-  color: '#000',
-  borderRadius: 20,
-  includeFontPadding: false,  // remove extra padding for Android
+    alignItems: "center",
+    height: 60,
+    fontSize: 24,
+    lineHeight: 60, // match the height for vertical centering
+    borderWidth: 0,
+    borderColor: "#E9E9E9",
+    textAlign: "center",
+    color: color.textPrimary,
+    borderRadius: 20,
+    includeFontPadding: false, // remove extra padding for Android
+    backgroundColor: "#F7F8F81A",
   },
   focusCell: {
     borderColor: color.primary,
-    backgroundColor: 'white',
-    textAlignVertical: 'center',
-    justifyContent:"center",
-        alignItems:"center",
-
-
+    // backgroundColor: 'white',
+    textAlignVertical: "center",
+    justifyContent: "center",
+    alignItems: "center",
   },
   errorText: {
-    color: 'red',
+    color: "red",
     marginTop: 18,
   },
   bannerContainer: {
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
     height: hp(30),
     marginTop: 30,
   },
   bannerImage: {
-    height: '100%',
-    width: '100%',
+    height: "100%",
+    width: "100%",
   },
   submitButton: {
-    width: '100%',
-    position: 'absolute',
+    width: "100%",
+    position: "absolute",
     bottom: 20,
-    alignSelf:'center'
+    alignSelf: "center",
   },
 });

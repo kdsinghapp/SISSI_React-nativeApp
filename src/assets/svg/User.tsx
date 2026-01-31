@@ -9,7 +9,7 @@ const User = (props) => (
     {...props}
   >
     <Path
-      stroke="#2F4858"
+      stroke="#ffffff"
       strokeLinecap="round"
       strokeLinejoin="round"
       strokeWidth={1.5}

@@ -14,6 +14,7 @@ import imageIndex from '../../../../assets/imageIndex';
 import ResponsiveSize from '../../../../utils/ResponsiveSize'; 
 import useCreateNewPassword from './useCreateNewPassword';
 import { language } from '../../../../constant/Language';
+import { color } from '../../../../constant';
 
 export default function CreateNewPassword() {
   const labels = language.fi;
@@ -73,34 +74,35 @@ export default function CreateNewPassword() {
 }
 
 const styles = StyleSheet.create({
-  safeArea: { flex: 1, backgroundColor: '#fff' },
+  safeArea: { flex: 1, backgroundColor: color.background },
   headerContainer: { marginTop: 5 },
   cardContainer: {
-    backgroundColor: '#FFF',
+    backgroundColor: color.thirdColor,
     marginTop: hp(4),
     marginHorizontal: 15,
     borderRadius: 20,
     paddingBottom: 20,
     // Shadow
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.12,
-    shadowRadius: 3.84,
-    elevation: 8,
+    // shadowColor: '#000',
+    // shadowOffset: { width: 0, height: 2 },
+    // shadowOpacity: 0.12,
+    // shadowRadius: 3.84,
+    // elevation: 8,
   },
   textSection: { marginTop: 5, paddingHorizontal: 10 },
   title: {
     fontWeight: '700', fontSize: 24, lineHeight: 36,
-    color: '#000', textAlign: 'center', marginTop: 8
+    color:color.textPrimary, textAlign: 'center', marginTop: 8
   },
   description: {
-    fontWeight: '400', fontSize: 16, color: '#9DB2BF',
+    fontWeight: '400', fontSize: 16, color: color.textPrimary,
     marginTop: 5, lineHeight: 20, textAlign: 'center'
   },
   inputSection: {
     marginHorizontal: 15,
     marginTop: ResponsiveSize.marginTop(18),
     paddingVertical: hp(2)
+    
   },
   errorText: { color: 'red', fontSize: 14, marginTop: 8 },
   buttonContainer: { marginHorizontal: 15, marginBottom: 10 }

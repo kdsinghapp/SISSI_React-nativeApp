@@ -94,7 +94,7 @@ const styles = StyleSheet.create({
   },
   txtHeading: {
     fontSize: 18,
-     color: '#000',
+     color: color.textPrimary,
      fontWeight:"500"
   },
 });

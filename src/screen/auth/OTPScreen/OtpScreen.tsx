@@ -17,6 +17,7 @@ import CustomHeader from '../../../compoent/CustomHeader';
 import LoadingModal from '../../../utils/Loader'; 
 import { hp } from '../../../utils/Constant';
 import { useLanguage } from '../../../LanguageContext';
+import { color } from '../../../constant';
 
 export default function OtpScreen() {
   const {
@@ -35,7 +36,7 @@ export default function OtpScreen() {
   } = useOtpVerification()
   const { labels} = useLanguage();
 return (
-  <SafeAreaView style={{ flex: 1, backgroundColor: "#fff" }}>
+  <SafeAreaView style={{ flex: 1, backgroundColor: color.background }}>
     <StatusBarComponent />
     <CustomHeader label={labels.back} />
     <LoadingModal visible={isLoading} />
@@ -44,15 +45,15 @@ return (
       <ScrollView showsVerticalScrollIndicator={false}>
         <View
           style={{
-            backgroundColor: '#FFF',
+            backgroundColor: color.thirdColor,
             marginTop: hp(4),
             borderRadius: 15,
             padding: 12,
-            shadowColor: '#000',
-            shadowOffset: { width: 0, height: 2 },
-            shadowOpacity: 0.22,
-            shadowRadius: 3.70,
-            elevation: 8,
+            // shadowColor: '#000',
+            // shadowOffset: { width: 0, height: 2 },
+            // shadowOpacity: 0.22,
+            // shadowRadius: 3.70,
+            // elevation: 8,
           }}>
           
           <View style={styles.headerSection}>

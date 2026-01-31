@@ -54,7 +54,7 @@ export default function TabNavigator() {
               allowFontScaling={false}
               style={{
                 fontSize: 13,
-                color: focused ? color.primary : '#2F4858',
+                color: focused ? color.primary : color.textPrimary,
                 marginTop: 4,
                 fontWeight: "500"
               }}
@@ -83,7 +83,7 @@ export default function TabNavigator() {
             position: 'absolute',
             left: 20,
             right: 20,
-            backgroundColor: 'white', // your desired background
+            backgroundColor: '#180226', // your desired background
             height: TAB_BAR_HEIGHT + insets.bottom, // safe height including bottom inset
             paddingBottom: insets.bottom,
             paddingTop: 8,
@@ -93,7 +93,7 @@ export default function TabNavigator() {
             borderTopRightRadius: 10,
 
             // Borders
-
+borderTopWidth:0,
             borderTopColor: 'rgba(125, 154, 155, 0.15)',
             borderLeftColor: 'rgba(125, 154, 155, 0.15)',
             borderRightColor: 'rgba(125, 154, 155, 0.15)',

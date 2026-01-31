@@ -23,6 +23,7 @@ import { useNavigation } from "@react-navigation/native";
 import ScreenNameEnum from "../../../routes/screenName.enum"; 
 import { language } from "../../../constant/Language";
 import { useLanguage } from "../../../LanguageContext";
+import CustomButton from "../../../compoent/CustomButton";
 
 export default function BrowseShifts() {
   const { labels} = useLanguage();
@@ -81,6 +82,7 @@ export default function BrowseShifts() {
       token: isLogin?.token,
     }
     const dd = await BookShiftByUserApi(param, setLoading)
+    console.log(dd)
     if (dd?.status == '1') {
       setBookedItem(item);
       setModalVisible(true);
@@ -164,13 +166,13 @@ export default function BrowseShifts() {
         <TouchableOpacity style={styles.removeBtn} onPress={() => onFavorite(item)}>
           <Text style={styles.removeTxt}>
             {item?.favorite_status == 0 ? labels.favorite : labels.unfavorite}{" "}
-            <Text style={{ fontSize: 22, color: color.primary }}>✩</Text>
+            <Text style={{ fontSize: 14, color: color.primary }}>✩</Text>
           </Text>
         </TouchableOpacity>
 
-        <TouchableOpacity onPress={() => BookNow(item)} style={styles.detailsBtn}>
-          <Text style={styles.detailsTxt}>{labels.bookNow}</Text>
-        </TouchableOpacity>
+        <CustomButton onPress={() => BookNow(item)} style={{width:'48%', marginTop:0, height:50}} title={labels.bookNow} textStyle={{fontSize:14}}/>
+          {/* <Text style={styles.detailsTxt}>{labels.bookNow}</Text> */}
+        {/* </TouchableOpacity> */}
       </View>
     </TouchableOpacity>
   );
@@ -193,6 +195,9 @@ export default function BrowseShifts() {
           keyExtractor={(item) => item?.id?.toString()}
           showsVerticalScrollIndicator={false}
           contentContainerStyle={{ paddingBottom: 40 }}
+          ListEmptyComponent={()=>
+            <Image source={imageIndex.emptyShift} resizeMode="cover" style={{width:'70%',height:350,alignSelf:'center',marginTop:100}}/>
+          }
         />
       </View>
 
@@ -221,7 +226,7 @@ const styles = StyleSheet.create({
   /* Screen Container */
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: color.background,
   },
 
   listWrapper: {
@@ -233,18 +238,18 @@ const styles = StyleSheet.create({
   /* Card */
   card: {
     borderWidth: 1.5,
-    borderColor: "#FF007A",
+    borderColor: color.primary,
     borderRadius: 18,
     padding: 16,
     marginBottom: 18,
-    backgroundColor: "#fff",
+    backgroundColor: color.thirdColor,
 
     // Shadow for iOS + Android
-    elevation: 5,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.15,
-    shadowRadius: 4,
+    // elevation: 5,
+    // shadowColor: "#000",
+    // shadowOffset: { width: 0, height: 2 },
+    // shadowOpacity: 0.15,
+    // shadowRadius: 4,
   },
 
   row: {
@@ -263,14 +268,14 @@ const styles = StyleSheet.create({
 
   label: {
     fontSize: 15,
-    color: "#0056B3",
+    color: color.primary,
     fontWeight: "500",
   },
 
   value: {
     fontSize: 14,
     fontWeight: "600",
-    color: "#000",
+    color:color.textPrimary,
     marginTop: 5,
     lineHeight: 20,
   },
@@ -301,10 +306,14 @@ const styles = StyleSheet.create({
   removeBtn: {
     borderWidth: 2,
     borderColor: color.primary,
-    paddingHorizontal: 35,
-    paddingVertical: 11,
-    borderRadius: 30,
+    // paddingHorizontal: 35,
+    // paddingVertical: 11,
+    borderRadius: 25,
     justifyContent: "center",
+    height:50,
+    width:'48%',
+    alignItems:'center',
+    backgroundColor:color.background
   },
 
   removeTxt: {

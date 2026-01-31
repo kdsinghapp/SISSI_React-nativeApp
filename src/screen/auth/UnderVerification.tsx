@@ -15,11 +15,12 @@ import CustomHeader from '../../compoent/CustomHeader';
 import LoadingModal from '../../utils/Loader'; 
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
+import { color } from '../../constant';
 
 export default function UnderVerification() {
  const navigation = useNavigation()
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: '#fff' }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: color.background }}>
       <StatusBarCompoent />
       <ScrollView showsVerticalScrollIndicator={false} >
          <View style={{ marginTop: 18 }}>
@@ -27,29 +28,29 @@ export default function UnderVerification() {
         </View>
         <View
           style={{
-            backgroundColor: '#FFF',        // White background
+            backgroundColor: color.background,        // White background
             marginTop: hp(4),               // Responsive top margin
             marginHorizontal: 15,           // Horizontal margin
             borderColor: '#ccc',            // Add border color for better visibility
             borderRadius: 20,               // Rounded corners (optional but recommended)
-            shadowColor: '#000',            // iOS shadow
-            shadowOffset: { width: 0, height: 2 },
-            shadowOpacity: 0.12,
-            shadowRadius: 3.84,
-            elevation: 8,
+            // shadowColor: '#000',            // iOS shadow
+            // shadowOffset: { width: 0, height: 2 },
+            // shadowOpacity: 0.12,
+            // shadowRadius: 3.84,
+            // elevation: 8,
           }}>
           <View style={{ marginTop: 6 }}>
             <Text style={{
               fontWeight: '700',
               fontSize: 24,
               lineHeight: 36,
-              color: 'rgba(0, 0, 0, 1)',
+              color:color.textPrimary,
               textAlign: 'center'
             }}>Under Review</Text>
             <Text style={{
               fontWeight: '400',
               fontSize: 16,
-              color: '#9DB2BF',
+              color: color.textPrimary,
               marginTop: 4,
               lineHeight: 20,
               textAlign: 'center',
@@ -66,7 +67,7 @@ export default function UnderVerification() {
             }}>
             
           </View>
-                 <Image resizeMode='contain' source={imageIndex.review} style={{ width: '70%', height: hp(30), alignSelf: 'center', marginBottom: 30 }} />
+                 <Image resizeMode='contain' source={imageIndex.review} style={{ width: '90%', height: hp(30), alignSelf: 'center', marginBottom: 30, backgroundColor:'transparent' }} />
 
           <View style={{
             justifyContent: 'flex-start', marginBottom: 15

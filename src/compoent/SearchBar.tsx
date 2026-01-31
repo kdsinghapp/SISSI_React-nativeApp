@@ -18,7 +18,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ searchBar1,placeholder = "Search"
        allowFontScaling={false} 
         style={styles.input}
         placeholder={placeholder}
-        placeholderTextColor="black"
+        placeholderTextColor="grey"
         onChangeText={onSearchChange}
         value={value}
       />
@@ -42,16 +42,16 @@ borderRadius: 10,
   marginBottom: 20,
 
   // Border
-  borderWidth: 1,
-  borderColor: "#FFFFFF",
+  // borderWidth: 1,
+  // borderColor: "#FFFFFF",
 
   // Shadow (Android + iOS)
-  elevation: 8,        // Android
-  shadowColor: "#000", // iOS
-  shadowOffset: { width: 0, height: 2 },
-  shadowOpacity: 0.25,
-  shadowRadius: 3.5,
-  backgroundColor: "#FFF", 
+  // elevation: 8,        // Android
+  // shadowColor: "#000", // iOS
+  // shadowOffset: { width: 0, height: 2 },
+  // shadowOpacity: 0.25,
+  // shadowRadius: 3.5,
+  backgroundColor:color.thirdColor, 
   marginHorizontal:15
   },
   icon: {
@@ -62,7 +62,7 @@ borderRadius: 10,
   input: {
     flex: 1,
     fontSize: 14,
-    color: "black",
+    color: color.textPrimary,
     marginLeft: 15,
   },
 });

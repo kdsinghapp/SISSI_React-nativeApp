@@ -8,6 +8,7 @@ import { styles } from './style';
 import { useNavigation } from '@react-navigation/native';
 import ScreenNameEnum from '../../../routes/screenName.enum';
 import { useSelector } from 'react-redux';
+import { ImageBackground } from 'react-native';
 
 const Splash: React.FC = () => {
   const navigation = useNavigation();
@@ -17,7 +18,7 @@ const Splash: React.FC = () => {
   //   // ⏳ Wait 2 seconds then navigate
   //   const timer = setTimeout(() => {
   //     navigation.navigate(ScreenNameEnum.OnboardingScreen);
-  //   }, 2000);
+  //   }, 5000);
 
   //   return () => clearTimeout(timer);
   // }, []);
@@ -36,7 +37,7 @@ const Splash: React.FC = () => {
                        navigation.replace(ScreenNameEnum.Tab2Navigator);
                     }
             } else {
-                navigation.navigate(ScreenNameEnum.OnboardingScreen); // Replace with your login screen enum
+                navigation.replace(ScreenNameEnum.OnboardingScreen); // Replace with your login screen enum
             }
 
         };
@@ -45,17 +46,17 @@ const Splash: React.FC = () => {
     }, [navigation]);
 
   return (
-    <SafeAreaView style={styles.container}>
-      <StatusBarComponent backgroundColor={color.white} />
+    <ImageBackground source={imageIndex.splash} style={styles.container}>
+      {/* <StatusBarComponent backgroundColor={color.white} /> */}
 
-      <View style={styles.centerContent}>
+      {/* <View style={styles.centerContent}>
         <Image
           style={styles.logo}
           source={imageIndex.appLogo}
           resizeMode="contain"
         />
-      </View>
-    </SafeAreaView>
+      </View> */}
+    </ImageBackground>
   );
 };
 

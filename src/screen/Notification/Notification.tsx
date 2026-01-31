@@ -9,6 +9,7 @@ import { useSelector } from 'react-redux';
 import LoadingModal from '../../utils/Loader';
 import moment from 'moment';
 import { language } from '../../constant/Language';
+import { color } from '../../constant';
  
 
 const NotificationItem = ({ item }) => {
@@ -80,7 +81,7 @@ const label = language.fi
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#FFFFFF',
+    backgroundColor: color.background,
     paddingHorizontal: 16,
     paddingTop: 20,
   },
@@ -88,7 +89,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
     marginVertical: 12,
-    color: '#555',
+    color: color.textPrimary,
   },
   itemContainer: {
     flexDirection: 'row',
@@ -113,11 +114,11 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 15,
-    color: '#333',
+    color: color.textPrimary,
   },
   date: {
-    fontSize: 13,
-    color: '#999',
+    fontSize: 12,
+    color: color.textPrimary,
     marginTop: 4,
   },
 });

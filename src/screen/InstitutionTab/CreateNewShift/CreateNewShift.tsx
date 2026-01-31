@@ -119,7 +119,7 @@ export default function CreateNewShift() {
   };
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: '#fff' }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: color.background}}>
       {loading && <LoadingModal />}
       <StatusBarComponent />
       <CustomHeader label={type === "Edit" ? labels.editShift : labels.createNewShift} />
@@ -198,6 +198,8 @@ export default function CreateNewShift() {
             title={type === "Edit" ? labels.updateShift : labels.postShift}
             disabled={loading}
             onPress={submitShift}
+            style={{width:'90%'}}
+            textStyle={{fontSize:14}}
           />
 
           <PostSuccessfull
@@ -282,18 +284,19 @@ const styles = StyleSheet.create({
   scrollView: {
     marginHorizontal: 20,
     marginTop: hp(3),
-    backgroundColor: "white",
+    backgroundColor: color.thirdColor,
+    borderRadius: 20,
   },
   card: {
-    backgroundColor: '#FFF',
+    // backgroundColor: color.thirdColor,
     marginHorizontal: 5,
     borderColor: '#ccc',
     borderRadius: 10,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.12,
-    shadowRadius: 3.84,
-    elevation: 5,
+    // shadowColor: '#000',
+    // shadowOffset: { width: 0, height: 2 },
+    // shadowOpacity: 0.12,
+    // shadowRadius: 3.84,
+    // elevation: 5,
     padding: 15,
     marginTop: 11,
     marginBottom: 60

@@ -16,6 +16,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import TextInputField from '../../../compoent/TextInputField';
 import { language } from '../../../constant/Language';
 import { useLanguage } from '../../../LanguageContext';
+import { color } from '../../../constant';
 // Import your language object here 
 
 export default function PasswordReset() {
@@ -30,7 +31,7 @@ export default function PasswordReset() {
   const { labels} = useLanguage();
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: '#fff' }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: color.background }}>
       <StatusBarCompoent />
       <ScrollView showsVerticalScrollIndicator={false} >
         {isLoading ? <LoadingModal /> : null}
@@ -41,16 +42,16 @@ export default function PasswordReset() {
 
         <View
           style={{
-            backgroundColor: '#FFF',
+            backgroundColor: color.thirdColor,
             marginTop: hp(4),
             marginHorizontal: 15,
             borderColor: '#ccc',
             borderRadius: 20,
-            shadowColor: '#000',
-            shadowOffset: { width: 0, height: 2 },
-            shadowOpacity: 0.12,
-            shadowRadius: 3.84,
-            elevation: 8,
+            // shadowColor: '#000',
+            // shadowOffset: { width: 0, height: 2 },
+            // shadowOpacity: 0.12,
+            // shadowRadius: 3.84,
+            // elevation: 8,
           }}>
           
           <View style={{ marginTop: 6 }}>
@@ -58,14 +59,14 @@ export default function PasswordReset() {
               fontWeight: '700',
               fontSize: 24,
               lineHeight: 36,
-              color: 'rgba(0, 0, 0, 1)',
+              color: color.textPrimary,
               textAlign: 'center'
             }}>{labels.passwordReset}</Text>
             
             <Text style={{
               fontWeight: '400',
               fontSize: 16,
-              color: '#9DB2BF',
+              color: color.textPrimary,
               marginTop: 4,
               lineHeight: 20,
               textAlign: 'center'

@@ -16,7 +16,7 @@ export const color = {
     white: '#fff',
     grey: "#A59F9F",
     black: '#000000',
-    primary: "#FF4762",
+    primary: "#E80389",
     onBoarding: "#FFF0E3",
     red: "#B22222",
 
@@ -27,16 +27,16 @@ export const color = {
 
     
   primaryLight: '#8A84FF',
-  secondary: '#FF6584',
-  thirdColor:'#000000',
-  background: '#F8F9FA',
+  secondary: '#767676',
+  thirdColor:'#76767640',
+  background: '#1B041E',
   cardBackground: '#FFFFFF',
-  textPrimary: '#2D3436',
+  textPrimary: '#fff',
   textSecondary: '#636E72',
   textLight: '#B2BEC3',
   border: '#DFE6E9',
   success: '#00B894',
-
+modalColor:'#180226'
 }
 export const GoogleKey = "AIzaSyDYAVjajEQU7MG7qb6jhPf5nelAWhijtyo"
 

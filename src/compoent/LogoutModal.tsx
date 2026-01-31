@@ -4,6 +4,7 @@ import imageIndex from '../assets/imageIndex';
 import { color } from '../constant';
 import { language } from '../constant/Language'; // Import your language file
 import font from '../theme/font';
+import CustomButton from './CustomButton';
 
 const LogoutModal = ({ visible, onLogout, onCancel }: any) => {
   // Reference Finnish labels
@@ -36,12 +37,12 @@ const LogoutModal = ({ visible, onLogout, onCancel }: any) => {
           </Text>
 
           <View style={styles.buttonContainer}>
-            <TouchableOpacity style={styles.logoutButton} onPress={onLogout}>
+            {/* <TouchableOpacity style={styles.logoutButton} onPress={onLogout}>
               <Text allowFontScaling={false} style={styles.logoutText}>
                 {labels.yes}
               </Text>
-            </TouchableOpacity>
-
+            </TouchableOpacity> */}
+<CustomButton title={labels.yes} onPress={onLogout} style={{width:'50%', marginTop:0, height:50}} textStyle={{fontSize:14}}/>
             <TouchableOpacity style={styles.cancelButton} onPress={onCancel}>
               <Text allowFontScaling={false} style={styles.cancelText}>
                 {labels.no}
@@ -59,23 +60,23 @@ const { width } = Dimensions.get('window');
 const styles = StyleSheet.create({
   overlay: {
     flex: 1,
-    backgroundColor: 'rgba(0,0,0,0.5)',
+    backgroundColor: color.thirdColor,
     justifyContent: 'center',
     alignItems: 'center',
   },
   modalContainer: {
     width: width * 0.85,
-    backgroundColor: '#fff',
+    backgroundColor: color.modalColor,
     borderRadius: 15,
     padding: 25,
     alignItems: 'center',
-    borderWidth: 1,
-    borderColor: '#EDEDED',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 5 },
-    shadowOpacity: 0.1,
-    shadowRadius: 10,
-    elevation: 10,
+    // borderWidth: 1,
+    // borderColor: '#EDEDED',
+    // shadowColor: '#000',
+    // shadowOffset: { width: 0, height: 5 },
+    // shadowOpacity: 0.1,
+    // shadowRadius: 10,
+    // elevation: 10,
   },
   closeButton: {
     position: 'absolute',
@@ -100,11 +101,11 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     marginBottom: 10,
      textAlign: 'center',
-    color: '#333',
+    color: color.textPrimary,
   },
   message: {
     fontSize: 15,
-    color: '#666',
+    color: color.textPrimary,
     textAlign: 'center',
     lineHeight: 22,
     marginBottom: 25,
@@ -132,12 +133,14 @@ const styles = StyleSheet.create({
   cancelButton: {
     flex: 1,
     // backgroundColor: '#EDEDED',
-    paddingVertical: 12,
+    // paddingVertical: 12,
     marginLeft: 10,
     borderRadius: 25,
     alignItems: 'center',
     borderColor: color.primary,
-    borderWidth:1
+    borderWidth:1,
+    height:50,
+    justifyContent:'center'
   },
   cancelText: {
     color: color.primary,

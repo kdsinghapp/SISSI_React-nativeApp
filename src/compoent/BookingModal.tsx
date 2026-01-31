@@ -12,6 +12,7 @@ import StatusBarComponent from './StatusBarCompoent';
 import CustomButton from './CustomButton';
 import imageIndex from '../assets/imageIndex';
 import { language } from '../constant/Language'; // Import your language file
+import { color } from '../constant';
 
 const BookingSuccessModal = ({ visible, onClose, userName, userImage, onOpenChat }: any) => {
   // Reference Finnish labels
@@ -32,6 +33,10 @@ const BookingSuccessModal = ({ visible, onClose, userName, userImage, onOpenChat
             
             {/* User Image */}
             <Image 
+              source={ imageIndex.bookedNow}
+              style={[styles.userImage, {borderRadius:0, width:'70%', height:120,}]} 
+            />
+            <Image 
               source={userImage ? { uri: userImage } : imageIndex.institute}
               style={styles.userImage} 
             />
@@ -50,6 +55,7 @@ const BookingSuccessModal = ({ visible, onClose, userName, userImage, onOpenChat
             <CustomButton 
               title={labels.openChatWithInstitution}  
               onPress={onOpenChat}
+              textStyle={{ fontSize: 14, color: color.textPrimary }}
             />
           </View>
         </SafeAreaView>
@@ -63,20 +69,20 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'rgba(0,0,0,0.4)', // semi-transparent background
+    backgroundColor: color.thirdColor, // semi-transparent background
   },
   modalView: {
     width: '85%',
-    backgroundColor: '#fff',
+    backgroundColor: '#090011',
     borderRadius: 20,
     paddingVertical: 30,
     paddingHorizontal: 20,
     alignItems: 'center',
-    elevation: 5, // shadow for Android
-    shadowColor: '#000', // shadow for iOS
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
+    // elevation: 5, // shadow for Android
+    // shadowColor: '#000', // shadow for iOS
+    // shadowOffset: { width: 0, height: 2 },
+    // shadowOpacity: 0.25,
+    // shadowRadius: 4,
   },
   userImage: {
     width: 80,
@@ -88,11 +94,14 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: '700',
     marginBottom: 5,
+    color: color.textPrimary,
   },
   title: {
     fontSize: 20,
     fontWeight: '700',
     marginVertical: 5,
+    color: color.textPrimary,
+
   },
   subTitle: {
     fontSize: 14,

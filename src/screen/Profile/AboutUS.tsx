@@ -12,6 +12,7 @@ import font from '../../theme/font';
 import { AboutUs_Api, Policies_Api } from '../../api/apiRequest';
 import { language } from '../../constant/Language';
 import { useLanguage } from '../../LanguageContext';
+import { color } from '../../constant';
 
 const AboutUS = () => {
     const [isLoading, setLoading] = useState(false);
@@ -79,7 +80,7 @@ Urna pellentesque neque convallis rhoncus quisque viverra placerat duis eros. In
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#FFFFFF',
+        backgroundColor:color.background,
     },
     contentContainer: {
         padding: 12,
@@ -95,7 +96,7 @@ const styles = StyleSheet.create({
     htmlStyles: {
         p: {
             fontSize: 14,
-            color: '#333',
+            color:color.textPrimary,
             lineHeight: 24,
              fontWeight: '500',
             marginTop: 8,

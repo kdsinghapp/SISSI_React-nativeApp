@@ -69,7 +69,7 @@ export default function OnboardingScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: color.background,
   },
 
   skipContainer: {
@@ -90,8 +90,8 @@ const styles = StyleSheet.create({
   },
 
   image: {
-    width: "95%",
-    height: "95%",
+    width: "70%",
+    height: "80%",
   },
 
   bottomCard: {
@@ -105,19 +105,19 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 26,
     fontWeight: "600",
-    color: "#fff",
+    color:color.textPrimary,
   },
 
   titleBold: {
     fontSize: 28,
     fontWeight: "800",
-    color: "#fff",
+    color:color.textPrimary,
     marginBottom: 10,
   },
 
   subtitle: {
     fontSize: 15,
-    color: "#fff",
+    color:color.textPrimary,
     opacity: 0.9,
     marginBottom: 20,
   },
@@ -144,7 +144,7 @@ const styles = StyleSheet.create({
 
   nextBtn: {
     marginTop: 10,
-    backgroundColor: "#ff0080",
+    backgroundColor: color.primary,
     paddingVertical: 14,
     borderRadius: 30,
     alignItems: "center",

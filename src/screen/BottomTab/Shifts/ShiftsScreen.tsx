@@ -81,10 +81,10 @@ const ShiftsScreen = () => {
     return (
       <View style={styles.card}>
         <View style={styles.cardInner}>
-          <View style={styles.iconCircle}>
+          <View >
             <Image
-              source={imageIndex.calneder}
-              style={{ height: 26, width: 26, tintColor: "white" }}
+              source={imageIndex.calendarCircle}
+              style={styles.iconCircle}
             />
           </View>
 
@@ -138,7 +138,7 @@ const ShiftsScreen = () => {
   };
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: "white", padding: 16 }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor:color.background, padding: 16 }}>
       {loading && <LoadingModal />}
       <Text style={styles.header}>{labels.shiftsHeader}</Text>
 
@@ -180,6 +180,7 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: "700",
     marginBottom: 15,
+    color:color.textPrimary
   },
 
   // Tabs
@@ -188,7 +189,7 @@ const styles = StyleSheet.create({
   },
   tabContainer: {
     flexDirection: "row",
-    backgroundColor: "#F5F5F5",
+    backgroundColor: color.thirdColor,
     padding: 5,
     borderRadius: 40,
     width: "90%",
@@ -218,6 +219,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#F4F4F4",
     padding: 12,
     borderRadius: 10,
+    color: color.textPrimary
   },
 
   // Card
@@ -226,16 +228,16 @@ const styles = StyleSheet.create({
     alignItems: "center",
     paddingVertical: 18,
     paddingHorizontal: 20,
-    backgroundColor: "#FFFFFF",
+    backgroundColor: color.thirdColor,
     borderRadius: 18,
     marginVertical: 10,
     borderWidth: 0.1,
-    borderColor: "#000",
-    // iOS shadow
-    shadowColor: "#000",
-    shadowOpacity: 0.12,
-    shadowOffset: { width: 0, height: 4 },
-    shadowRadius: 6,
+    // borderColor: "#000",
+    // // iOS shadow
+    // shadowColor: "#000",
+    // shadowOpacity: 0.12,
+    // shadowOffset: { width: 0, height: 4 },
+    // shadowRadius: 6,
     // Android shadow
   },
   cardInner: {
@@ -253,18 +255,18 @@ const styles = StyleSheet.create({
   cardDate: {
     fontSize: 14,
     fontWeight: "700",
-    color: "#000",
+    color: color.textPrimary,
   },
   cardTitle: {
     fontSize: 13,
-    color: "#000",
+    color: color.textPrimary,
     marginTop: 3,
     fontWeight: "600",
   },
   cardTime: {
     marginTop: 8,
     fontSize: 13,
-    color: "#777",
+    color: color.textPrimary,
   },
 
   statusBadge: {

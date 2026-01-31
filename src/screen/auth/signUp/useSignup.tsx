@@ -109,10 +109,10 @@ const useSignup = () => {
 
     if (!password.trim()) {
       validationErrors.password = labels.passReq;
-    } else if (password.length < 8) {
-      validationErrors.password = labels.passMin;
-    } else if (!passwordRegex.test(password)) {
-      validationErrors.password = labels.passStrong;
+    // } else if (password.length < 8) {
+    //   validationErrors.password = labels.passMin;
+    // } else if (!passwordRegex.test(password)) {
+    //   validationErrors.password = labels.passStrong;
     }
 
     if (!cpassword?.trim()) {
@@ -180,6 +180,7 @@ const useSignup = () => {
   };
 
   const handleSignup = async () => {
+    console.log(errors)
     if (!validateFields()) return;
     setIsLoading(true);
     setErrors({});

@@ -183,7 +183,7 @@ const Divider = () => <View style={styles.divider} />;
 const styles = StyleSheet.create({
   safe: {
     flex: 1,
-    backgroundColor: "#FFF",
+    backgroundColor:color.background,
   },
 
   container: {
@@ -193,14 +193,14 @@ const styles = StyleSheet.create({
 
   profileTitle: {
     fontSize: 26,
-    color: "#000",
+    color: color.textPrimary,
     marginBottom: 20,
     fontWeight: "600",
   },
 
   userCard: {
     flexDirection: "row",
-    backgroundColor: "#FFF",
+    // backgroundColor: "#FFF",
     borderRadius: 18,
     marginBottom: 20,
     alignItems: "center",
@@ -214,13 +214,13 @@ const styles = StyleSheet.create({
 
   userName: {
     fontSize: 18,
-    color: "#000",
+    color: color.textPrimary,
     fontWeight: "500",
   },
 
   username: {
     fontSize: 14,
-    color: "#6B7280",
+    color: color.textPrimary,
     marginTop: 4,
     fontFamily: font.MonolithRegular,
   },
@@ -234,12 +234,12 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    backgroundColor: "#FFF",
-    elevation: 5,
-    shadowColor: "#000",
-    shadowOpacity: 0.10,
-    shadowOffset: { width: 0, height: 2 },
-    shadowRadius: 3,
+    backgroundColor: color.thirdColor,
+    // elevation: 5,
+    // shadowColor: "#000",
+    // shadowOpacity: 0.10,
+    // shadowOffset: { width: 0, height: 2 },
+    // shadowRadius: 3,
     borderRadius: 10, // optional for smooth edges
     padding: 18,
     margin: 8
@@ -259,7 +259,7 @@ const styles = StyleSheet.create({
 
   menuText: {
     fontSize: 15,
-    color: "#000",
+    color: color.textPrimary,
     fontWeight: "600",
   },
 

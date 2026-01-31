@@ -1,7 +1,8 @@
 
 import {   StyleSheet } from 'react-native';
+import { color } from '../../../constant';
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: "#fff", padding: 15 },
+  container: { flex: 1, backgroundColor: color.background, padding: 15 },
   header: { fontSize: 24, fontWeight: "bold", marginBottom: 16 },
   searchContainer: {
       flexDirection: "row",
@@ -23,10 +24,10 @@ const styles = StyleSheet.create({
   },
   profileImage: { width: 50, height: 50, borderRadius: 25, marginRight: 12 },
   textContainer: { flex: 1 },
-  name: { fontSize: 16, fontWeight: "bold" },
-  message: { color: "gray" },
+  name: { fontSize: 16, fontWeight: "bold", color:color.textPrimary },
+  message: { color: color.textPrimary },
   timeContainer: { alignItems: "flex-end" },
-  time: { fontSize: 12, color: "gray" },
+  time: { fontSize: 12, color:color.textPrimary},
   unreadBadge: { width: 21, height: 21, borderRadius: 20, backgroundColor: "red", marginTop: 4, alignItems: "center", justifyContent: "center" },
 });
 export default styles;

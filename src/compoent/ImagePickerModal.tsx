@@ -10,6 +10,7 @@ import {
 import { color } from '../constant';
 import font from '../theme/font';
 import { language } from '../constant/Language'; // Adjust path as needed
+import CustomButton from './CustomButton';
 
 interface ImagePickerModalProps {
   modalVisible: boolean;
@@ -67,12 +68,14 @@ const ImagePickerModal: React.FC<ImagePickerModalProps> = ({
               onPress={handleTakePhoto} 
             /> 
             */}
-
-            <TouchableOpacity style={styles.cancelButton} onPress={handleCancel}>
+<CustomButton title={labels.cancel} textStyle={{fontSize:14}}
+onPress={handleCancel}
+/>
+            {/* <TouchableOpacity style={styles.cancelButton} onPress={handleCancel}>
               <Text allowFontScaling={false} style={styles.cancelText}>
                 {labels.cancel}
               </Text>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
           </View>
         </View>
       </TouchableWithoutFeedback>
@@ -98,10 +101,10 @@ const styles = StyleSheet.create({
   modalOverlay: {
     flex: 1,
     justifyContent: 'flex-end',
-    backgroundColor: 'rgba(0,0,0,0.5)',
+    backgroundColor: color.thirdColor,
   },
   modalContainer: {
-    backgroundColor: 'white',
+    backgroundColor: color.modalColor,
     paddingVertical: 20,
     paddingHorizontal: 20,
     borderTopLeftRadius: 20,
@@ -124,13 +127,13 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 15,
-     color: 'black',
+     color: color.textPrimary,
     marginBottom: 10, 
     fontFamily:font.TrialRegular
   },
   optionButton: {
     width: '100%',
-    backgroundColor: '#f1f1f1',
+    backgroundColor: color.thirdColor,
     paddingVertical: 15,
     borderRadius: 10,
     alignItems: 'center',
@@ -138,7 +141,7 @@ const styles = StyleSheet.create({
   },
   optionText: {
     fontSize: 15,
-    color: '#333',
+    color:color.textPrimary,
     fontFamily:font.TrialRegular ,textAlign:"center" ,
   },
   cancelButton: {

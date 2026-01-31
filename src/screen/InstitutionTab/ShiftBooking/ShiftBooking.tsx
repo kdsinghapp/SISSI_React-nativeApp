@@ -272,7 +272,7 @@ export default ShiftBooking;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "white",
+    backgroundColor: color.background,
     padding: 16,
   },
   image: {
@@ -282,7 +282,7 @@ const styles = StyleSheet.create({
 
   },
   card: {
-    backgroundColor: '#FFFFFF',
+    backgroundColor: color.thirdColor,
     padding: 15,
     borderRadius: 15,
     marginBottom: 16,
@@ -290,11 +290,11 @@ const styles = StyleSheet.create({
     // ANDROID shadow
 
     // iOS shadow
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.08,
-    shadowRadius: 4,
-    borderWidth: 1.5,
+    // shadowColor: '#000',
+    // shadowOffset: { width: 0, height: 2 },
+    // shadowOpacity: 0.08,
+    // shadowRadius: 4,
+    borderWidth: 1,
     borderColor: color.borderColor
   },
 
@@ -308,7 +308,7 @@ const styles = StyleSheet.create({
   name: {
     fontSize: 17,
     fontWeight: "700",
-    color: "#222",
+    color: color.textPrimary,
   },
 
   statusChip: {
@@ -333,7 +333,7 @@ const styles = StyleSheet.create({
   value: {
     marginLeft: 8,
     fontSize: 14,
-    color: "#444",
+    color: color.textPrimary,
     fontWeight: "500"
   },
 

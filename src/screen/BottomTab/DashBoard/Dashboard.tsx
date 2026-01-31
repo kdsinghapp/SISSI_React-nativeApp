@@ -41,7 +41,7 @@ const Dashboard = () => {
             onPress={() => navigator.navigate(ScreenNameEnum.NotificationsScreen)}
           >
             <Image
-              source={imageIndex.notification}
+              source={imageIndex.no1}
               style={styles.notificationIcon}
             />
           </TouchableOpacity>
@@ -57,7 +57,7 @@ const Dashboard = () => {
             <Text style={styles.cardTitleWhite}>{labels.browseShifts}</Text>
             <Text style={styles.cardSubtitleWhite}>{labels.findAllAvailable}</Text>
           </View>
-          <Image source={imageIndex.rightBack} style={styles.arrowWhiteIcon} />
+          <Image source={imageIndex.BackLeft} style={[styles.arrowWhiteIcon]} />
         </TouchableOpacity>
 
         {/* MENU CARD - 2: My Shifts */}
@@ -65,7 +65,7 @@ const Dashboard = () => {
           style={styles.card} 
           onPress={() => navigator.navigate('Booking')}
         > 
-          <Image source={imageIndex.time2} style={styles.cardIconPink} />
+          <Image source={imageIndex.time} style={styles.cardIconPink} />
           <View style={styles.cardTextBox}>
             <Text style={styles.cardTitle}>{labels.myShifts}</Text>
             <Text style={styles.cardSubtitle}>{labels.upcomingCompleted}</Text>
@@ -106,7 +106,7 @@ export default Dashboard;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#FFFFFF",
+    backgroundColor: color.background
   },
 
   wrapper: {
@@ -124,18 +124,18 @@ const styles = StyleSheet.create({
   profileImage: {
     width: 60,
     height: 60,
-    borderRadius: 50,
+    borderRadius: 30,
   },
 
   welcomeText: {
     fontSize: 14,
-    color: "#777",
+    color: color.textPrimary,
   },
 
   userName: {
     fontSize: 20,
     fontWeight: "700",
-    color: "#111",
+    color: color.textPrimary,
   },
 
   notification: {
@@ -146,6 +146,7 @@ const styles = StyleSheet.create({
   notificationIcon: {
     width: 30,
     height: 30,
+    // tintColor:'white'
   },
 
   /* MENU CARDS */
@@ -154,19 +155,19 @@ const styles = StyleSheet.create({
     alignItems: "center",
     paddingVertical: 18,
     paddingHorizontal: 20,
-    backgroundColor: "#FFFFFF",
+    backgroundColor: color.thirdColor,
     borderRadius: 18,
     marginVertical: 10,
     height:78,
 
     // iOS shadow
-    shadowColor: "#000",
-    shadowOpacity: 0.12,
-    shadowOffset: { width: 0, height: 4 },
-    shadowRadius: 6,
+    // shadowColor: "#000",
+    // shadowOpacity: 0.12,
+    // shadowOffset: { width: 0, height: 4 },
+    // shadowRadius: 6,
 
     // Android shadow
-    elevation: 5,
+    // elevation: 5,
   },
 
   cardPrimary: {
@@ -187,18 +188,18 @@ const styles = StyleSheet.create({
   cardIconPink: {
     width: 24,
     height: 24,
-    tintColor: color.primary,
+    // tintColor: color.primary,
   },
 
   cardTitle: {
     fontSize: 15,
-    color: "#111",
+    color: color.textPrimary,
     fontWeight: "600",
   },
 
   cardSubtitle: {
     fontSize: 13,
-    color: "#666",
+    color:color.textPrimary,
     marginTop: 2,
   },
 
@@ -222,5 +223,6 @@ const styles = StyleSheet.create({
   arrowWhiteIcon: {
     width: 22,
     height: 22,
+    
    },
 });

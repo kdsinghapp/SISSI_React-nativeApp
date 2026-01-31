@@ -12,6 +12,7 @@ import LoadingModal from '../../utils/Loader';
 import { AboutUs_Api, Policies_Api } from '../../api/apiRequest';
 import { language } from '../../constant/Language';
 import { useLanguage } from '../../LanguageContext';
+import { color } from '../../constant';
 
 const PrivacyPolicy = () => {
     const [isLoading, setLoading] = useState(false);
@@ -60,7 +61,7 @@ const PrivacyPolicy = () => {
                     <HTML
                         source={{ html: content }}
                         contentWidth={width}
-                    // tagsStyles={styles.htmlStyles}
+                    tagsStyles={styles.htmlStyles}
                     />
                 ) : (
                     <Text style={styles.bodyText}>Lorem ipsum dolor sit amet consectetur. Proin urna lorem odio consectetur pharetra nisi sit et. Ut venenatis in id tortor arcu viverra tempor orci felis. Metus urna venenatis accumsan mi id. Molestie ipsum egestas varius mollis tellus neque nec ultrices vel. Integer cursus fermentum nisl pharetra massa id nibh aliquam. Nulla pellentesque diam tellus erat ac consequat a amet scelerisque. Ornare magna consequat ut egestas ridiculus consequat. Dictumst habitasse nunc arcu elit. Massa adipiscing penatibus ut mauris. Nibh porttitor ornare interdum scelerisque eros duis gravida amet sodales. Pellentesque at vehicula mus suspendisse aliquam.
@@ -79,7 +80,7 @@ const PrivacyPolicy = () => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#FFFFFF',
+        backgroundColor: color.background,
     },
     contentContainer: {
         padding: 12,
@@ -95,7 +96,7 @@ const styles = StyleSheet.create({
     htmlStyles: {
         p: {
             fontSize: 14,
-            color: '#333',
+            color: color.textPrimary,
             lineHeight: 24,
             fontWeight: '500',
             marginTop: 8,
@@ -103,13 +104,13 @@ const styles = StyleSheet.create({
         },
         h1: {
             fontSize: 22,
-            color: '#000',
+            color:color.textPrimary,
             marginBottom: 10,
             fontFamily: font.MonolithRegular,
         },
         h2: {
             fontSize: 18,
-            color: '#222',
+            color: color.textPrimary,
             marginBottom: 8,
             fontFamily: font.MonolithRegular,
         },
@@ -120,7 +121,7 @@ const styles = StyleSheet.create({
     bodyText: {
         fontSize: 14,
         lineHeight: 20,
-        color: '#666',
+        color: color.textPrimary,
         fontFamily: font.MonolithRegular,
     },
 });

@@ -5,6 +5,7 @@ import {
   StyleSheet,
   TouchableOpacity,
   FlatList,
+  Image,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import CustomHeader from "../../../compoent/CustomHeader";
@@ -18,6 +19,7 @@ import moment from "moment";
 import ScreenNameEnum from "../../../routes/screenName.enum";
 import { useNavigation } from "@react-navigation/native"; 
 import { useLanguage } from "../../../LanguageContext";
+import imageIndex from "../../../assets/imageIndex";
 
 export default function FavoriteScreen() {
   const { labels } = useLanguage(); // Reference Finnish strings
@@ -152,9 +154,12 @@ export default function FavoriteScreen() {
           keyExtractor={(item) => item.id}
           showsVerticalScrollIndicator={false}
           contentContainerStyle={{ paddingBottom: 40 }}
-          ListEmptyComponent={() => <View>
-            <Text style={{ textAlign: 'center' }}>{labels.noFavoritesFound}</Text>
-          </View>}
+          // ListEmptyComponent={() => <View>
+          //   <Text style={{ textAlign: 'center' }}>{labels.noFavoritesFound}</Text>
+          // </View>}
+           ListEmptyComponent={()=>
+                      <Image source={imageIndex.emptyShift} resizeMode="cover" style={{width:'70%',height:350,alignSelf:'center',marginTop:100}}/>
+                    }
         />
       </View>
     </SafeAreaView>
@@ -162,7 +167,7 @@ export default function FavoriteScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: "#fff", },
+  container: { flex: 1, backgroundColor: color.background },
   heading: {
     fontSize: 20,
     fontWeight: "600",
@@ -171,11 +176,11 @@ const styles = StyleSheet.create({
 
   card: {
     borderWidth: 1.5,
-    borderColor: "#FF007A", // PINK BORDER
+    borderColor:color.primary, // PINK BORDER
     borderRadius: 18,
     padding: 16,
     marginBottom: 18,
-    backgroundColor: "#fff",
+    backgroundColor: color.thirdColor,
   },
 
   row: {
@@ -185,7 +190,7 @@ const styles = StyleSheet.create({
 
   label: {
     fontSize: 15,
-    color: "#0056B3",
+    color: color.primary,
     marginBottom: 4,
     fontWeight: "500"
   },
@@ -193,7 +198,7 @@ const styles = StyleSheet.create({
   value: {
     fontSize: 14,
     fontWeight: "600",
-    color: "#000",
+    color: color.textPrimary,
   },
 
   badge: {
@@ -219,7 +224,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: 35,
     paddingVertical: 11,
     borderRadius: 30,
-    justifyContent: "center"
+    justifyContent: "center",
+    backgroundColor:color.background
 
   },
 

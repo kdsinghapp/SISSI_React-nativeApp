@@ -16,6 +16,7 @@ import { styles } from './style';
 import { useSelector } from 'react-redux';
 import { color } from '../../../../constant';
 import { useLanguage } from '../../../../LanguageContext';
+import LinearGradient from 'react-native-linear-gradient';
 
 const InstitutionHome = () => {
   const navigation = useNavigation();
@@ -66,9 +67,30 @@ const InstitutionHome = () => {
 
 
   return (
-    <SafeAreaView style={styles.container}>
-      <StatusBarComponent barStyle="light-content" backgroundColor={color.primary} />
-      <View style={styles.header}>
+    // <SafeAreaView style={styles.container}>
+    //   <StatusBarComponent barStyle="light-content" backgroundColor={color.primary} />
+      <SafeAreaView style={{ flex: 1, backgroundColor: "#000" }} edges={['bottom']}>
+          
+          <LinearGradient
+           colors={[ '#FF007C', '#310071']}
+         //  start={{ x: 0.15, y: 0 }}
+         // end={{ x: 0.85, y: 1 }}
+         // start={{ x: 0, y: 0.2 }}
+         // end={{ x: 1, y: 0.8 }}
+         // start={{ x: 0, y: 0.45 }}
+         // end={{ x: 1, y: 0.55 }}
+         start={{ x: 0, y: 0.5 }}
+             end={{ x: 1, y: 0.5 }}
+           style={[{flex:1}
+             // styles.gradient,
+             // { height: height, borderRadius: height / 2 },
+           ]}
+         >
+           <SafeAreaView edges={['top']}/>
+          <StatusBarComponent barStyle="light-content" backgroundColor={color.primary} />
+    
+     
+     <View style={styles.header}>
         <Image
           source={isLogin?.userData?.image ? { uri: isLogin?.userData?.image } : imageIndex.prfile}
           // source={{ uri: 'https://i.pravatar.cc/150?img=12' }}
@@ -104,14 +126,29 @@ const InstitutionHome = () => {
         contentContainerStyle={styles.scrollContent}
         showsVerticalScrollIndicator={false}
       >
+        
         <TouchableOpacity
-          style={styles.createShiftCard}
+          // style={styles.createShiftCard}
           onPress={() => navigation.navigate(ScreenNameEnum.CreateNewShift)}
         >
-          <View style={styles.createShiftContent}>
+             <LinearGradient
+           colors={[ '#FF007C', '#310071']}
+         //  start={{ x: 0.15, y: 0 }}
+         // end={{ x: 0.85, y: 1 }}
+         // start={{ x: 0, y: 0.2 }}
+         // end={{ x: 1, y: 0.8 }}
+         // start={{ x: 0, y: 0.45 }}
+         // end={{ x: 1, y: 0.55 }}
+         start={{ x: 0, y: 0.5 }}
+             end={{ x: 1, y: 0.5 }}
+              style={styles.createShiftCard}
+         
+         >
+          <View  style={styles.createShiftContent}>
             <Text style={styles.plusIcon}>+</Text>
             <Text style={styles.createShiftText}>{labels.createNew}</Text>
           </View>
+          </LinearGradient>
         </TouchableOpacity>
 
 
@@ -137,6 +174,7 @@ const InstitutionHome = () => {
         {/* FlatList for Shift Cards */}
 
       </ScrollView>
+      </LinearGradient>
     </SafeAreaView>
   );
 };

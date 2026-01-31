@@ -62,7 +62,7 @@ export default function DeliveryTabNavigator() {
                 fontSize: 11,
                 marginTop: 4,
                 fontFamily: font.MonolithRegular,
-                color: focused ? color.primary : '#2F4858',
+                color: focused ? color.primary : '#ffffff',
               }}
             >
               {tab?.label ?? route.name}
@@ -97,7 +97,7 @@ export default function DeliveryTabNavigator() {
             paddingBottom: insets.bottom,
             paddingTop: 8,
 
-            backgroundColor: 'white',
+            backgroundColor: '#180226',
 
             borderRadius: 16,
             borderWidth: 1,

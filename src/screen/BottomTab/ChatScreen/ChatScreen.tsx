@@ -234,6 +234,7 @@ import useChatScreen from "./useChatScreen";
 import StatusBarComponent from "../../../compoent/StatusBarCompoent";
 import { color } from "../../../constant";
 import { useLanguage } from "../../../LanguageContext";
+import LinearGradient from "react-native-linear-gradient";
 
 const ChatScreen = () => {
   const {
@@ -252,12 +253,19 @@ const { labels} = useLanguage();
     const isMe = item.chat_sender_id != currentUserId;
 
     return (
-      <View
-        style={[
-          styles.messageBubble,
-          isMe ? styles.myMessage : styles.otherMessage,
-        ]}
-      >
+      // <View
+      //   style={[
+      //     styles.messageBubble,
+      //     isMe ? styles.myMessage : styles.otherMessage,
+      //   ]}
+      // >
+
+       <LinearGradient
+      colors={isMe ?[ '#FF007C', '#310071']: [color.thirdColor, color.thirdColor]}
+      start={{ x: 0, y: 0.5 }}
+        end={{ x: 1, y: 0.5 }}
+      style={[styles.messageBubble, isMe ? styles.myMessage : styles.otherMessage]}
+    >
         <Text style={isMe ? styles.myText : styles.otherText}>
           {item.chat_message}
         </Text>
@@ -267,12 +275,29 @@ const { labels} = useLanguage();
             ? moment(item.chat_created_at).fromNow()
             : ""}
         </Text>
-      </View>
+      </LinearGradient>
     );
   };
-
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: "#000" }}>
+ 
+    <SafeAreaView style={{ flex: 1, backgroundColor: "#000" }} edges={['bottom']}>
+     
+     <LinearGradient
+      colors={[ '#FF007C', '#310071']}
+    //  start={{ x: 0.15, y: 0 }}
+    // end={{ x: 0.85, y: 1 }}
+    // start={{ x: 0, y: 0.2 }}
+    // end={{ x: 1, y: 0.8 }}
+    // start={{ x: 0, y: 0.45 }}
+    // end={{ x: 1, y: 0.55 }}
+    start={{ x: 0, y: 0.5 }}
+        end={{ x: 1, y: 0.5 }}
+      style={[{flex:1}
+        // styles.gradient,
+        // { height: height, borderRadius: height / 2 },
+      ]}
+    >
+      <SafeAreaView edges={['top']}/>
       <StatusBarComponent barStyle="light-content" />
 
       <KeyboardAvoidingView
@@ -316,6 +341,8 @@ const { labels} = useLanguage();
         </View>
 
         {/* INPUT */}
+           <View style={{backgroundColor:color.background}}>
+       
         <View style={styles.inputContainer}>
           <TextInput
             style={styles.input}
@@ -328,8 +355,11 @@ const { labels} = useLanguage();
           <TouchableOpacity onPress={sendMessage}>
             <Image source={imageIndex.send} style={styles.sendIcon} />
           </TouchableOpacity>
+          </View>
         </View>
+        
       </KeyboardAvoidingView>
+      </LinearGradient>
     </SafeAreaView>
 
   );
@@ -375,7 +405,7 @@ const styles = StyleSheet.create({
 
   chatWrapper: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: color.background,
     borderTopLeftRadius: 30,
     borderTopRightRadius: 30,
   },
@@ -395,7 +425,7 @@ const styles = StyleSheet.create({
 
   otherMessage: {
     alignSelf: "flex-start",
-    backgroundColor: "#F6F6F6",
+    backgroundColor:color.thirdColor,
     borderBottomLeftRadius: 0,
   },
 
@@ -405,13 +435,13 @@ const styles = StyleSheet.create({
   },
 
   otherText: {
-    color: "#000",
+    color: color.textPrimary,
     fontSize: 14,
   },
 
   timeText: {
     fontSize: 10,
-    color: "#666",
+    color: color.textPrimary,
     marginTop: 4,
     alignSelf: "flex-end",
   },
@@ -419,20 +449,20 @@ const styles = StyleSheet.create({
   inputContainer: {
     flexDirection: "row",
     alignItems: "center",
-    backgroundColor: "#fff",
+    backgroundColor: color.thirdColor,
     padding: 10,
-    borderTopWidth: 1,
+    borderTopWidth: 0,
     borderTopColor: "#eee",
   },
 
   input: {
     flex: 1,
-    backgroundColor: "#f7f7f7",
+    backgroundColor:color.thirdColor,
     borderRadius: 25,
     paddingHorizontal: 15,
     height: 45,
     marginRight: 10,
-    color: "#000",
+    color: color.textPrimary,
   },
 
   sendIcon: {
