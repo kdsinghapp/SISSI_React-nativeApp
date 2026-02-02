@@ -111,6 +111,7 @@ export default function TextInputField({ ...props }) {
           </TouchableOpacity>
         )}
       </View>
+      {props?.error && <Text style={{color:'red', marginTop:3}}>{props?.error}</Text>}
     </View>
   );
 }

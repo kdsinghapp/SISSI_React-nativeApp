@@ -662,7 +662,7 @@ export default function SignUpUI() {
                     value={credentials.unitName}
                     onChangeText={(text) => handleChange('unitName', text)}
                     firstLogo
-                    img={imageIndex.Health}
+                    img={imageIndex.health}
                     error={errors.unitName}
                   />
                   <TextInputField
@@ -767,7 +767,7 @@ export default function SignUpUI() {
                     value={credentials.schoolName}
                     onChangeText={(text) => handleChange('schoolName', text)}
                     firstLogo
-                    img={imageIndex.Health}
+                    img={imageIndex.health}
                   />
 
                   <SelectionField

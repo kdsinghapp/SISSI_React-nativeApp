@@ -214,7 +214,7 @@ const EditProfile = () => {
                   <TextInputField
                     placeholder={labels.unitName}
                     firstLogo
-                    img={imageIndex.Health}
+                    img={imageIndex.health}
                     value={unitName}
                     onChangeText={setUnitName}
                   />

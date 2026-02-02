@@ -104,7 +104,7 @@ const BookedShifts = () => {
 
       {/* DATE */}
       <View style={styles.row}>
-        <Image source={imageIndex.time2}
+        <Image source={imageIndex.time}
           style={styles.image}
           tintColor={color.primary}
         />
@@ -203,7 +203,7 @@ export default BookedShifts;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "white",
+    backgroundColor: color.background,
   },
   image: {
     height: 21,
@@ -212,19 +212,19 @@ const styles = StyleSheet.create({
 
   },
   card: {
-    backgroundColor: '#FFFFFF',
+    backgroundColor: color.thirdColor,
     padding: 15,
     borderRadius: 15,
     marginBottom: 16,
 
     // ANDROID shadow
-    elevation: 3,
+    // elevation: 3,
 
     // iOS shadow
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.08,
-    shadowRadius: 4,
+    // shadowColor: '#000',
+    // shadowOffset: { width: 0, height: 2 },
+    // shadowOpacity: 0.08,
+    // shadowRadius: 4,
   },
 
   headerRow: {
@@ -237,7 +237,7 @@ const styles = StyleSheet.create({
   name: {
     fontSize: 17,
     fontWeight: "700",
-    color: "#222",
+    color: color.textPrimary,
   },
 
   statusChip: {
@@ -262,7 +262,7 @@ const styles = StyleSheet.create({
   value: {
     marginLeft: 8,
     fontSize: 14,
-    color: "#444",
+    color:  color.textPrimary,
     fontWeight: "500"
   },
 

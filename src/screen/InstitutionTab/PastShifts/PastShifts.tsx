@@ -12,6 +12,7 @@ import moment from 'moment';
 import LoadingModal from '../../../utils/Loader';
 import { language } from '../../../constant/Language';
 import { useLanguage } from '../../../LanguageContext';
+import { color } from '../../../constant';
 
 const DATA = [
   {
@@ -77,7 +78,7 @@ export default function PastShifts() {
   const renderShiftCard = ({ item }) => (
     <View style={styles.card}>
       <Text style={[styles.statusText, {
-        color: "black"
+        // color: "black"
       }]}>
         {/* Monday, 29 January 2025 */}
       {moment(item.shift_date).format("dddd, DD MMMM YYYY")}
@@ -87,7 +88,7 @@ export default function PastShifts() {
 
         {/* TIME */}
         <View style={{ flexDirection: "row", alignItems: "center", marginTop: 5 }}>
-          <Image source={imageIndex.time2}
+          <Image source={imageIndex.time}
 
             style={{
               height: 22,
@@ -155,7 +156,7 @@ export default function PastShifts() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "white",
+    backgroundColor: color.background,
   },
 
   header: {
@@ -190,19 +191,19 @@ const styles = StyleSheet.create({
   },
 
   card: {
-    backgroundColor: "#fff",
+    backgroundColor: color.thirdColor,
     borderRadius: 14,
     padding: 14,
     marginBottom: 12,
 
     // Android shadow
-    elevation: 3,
+    // elevation: 3,
 
     // iOS shadow
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.15,
-    shadowRadius: 3,
+    // shadowColor: "#000",
+    // shadowOffset: { width: 0, height: 2 },
+    // shadowOpacity: 0.15,
+    // shadowRadius: 3,
 
     borderWidth: 1,
     borderColor: "#e6e6e6",
@@ -211,12 +212,14 @@ const styles = StyleSheet.create({
   timeText: {
     marginLeft: 8,
     fontSize: 14,
+    color:color.textPrimary
   },
 
   nameText: {
     marginLeft: 8,
     fontSize: 15,
     marginTop: 2,
+    color:color.textPrimary
   },
 
   statusBadge: {
@@ -227,7 +230,7 @@ const styles = StyleSheet.create({
   },
 
   statusText: {
-    color: "#fff",
+   color:color.textPrimary,
     fontSize: 12,
     fontWeight: "600",
   },

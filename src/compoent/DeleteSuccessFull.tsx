@@ -9,6 +9,7 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context';
 import StatusBarComponent from './StatusBarCompoent';
 import CustomButton from './CustomButton';
+import { color } from '../constant';
 
 const DeleteRequestModal = ({ 
   visible, 
@@ -80,20 +81,20 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'rgba(0,0,0,0.4)',
+    backgroundColor: color.thirdColor,
   },
   modalView: {
     width: '85%',
-    backgroundColor: '#fff',
+    backgroundColor: color.modalColor,
     borderRadius: 20,
     paddingVertical: 30,
     paddingHorizontal: 20,
     alignItems: 'center',
-    elevation: 5,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
+    // elevation: 5,
+    // shadowColor: '#000',
+    // shadowOffset: { width: 0, height: 2 },
+    // shadowOpacity: 0.25,
+    // shadowRadius: 4,
   },
   icon: {
     width: 60,
@@ -105,11 +106,11 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     marginVertical: 5,
     textAlign: 'center',
-    color: '#333',
+    color: color.textPrimary,
   },
   message: {
     fontSize: 14,
-    color: '#666',
+    color: color.textPrimary,
     textAlign: 'center',
     marginBottom: 25,
     lineHeight: 20,
@@ -128,16 +129,17 @@ const styles = StyleSheet.create({
     marginLeft: 10,
   },
   cancelButton: {
-    backgroundColor: '#F5F5F5',
-    paddingVertical: 14,
-    borderRadius: 10,
-    borderWidth: 1,
-    borderColor: '#E0E0E0',
+    // backgroundColor: '#F5F5F5',
+    // paddingVertical: 14,
+    borderRadius: 23,
+    
+    // borderWidth: 1,
+    // borderColor: '#E0E0E0',
   },
   confirmButton: {
     backgroundColor: '#FF3B30', // Red color for delete action
-    paddingVertical: 14,
-    borderRadius: 10,
+    // paddingVertical: 14,
+    borderRadius: 25,
   },
   cancelButtonText: {
     color: '#fff',

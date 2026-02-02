@@ -118,5 +118,7 @@ export default {
   man1: require("./images/man1.png"),
   no1: require("./images/no1.png"),
   post1: require("./images/post1.png"),
-  arrowright1: require("./images/arrowright1.png"),
+  button: require("./images/button.png"),
+  postSuccess: require("./images/postSuccess.png"),
+  Decline: require("./images/Decline.png"),
 };

@@ -16,6 +16,8 @@ import 'moment/locale/fi'; // Import Finnish locale
 import DeleteRequestModal from "../../../compoent/DeleteSuccessFull";
 import { language } from "../../../constant/Language";
 import { useLanguage } from "../../../LanguageContext";
+import { ImageBackground } from "react-native";
+import { wp } from "../../../utils/Constant";
 
 const PostedShifts = () => {
   const { labels} = useLanguage(); // Reference Finnish strings
@@ -123,9 +125,8 @@ const PostedShifts = () => {
           <Text style={styles.btnTextWhite}>{labels.remove} </Text>
           <Image source={imageIndex.REMOVE} style={{ height: 22, width: 22 }} />
         </TouchableOpacity>
-
-        <TouchableOpacity 
-          style={styles.declineBtn}
+           <TouchableOpacity 
+         
           onPress={() => {
             navigatorv.navigate(ScreenNameEnum.CreateNewShift, {
               type: "Edit",
@@ -133,9 +134,13 @@ const PostedShifts = () => {
             });
           }}
         >
+<ImageBackground source={imageIndex.button}  style={styles.declineBtn} imageStyle={{borderRadius:23}} resizeMode="stretch">
+     
           <Text style={styles.btnTextWhite}>{labels.edit} </Text>
           <Image source={imageIndex.editp} style={{ height: 22, width: 22 }} />
+           </ImageBackground>
         </TouchableOpacity>
+       
       </View>
     </View>
   );
@@ -181,7 +186,7 @@ export default PostedShifts;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "white",
+    backgroundColor: color.background,
   },
   image: {
     height: 21,
@@ -190,7 +195,7 @@ const styles = StyleSheet.create({
 
   },
   card: {
-    backgroundColor: '#FFFFFF',
+    backgroundColor: color.background,
     padding: 15,
     borderRadius: 15,
     marginBottom: 16,
@@ -198,10 +203,10 @@ const styles = StyleSheet.create({
     // Android shadow
 
     // iOS shadow
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
+    // shadowColor: '#000',
+    // shadowOffset: { width: 0, height: 2 },
+    // shadowOpacity: 0.1,
+    // shadowRadius: 4,
     borderWidth: 1.5,
     borderColor: color.borderColor
   },
@@ -216,7 +221,7 @@ const styles = StyleSheet.create({
   name: {
     fontSize: 17,
     fontWeight: "700",
-    color: "#222",
+    color:color.textPrimary,
   },
 
   statusChip: {
@@ -231,7 +236,7 @@ const styles = StyleSheet.create({
 
   statusText: {
     fontSize: 12,
-    color: "#000",
+    color: color.textPrimary,
     fontWeight: "600",
   },
 
@@ -245,7 +250,7 @@ const styles = StyleSheet.create({
   value: {
     marginLeft: 8,
     fontSize: 14,
-    color: "#444",
+    color: color.textPrimary,
     fontWeight: "500"
   },
 
@@ -268,13 +273,15 @@ const styles = StyleSheet.create({
   },
 
   declineBtn: {
-    backgroundColor: color.primary,
+    // backgroundColor: color.primary,
     paddingVertical: 10,
-    width:
-      "40%", borderRadius: 25,
+    width: wp(40),
+     borderRadius: 25,
     justifyContent: "space-evenly",
     flexDirection: "row",
-    alignItems: "center"
+    alignItems: "center",
+    height:45,
+
   },
 
   btnTextWhite: {

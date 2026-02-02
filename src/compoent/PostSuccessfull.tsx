@@ -10,6 +10,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import StatusBarComponent from './StatusBarCompoent';
 import CustomButton from './CustomButton';
 import imageIndex from '../assets/imageIndex';
+import { color } from '../constant';
   
 const  PostSuccessfull = ({ visible,butt, onClose, title, userImage,subTitle, onOpenChat }:any) => {
   return (
@@ -51,11 +52,11 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'rgba(0,0,0,0.4)', // semi-transparent background
+    backgroundColor: color.thirdColor, // semi-transparent background
   },
   modalView: {
     width: '85%',
-    backgroundColor: '#fff',
+    backgroundColor: color.modalColor,
     borderRadius: 20,
     paddingVertical: 30,
     paddingHorizontal: 20,
@@ -67,25 +68,27 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
   },
   userImage: {
-    width: 80,
-    height: 80,
-    borderRadius: 40,
+    width: 100,
+    height: 100,
+    borderRadius: 10,
     marginBottom: 15,
   },
   userName: {
     fontSize: 18,
     fontWeight: '700',
     marginBottom: 5,
+    color:color.textPrimary
   },
   title: {
     fontSize: 20,
     fontWeight: '700',
     marginVertical: 5,
     textAlign: 'center',
+    color:color.textPrimary
   },
   subTitle: {
     fontSize: 14,
-    color: '#888',
+   color:color.textPrimary,
     textAlign: 'center',
     marginBottom: 20,
   },

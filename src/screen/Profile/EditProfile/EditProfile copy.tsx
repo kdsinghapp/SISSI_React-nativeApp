@@ -152,7 +152,7 @@ const EditProfile = () => {
                   <TextInputField
                     placeholder="Unit Name"
                     firstLogo
-                    img={imageIndex.Health}
+                    img={imageIndex.health}
                   />
                   <TextInputField
                     placeholder="Unit Manager Name"
@@ -227,7 +227,7 @@ const EditProfile = () => {
                   <TextInputField
                     placeholder="School Name"
                     firstLogo
-                    img={imageIndex.Health}
+                    img={imageIndex.health}
                   />
 
                   <TextInputField

@@ -316,7 +316,7 @@ if(dd?.success){
                 value={startTime}
                 // editable={false}
                 firstLogo
-                img={imageIndex.time2}
+                img={imageIndex.time}
                 pointerEvents="none"
                 onChangeText={setStartTime}
               />
@@ -332,7 +332,7 @@ if(dd?.success){
                 // editable={false}
                 value={endTime}
                 firstLogo
-                img={imageIndex.time2}
+                img={imageIndex.time}
                 pointerEvents="none"
                 onChangeText={setEndTime}
               />

@@ -152,7 +152,7 @@ export default function CreateNewShift() {
                   text={formatTime(startTime)}
                   editable={false}
                   firstLogo
-                  img={imageIndex.time2}
+                  img={imageIndex.time}
                 />
               </TouchableOpacity>
 
@@ -162,7 +162,7 @@ export default function CreateNewShift() {
                   text={formatTime(endTime)}
                   editable={false}
                   firstLogo
-                  img={imageIndex.time2}
+                  img={imageIndex.time}
                 />
               </TouchableOpacity>
 
@@ -203,7 +203,7 @@ export default function CreateNewShift() {
           />
 
           <PostSuccessfull
-            userImage={imageIndex.post1}
+            userImage={imageIndex.postSuccess}
             visible={visible}
             title={type === "Edit" ? labels.updateSuccess : labels.postSuccess}
             subTitle={type === "Edit" ? labels.updateSub : labels.postSub}

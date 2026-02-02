@@ -81,7 +81,7 @@
 //             {title}
 //           </Text>
 //         </View>
-                
+
 
 //       </TouchableOpacity>
 //     // </LinearGradient>
@@ -99,7 +99,7 @@
 //     height:50,
 //     borderRadius:25,
 //     alignSelf:'center'
-    
+
 //   },
 //   content: {
 //     flexDirection: 'row',
@@ -128,9 +128,11 @@ import {
   ViewStyle,
   TextStyle,
   GestureResponderEvent,
+  ImageBackground,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import { color } from '../constant';
+import imageIndex from '../assets/imageIndex';
 
 type AlignType = 'left' | 'center' | 'right';
 
@@ -170,7 +172,15 @@ const CustomButton: React.FC<CustomButtonProps> = ({
       activeOpacity={0.8}
       style={[styles.container, style]}
     >
-   <LinearGradient
+      <ImageBackground source={imageIndex.button}
+
+        style={[
+          styles.gradient,
+          { height: height, borderRadius: height / 2 },
+        ]}
+        resizeMode='stretch'
+      >
+        {/* <LinearGradient
   colors={[ '#FF007C', '#310071']}
 //  start={{ x: 0.15, y: 0 }}
 // end={{ x: 0.85, y: 1 }}
@@ -183,7 +193,7 @@ end={{ x: 1, y: 0.55 }}
     styles.gradient,
     { height: height, borderRadius: height / 2 },
   ]}
->
+> */}
         <View style={[styles.content, { justifyContent: alignment[alignItm] }]}>
           {leftIcon && <View style={styles.icon}>{leftIcon}</View>}
 
@@ -194,7 +204,8 @@ end={{ x: 1, y: 0.55 }}
             {title}
           </Text>
         </View>
-      </LinearGradient>
+        {/* </LinearGradient> */}
+      </ImageBackground>
     </TouchableOpacity>
   );
 };
@@ -211,19 +222,19 @@ const styles = StyleSheet.create({
   // },
 
   gradient: {
-  width: '100%',
-  justifyContent: 'center',
-  alignItems: 'center',
+    width: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
 
-  // Android glow
-  // elevation: 6,
+    // Android glow
+    // elevation: 6,
 
-  // iOS glow
-  // shadowColor: '#FF007C',
-  // shadowOffset: { width: 0, height: 6 },
-  // shadowOpacity: 0.35,
-  // shadowRadius: 12,
-},
+    // iOS glow
+    // shadowColor: '#FF007C',
+    // shadowOffset: { width: 0, height: 6 },
+    // shadowOpacity: 0.35,
+    // shadowRadius: 12,
+  },
 
   content: {
     flexDirection: 'row',

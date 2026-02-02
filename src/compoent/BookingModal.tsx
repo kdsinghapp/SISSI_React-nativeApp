@@ -15,7 +15,6 @@ import { language } from '../constant/Language'; // Import your language file
 import { color } from '../constant';
 
 const BookingSuccessModal = ({ visible, onClose, userName, userImage, onOpenChat }: any) => {
-  // Reference Finnish labels
   const labels = language.fi;
 
   return (
@@ -28,7 +27,6 @@ const BookingSuccessModal = ({ visible, onClose, userName, userImage, onOpenChat
       <TouchableWithoutFeedback onPress={() => onClose()} >
         <SafeAreaView style={styles.container}>
           <StatusBarComponent />
-          
           <View style={styles.modalView}>
             
             {/* User Image */}

@@ -166,7 +166,7 @@ const ShiftBooking = () => {
 
       {/* TIME */}
       <View style={styles.row}>
-        <Image source={imageIndex.time2}
+        <Image source={imageIndex.time}
           style={[styles.image, {
             tintColor: color.primary
           }]}
@@ -177,7 +177,7 @@ const ShiftBooking = () => {
 
       {/* SECTION */}
       <View style={styles.row}>
-        <Image source={imageIndex.Health}
+        <Image source={imageIndex.health}
           style={[styles.image, {
             tintColor: color.primary
           }]}
@@ -234,7 +234,7 @@ const ShiftBooking = () => {
         }}
         renderItem={renderCard} keyExtractor={item => item.id} />
       <PostSuccessfull
-        userImage={imageIndex.post1}
+        userImage={imageIndex.bookedNow}
         visible={visible}
         title={labels.shiftApprovedSuccessfully}
         subTitle={labels.workerHasBeenNotified}

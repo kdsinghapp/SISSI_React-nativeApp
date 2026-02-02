@@ -29,35 +29,35 @@ const InstitutionHome = () => {
       id: '1',
       title: labels.postedShifts,
       icon: imageIndex.Posted,
-      backgroundColor: '#A26BFF',
+      backgroundColor: ['#6C26FF','#28007E'],
       screen: ScreenNameEnum.PostedShifts
     },
     {
       id: '2',
       title: labels.shiftBookingRequest,
       icon: imageIndex.Shiftbooking,
-      backgroundColor: '#00C48C',
+      backgroundColor: ['#00E5A0','#006748'],
       screen: ScreenNameEnum.ShiftBooking
     },
     {
       id: '3',
       title: labels.bookedShifts,
       icon: imageIndex.ShiBookedftbooking,
-      backgroundColor: '#00BFFF',
+      backgroundColor: ['#00D7FF','#006477'],
       screen: ScreenNameEnum.BookedShifts
     },
     {
       id: '4',
       title: labels.pastShifts,
       icon: imageIndex.Past,
-      backgroundColor: '#3A85FF',
+       backgroundColor: ['#0096FF','#00497C'],
       screen: ScreenNameEnum.PastShifts
     },
     {
       id: '5',
       title: labels.inbox,
       icon: imageIndex.Inbox,
-      backgroundColor: '#FFD966',
+       backgroundColor: ['#FFC400','#816300'],
       screen: 'Inbox'
     },
   ];
@@ -139,8 +139,8 @@ const InstitutionHome = () => {
          // end={{ x: 1, y: 0.8 }}
          // start={{ x: 0, y: 0.45 }}
          // end={{ x: 1, y: 0.55 }}
-         start={{ x: 0, y: 0.5 }}
-             end={{ x: 1, y: 0.5 }}
+        //  start={{ x: 0, y: 0.5 }}
+        //      end={{ x: 1, y: 0.5 }}
               style={styles.createShiftCard}
          
          >
@@ -154,9 +154,24 @@ const InstitutionHome = () => {
 
         <View style={styles.grid}>
           {gridItems.map((item) => (
-            <TouchableOpacity
+           
+                 <LinearGradient
+           colors={item?.backgroundColor}
+         //  start={{ x: 0.15, y: 0 }}
+         // end={{ x: 0.85, y: 1 }}
+         // start={{ x: 0, y: 0.2 }}
+         // end={{ x: 1, y: 0.8 }}
+         // start={{ x: 0, y: 0.45 }}
+         // end={{ x: 1, y: 0.55 }}
+        //  start={{ x: 0, y: 0.5 }}
+        //      end={{ x: 1, y: 0.5 }}
+       style={[styles.gridCard, 
+        // { backgroundColor: item.backgroundColor }
+      ]}
+         >
+           <TouchableOpacity
               key={item.id}
-              style={[styles.gridCard, { backgroundColor: item.backgroundColor }]}
+              // style={[styles.gridCard, { backgroundColor: item.backgroundColor }]}
               onPress={() => navigation.navigate(item.screen)}
             >
               <View style={styles.gridCardContent}>
@@ -166,7 +181,8 @@ const InstitutionHome = () => {
                 />
                 <Text style={styles.gridCardText}>{item.title}</Text>
               </View>
-            </TouchableOpacity>
+              </TouchableOpacity>
+              </LinearGradient> 
           ))}
         </View>
 
